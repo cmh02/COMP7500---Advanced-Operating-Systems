@@ -3,6 +3,20 @@
 	Project: Project1
 	Author: Chris Hinkson [cmh0201@auburn.edu]
 	Class: COMP7500 - Advanced Operating Systems
+
+	References:
+
+	1. https://www.geeksforgeeks.org/c/c-arrays/
+	->  I used the GeeksForGeeks article on C arrays to refamiliarize myself with 
+		how to define arrays in C and iterate over them.
+
+	2. https://www.geeksforgeeks.org/c/sqrt-function-in-c/
+	-> I used the GeeksForGeeks article on the square root function to refamiliarize
+		myself with the proper syntax (function name / signature).
+
+	3. https://www.geeksforgeeks.org/c/printf-in-c/
+	-> I used the GeeksForGeeks article on the printf function to refamiliarize myself
+		with the proper syntax for printing information and formatting numbers.
 */
 
 // Package Imports
