@@ -1,0 +1,2 @@
+# Scripted log files sometime contain sensitive information so ignoring them
+*.script
