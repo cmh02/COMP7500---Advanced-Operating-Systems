@@ -1,7 +1,28 @@
 /*
+
+	--------------------------------------------------
+
+	# Information
+
 	File: pwc_utils.h
 	Project: Project 2 - pWordCount
 	Author: Chris Hinkson @cmh02
+
+	--------------------------------------------------
+
+	## Description
+
+	This file provides several utilities for use throughout pWordCount.
+
+	--------------------------------------------------
+
+	## References
+
+	1. https://www.geeksforgeeks.org/c/variadic-functions-in-c/
+	-> I used this GeeksForGeeks article to refamiliarize myself with making variadic functions for custom printing.
+
+	--------------------------------------------------
+
 */
 
 // Prevent multiple inclusions
