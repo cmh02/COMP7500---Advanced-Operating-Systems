@@ -1,0 +1,7 @@
+hello this is a cool test paragraph
+for my new project in advanced operating systems class
+that can count words using two subprocesses that
+communicate via an inter process communication method
+called pipes which are found on Linux and Mac operating
+systems
+this project is being developed in C language

@@ -1,9 +1,0 @@
-my name is chris
-this is my word counter
-i wonder if this will all work
-i
-really
-hope
-
-it
-does
