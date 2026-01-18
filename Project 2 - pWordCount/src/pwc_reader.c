@@ -21,3 +21,7 @@
 
 	--------------------------------------------------
 */
+
+int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescriptor, int readPipeFileDescriptor) {
+	return 0;
+}

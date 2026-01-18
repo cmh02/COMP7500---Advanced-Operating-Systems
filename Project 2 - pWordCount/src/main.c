@@ -27,43 +27,70 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "pwc_utils.h"
+#include "pwc_reader.h"
+#include "pwc_counter.h"
 
 // Main Execution
 int main(int argc, char **argv) {
 
-	pwc_printWithPrefix("Program started.");
-	int counter = 0;
+	// Initialize two pipes, one for reader->counter and one for counter->reader
+	int readerToCounterPipeFileDescriptor[2];
+	int counterToReaderPipeFileDescriptor[2];
+
+	// Create the pipes and handle any errors
+	if (pipe(readerToCounterPipeFileDescriptor) == -1) {
+		pwc_errorWithPrefix("The attempt to create the reader-to-counter pipe has failed!");
+		return -1;
+	}
+	if (pipe(counterToReaderPipeFileDescriptor) == -1) {
+		pwc_errorWithPrefix("The attempt to create the counter-to-reader pipe has failed!");
+		return -1;
+	}
 
 	// Split into parent and child processes
 	pid_t pid = fork();
 
 	// Handle child process, which will be used for counting the number of words via pipe
 	if (pid == 0) {
-		// child process
-		int i = 0;
-		for (; i < 5; ++i) {
-			pwc_printWithPrefix("child process: counter=%d\n", ++counter);
-		}	
+		
+		// Only read from the reader-to-counter pipe
+		close(readerToCounterPipeFileDescriptor[1]);
+
+		// Only write to the counter-to-reader pipe
+		close(counterToReaderPipeFileDescriptor[0]);
+
+		// Start up the counter module to count words from the pipe
+		int counterStatus = pwc_counter_countWordsFromPipe(counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
+
+		// Close pipes when done
+		close(readerToCounterPipeFileDescriptor[0]);
+		close(counterToReaderPipeFileDescriptor[1]);
 	}
 
 	// Handle parent process, which will be used for reading words from specified file
 	else if (pid > 0) {
-		// parent process
-		int j = 0;
-		for (; j < 5; ++j) {
-			pwc_printWithPrefix("parent process: counter=%d\n", ++counter);
-		}
+		
+		// Only write to the reader-to-counter pipe
+		close(readerToCounterPipeFileDescriptor[0]);
+
+		// Only read from the counter-to-reader pipe
+		close(counterToReaderPipeFileDescriptor[1]);
+
+		// Start up the reader module to stream file to the pipe
+		const char* filePath = "sample.txt"; // Example file path
+		int readerStatus = pwc_reader_streamFileToPipe(filePath, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
+
+		// Close pipes when done
+		close(readerToCounterPipeFileDescriptor[1]);
+		close(counterToReaderPipeFileDescriptor[0]);
 	}
 
 	// Error detection incase fork fails
 	else {
 
-		pwc_errorWithPrefix("fork() failed!");
+		pwc_errorWithPrefix("The attempt to fork() into parent and child processes has failed!");
 		return 1;
 	}
-
-
-	pwc_printWithPrefix("Program completed successfully.");
 
 	// Main return
 	return 0;

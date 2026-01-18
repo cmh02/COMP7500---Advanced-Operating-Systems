@@ -21,3 +21,7 @@
 
 	--------------------------------------------------
 */
+
+int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFileDescriptor) {
+	return 0;
+}

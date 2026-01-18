@@ -21,3 +21,17 @@
 
 	--------------------------------------------------
 */
+
+/*
+	# pwc_counter_countWordsFromPipe
+
+	Counts the number of words from a specified pipe.
+
+	## Arguments
+	- int writePipeFileDescriptor: The file descriptor of the write end of the counter-to-reader pipe.
+	- int readPipeFileDescriptor: The file descriptor of the read end of the reader-to-counter pipe.
+
+	## Returns
+	- int: 0 if successful, -1 for error.
+*/
+int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFileDescriptor);
