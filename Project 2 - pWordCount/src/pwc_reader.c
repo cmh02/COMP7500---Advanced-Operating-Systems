@@ -41,7 +41,7 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 
 	// Confirm that the file was opened successfully
 	if (textFileDescriptor < 0) {
-		pwc_errorWithPrefix("The attempt to open the specified file has failed!");
+		pwc_errorWithPrefix("The attempt to open file '%s' has failed!", filePath);
 		return -1;
 	}
 
@@ -67,7 +67,7 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 
 	// Check for any errors while reading from the file
 	if (numberBytesRead < 0) {
-		pwc_errorWithPrefix("The attempt to read data from the file has failed!");
+		pwc_errorWithPrefix("The attempt to read data from file '%s' has failed!", filePath);
 		close(writePipeFileDescriptor);
 		close(readPipeFileDescriptor);
 		close(textFileDescriptor);
