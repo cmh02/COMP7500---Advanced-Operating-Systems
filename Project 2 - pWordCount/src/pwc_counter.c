@@ -23,13 +23,18 @@
 	--------------------------------------------------
 */
 
-#include <unistd.h>
+// System Libraries
 #include <ctype.h>
 #include <fcntl.h>
-#include <sys/types.h>
+#include <unistd.h>
 #include <stdbool.h>
+#include <sys/types.h>
+
+// Project Libraries
 #include "pwc_utils.h"
-#define FILE_READ_BUFFER_SIZE 4096
+
+// Constants
+#define COUNT_BUFFER_SIZE 4096
 
 int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFileDescriptor) {
 	
@@ -40,12 +45,11 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 	bool flag_currentlyInWord = false;
 
 	// Create a buffer to hold chunks of data from the pipe
-	char textCountingBuffer[FILE_READ_BUFFER_SIZE];
+	char textCountingBuffer[COUNT_BUFFER_SIZE];
 
 	// Keep reading from the pipe until no more data is available
 	ssize_t numberBytesRead;
-	while ((numberBytesRead = read(readPipeFileDescriptor, textCountingBuffer, FILE_READ_BUFFER_SIZE)) > 0) {
-
+	while ((numberBytesRead = read(readPipeFileDescriptor, textCountingBuffer, COUNT_BUFFER_SIZE)) > 0) {
 		// Iterate over the bytes currently in the buffer
 		for (ssize_t i = 0; i < numberBytesRead; i++) {
 			

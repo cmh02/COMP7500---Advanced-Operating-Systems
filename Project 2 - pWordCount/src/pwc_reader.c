@@ -20,14 +20,18 @@
 	1. https://www.geeksforgeeks.org/c/input-output-system-calls-c-create-open-close-read-write/
 	-> I used this GeeksForGeeks article to further understand behavior of open(), read(), and write() calls.
 
-
 	--------------------------------------------------
 */
 
+// System Libraries
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
+
+// Project Libraries
 #include "pwc_utils.h"
+
+// Constants
 #define FILE_READ_BUFFER_SIZE 4096
 
 int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescriptor, int readPipeFileDescriptor) {
