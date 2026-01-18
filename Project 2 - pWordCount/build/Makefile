@@ -153,6 +153,54 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/main.c.s
 .PHONY : main.c.s
 
+pwc_counter.o: pwc_counter.c.o
+.PHONY : pwc_counter.o
+
+# target to build an object file
+pwc_counter.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_counter.c.o
+.PHONY : pwc_counter.c.o
+
+pwc_counter.i: pwc_counter.c.i
+.PHONY : pwc_counter.i
+
+# target to preprocess a source file
+pwc_counter.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_counter.c.i
+.PHONY : pwc_counter.c.i
+
+pwc_counter.s: pwc_counter.c.s
+.PHONY : pwc_counter.s
+
+# target to generate assembly for a file
+pwc_counter.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_counter.c.s
+.PHONY : pwc_counter.c.s
+
+pwc_reader.o: pwc_reader.c.o
+.PHONY : pwc_reader.o
+
+# target to build an object file
+pwc_reader.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_reader.c.o
+.PHONY : pwc_reader.c.o
+
+pwc_reader.i: pwc_reader.c.i
+.PHONY : pwc_reader.i
+
+# target to preprocess a source file
+pwc_reader.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_reader.c.i
+.PHONY : pwc_reader.c.i
+
+pwc_reader.s: pwc_reader.c.s
+.PHONY : pwc_reader.s
+
+# target to generate assembly for a file
+pwc_reader.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_reader.c.s
+.PHONY : pwc_reader.c.s
+
 pwc_utils.o: pwc_utils.c.o
 .PHONY : pwc_utils.o
 
@@ -189,6 +237,12 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... pwc_counter.o"
+	@echo "... pwc_counter.i"
+	@echo "... pwc_counter.s"
+	@echo "... pwc_reader.o"
+	@echo "... pwc_reader.i"
+	@echo "... pwc_reader.s"
 	@echo "... pwc_utils.o"
 	@echo "... pwc_utils.i"
 	@echo "... pwc_utils.s"

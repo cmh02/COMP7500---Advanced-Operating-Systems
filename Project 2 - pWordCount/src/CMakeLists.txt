@@ -33,4 +33,6 @@ project(pWordCount C)
 add_executable(pWordCount
     main.c
     pwc_utils.c
+	pwc_reader.c
+	pwc_counter.c
 )

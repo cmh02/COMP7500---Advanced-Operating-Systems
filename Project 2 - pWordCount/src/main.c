@@ -65,9 +65,8 @@ int main(int argc, char **argv) {
 		// Start up the counter module to count words from the pipe
 		int counterStatus = pwc_counter_countWordsFromPipe(counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
 
-		// Close pipes when done
-		close(readerToCounterPipeFileDescriptor[0]);
-		close(counterToReaderPipeFileDescriptor[1]);
+		// Exit child process
+		return 0;
 	}
 
 	// Handle parent process, which will be used for reading words from specified file
@@ -80,12 +79,20 @@ int main(int argc, char **argv) {
 		close(counterToReaderPipeFileDescriptor[1]);
 
 		// Start up the reader module to stream file to the pipe
-		const char* filePath = "sample.txt"; // Example file path
-		int readerStatus = pwc_reader_streamFileToPipe(filePath, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
+		const char* filePath = "test1.txt"; // Example file path
+		int wordCount = pwc_reader_streamFileToPipe(filePath, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
 
-		// Close pipes when done
-		close(readerToCounterPipeFileDescriptor[1]);
-		close(counterToReaderPipeFileDescriptor[0]);
+		// Check wordCount for errors
+		if (wordCount < 0) {
+			pwc_errorWithPrefix("An error occurred while reading the file and counting words.");
+			return 1;
+		}
+
+		// Print the final word count
+		pwc_printWithPrefix("The total word count from file '%s' is: %d", filePath, wordCount);
+
+		// Exit parent process
+		return 0;
 	}
 
 	// Error detection incase fork fails

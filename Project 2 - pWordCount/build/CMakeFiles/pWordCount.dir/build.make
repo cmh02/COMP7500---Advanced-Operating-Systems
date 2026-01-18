@@ -100,19 +100,51 @@ CMakeFiles/pWordCount.dir/pwc_utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/pWordCount.dir/pwc_utils.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_utils.c" -o CMakeFiles/pWordCount.dir/pwc_utils.c.s
 
+CMakeFiles/pWordCount.dir/pwc_reader.c.o: CMakeFiles/pWordCount.dir/flags.make
+CMakeFiles/pWordCount.dir/pwc_reader.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 2\ -\ pWordCount/src/pwc_reader.c
+CMakeFiles/pWordCount.dir/pwc_reader.c.o: CMakeFiles/pWordCount.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/pWordCount.dir/pwc_reader.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/pWordCount.dir/pwc_reader.c.o -MF CMakeFiles/pWordCount.dir/pwc_reader.c.o.d -o CMakeFiles/pWordCount.dir/pwc_reader.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_reader.c"
+
+CMakeFiles/pWordCount.dir/pwc_reader.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/pWordCount.dir/pwc_reader.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_reader.c" > CMakeFiles/pWordCount.dir/pwc_reader.c.i
+
+CMakeFiles/pWordCount.dir/pwc_reader.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/pWordCount.dir/pwc_reader.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_reader.c" -o CMakeFiles/pWordCount.dir/pwc_reader.c.s
+
+CMakeFiles/pWordCount.dir/pwc_counter.c.o: CMakeFiles/pWordCount.dir/flags.make
+CMakeFiles/pWordCount.dir/pwc_counter.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 2\ -\ pWordCount/src/pwc_counter.c
+CMakeFiles/pWordCount.dir/pwc_counter.c.o: CMakeFiles/pWordCount.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/pWordCount.dir/pwc_counter.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/pWordCount.dir/pwc_counter.c.o -MF CMakeFiles/pWordCount.dir/pwc_counter.c.o.d -o CMakeFiles/pWordCount.dir/pwc_counter.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_counter.c"
+
+CMakeFiles/pWordCount.dir/pwc_counter.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/pWordCount.dir/pwc_counter.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_counter.c" > CMakeFiles/pWordCount.dir/pwc_counter.c.i
+
+CMakeFiles/pWordCount.dir/pwc_counter.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/pWordCount.dir/pwc_counter.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_counter.c" -o CMakeFiles/pWordCount.dir/pwc_counter.c.s
+
 # Object files for target pWordCount
 pWordCount_OBJECTS = \
 "CMakeFiles/pWordCount.dir/main.c.o" \
-"CMakeFiles/pWordCount.dir/pwc_utils.c.o"
+"CMakeFiles/pWordCount.dir/pwc_utils.c.o" \
+"CMakeFiles/pWordCount.dir/pwc_reader.c.o" \
+"CMakeFiles/pWordCount.dir/pwc_counter.c.o"
 
 # External object files for target pWordCount
 pWordCount_EXTERNAL_OBJECTS =
 
 pWordCount: CMakeFiles/pWordCount.dir/main.c.o
 pWordCount: CMakeFiles/pWordCount.dir/pwc_utils.c.o
+pWordCount: CMakeFiles/pWordCount.dir/pwc_reader.c.o
+pWordCount: CMakeFiles/pWordCount.dir/pwc_counter.c.o
 pWordCount: CMakeFiles/pWordCount.dir/build.make
 pWordCount: CMakeFiles/pWordCount.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable pWordCount"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable pWordCount"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/pWordCount.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
