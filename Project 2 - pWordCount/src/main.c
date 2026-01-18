@@ -20,6 +20,9 @@
 	1. https://www.geeksforgeeks.org/c/fork-system-call/
 	-> I used this GeeksForGeeks article to help understand the fork() call and its underlying behavior when creating processes.
 
+	2. https://www.geeksforgeeks.org/c/pipe-system-call/
+	-> I used this GeeksForGeeks article to familarize myself with pipe() and correct read/write syntax.
+
 	--------------------------------------------------
 */
 
@@ -40,11 +43,11 @@ int main(int argc, char **argv) {
 	// Create the pipes and handle any errors
 	if (pipe(readerToCounterPipeFileDescriptor) == -1) {
 		pwc_errorWithPrefix("The attempt to create the reader-to-counter pipe has failed!");
-		return -1;
+		return 1;
 	}
 	if (pipe(counterToReaderPipeFileDescriptor) == -1) {
 		pwc_errorWithPrefix("The attempt to create the counter-to-reader pipe has failed!");
-		return -1;
+		return 1;
 	}
 
 	// Split into parent and child processes
