@@ -36,6 +36,21 @@
 // Main Execution
 int main(int argc, char **argv) {
 
+	// If we were not given a file name as the first argument, then error out
+	if (argc < 2) {
+		pwc_errorWithPrefix("No file path was specified! Please provide a singular valid file path as the first argument.");
+		return 1;
+	}
+
+	// If we were given more than one argument, then error out
+	if (argc > 2) {
+		pwc_errorWithPrefix("Too many arguments were provided! Please only provide a singlular file path as the first argument.");
+		return 1;
+	}
+
+	// Get the file path from the first argument
+	const char* filePath = argv[1];
+
 	// Initialize two pipes, one for reader->counter and one for counter->reader
 	int readerToCounterPipeFileDescriptor[2];
 	int counterToReaderPipeFileDescriptor[2];
@@ -79,7 +94,6 @@ int main(int argc, char **argv) {
 		close(counterToReaderPipeFileDescriptor[1]);
 
 		// Start up the reader module to stream file to the pipe
-		const char* filePath = "test1.txt"; // Example file path
 		int wordCount = pwc_reader_streamFileToPipe(filePath, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
 
 		// Check wordCount for errors
