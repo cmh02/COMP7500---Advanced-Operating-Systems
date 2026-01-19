@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named pWordCount
+# Target rules for targets named pwordcount
 
 # Build rule for target.
-pWordCount: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pWordCount
-.PHONY : pWordCount
+pwordcount: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pwordcount
+.PHONY : pwordcount
 
 # fast build rule for target.
-pWordCount/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/build
-.PHONY : pWordCount/fast
+pwordcount/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/build
+.PHONY : pwordcount/fast
 
 main.o: main.c.o
 .PHONY : main.o
 
 # target to build an object file
 main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/main.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/main.c.o
 .PHONY : main.c.o
 
 main.i: main.c.i
@@ -142,7 +142,7 @@ main.i: main.c.i
 
 # target to preprocess a source file
 main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/main.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/main.c.i
 .PHONY : main.c.i
 
 main.s: main.c.s
@@ -150,7 +150,7 @@ main.s: main.c.s
 
 # target to generate assembly for a file
 main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/main.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/main.c.s
 .PHONY : main.c.s
 
 pwc_counter.o: pwc_counter.c.o
@@ -158,7 +158,7 @@ pwc_counter.o: pwc_counter.c.o
 
 # target to build an object file
 pwc_counter.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_counter.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counter.c.o
 .PHONY : pwc_counter.c.o
 
 pwc_counter.i: pwc_counter.c.i
@@ -166,7 +166,7 @@ pwc_counter.i: pwc_counter.c.i
 
 # target to preprocess a source file
 pwc_counter.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_counter.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counter.c.i
 .PHONY : pwc_counter.c.i
 
 pwc_counter.s: pwc_counter.c.s
@@ -174,7 +174,7 @@ pwc_counter.s: pwc_counter.c.s
 
 # target to generate assembly for a file
 pwc_counter.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_counter.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counter.c.s
 .PHONY : pwc_counter.c.s
 
 pwc_reader.o: pwc_reader.c.o
@@ -182,7 +182,7 @@ pwc_reader.o: pwc_reader.c.o
 
 # target to build an object file
 pwc_reader.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_reader.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_reader.c.o
 .PHONY : pwc_reader.c.o
 
 pwc_reader.i: pwc_reader.c.i
@@ -190,7 +190,7 @@ pwc_reader.i: pwc_reader.c.i
 
 # target to preprocess a source file
 pwc_reader.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_reader.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_reader.c.i
 .PHONY : pwc_reader.c.i
 
 pwc_reader.s: pwc_reader.c.s
@@ -198,7 +198,7 @@ pwc_reader.s: pwc_reader.c.s
 
 # target to generate assembly for a file
 pwc_reader.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_reader.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_reader.c.s
 .PHONY : pwc_reader.c.s
 
 pwc_utils.o: pwc_utils.c.o
@@ -206,7 +206,7 @@ pwc_utils.o: pwc_utils.c.o
 
 # target to build an object file
 pwc_utils.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_utils.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_utils.c.o
 .PHONY : pwc_utils.c.o
 
 pwc_utils.i: pwc_utils.c.i
@@ -214,7 +214,7 @@ pwc_utils.i: pwc_utils.c.i
 
 # target to preprocess a source file
 pwc_utils.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_utils.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_utils.c.i
 .PHONY : pwc_utils.c.i
 
 pwc_utils.s: pwc_utils.c.s
@@ -222,7 +222,7 @@ pwc_utils.s: pwc_utils.c.s
 
 # target to generate assembly for a file
 pwc_utils.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/pwc_utils.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_utils.c.s
 .PHONY : pwc_utils.c.s
 
 # Help Target
@@ -233,7 +233,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... pWordCount"
+	@echo "... pwordcount"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

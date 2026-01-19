@@ -131,7 +131,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=pWordCount
+CMAKE_PROJECT_NAME:STATIC=pwordcount
 
 //Value Computed by CMake
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
@@ -209,6 +209,15 @@ pWordCount_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 pWordCount_SOURCE_DIR:STATIC=/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src
+
+//Value Computed by CMake
+pwordcount_BINARY_DIR:STATIC=/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build
+
+//Value Computed by CMake
+pwordcount_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+pwordcount_SOURCE_DIR:STATIC=/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src
 
 
 ########################

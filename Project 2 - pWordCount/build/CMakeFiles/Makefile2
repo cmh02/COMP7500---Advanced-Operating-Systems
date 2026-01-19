@@ -63,11 +63,11 @@ CMAKE_BINARY_DIR = "/Users/chrishinkson/Programming/COMP7500 - Advanced Operatin
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/pWordCount.dir/all
+all: CMakeFiles/pwordcount.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/pWordCount.dir/codegen
+codegen: CMakeFiles/pwordcount.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,40 +75,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/pWordCount.dir/clean
+clean: CMakeFiles/pwordcount.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/pWordCount.dir
+# Target rules for target CMakeFiles/pwordcount.dir
 
 # All Build rule for target.
-CMakeFiles/pWordCount.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5 "Built target pWordCount"
-.PHONY : CMakeFiles/pWordCount.dir/all
+CMakeFiles/pwordcount.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5 "Built target pwordcount"
+.PHONY : CMakeFiles/pwordcount.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/pWordCount.dir/rule: cmake_check_build_system
+CMakeFiles/pwordcount.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" 5
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pWordCount.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pwordcount.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" 0
-.PHONY : CMakeFiles/pWordCount.dir/rule
+.PHONY : CMakeFiles/pwordcount.dir/rule
 
 # Convenience name for target.
-pWordCount: CMakeFiles/pWordCount.dir/rule
-.PHONY : pWordCount
+pwordcount: CMakeFiles/pwordcount.dir/rule
+.PHONY : pwordcount
 
 # codegen rule for target.
-CMakeFiles/pWordCount.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5 "Finished codegen for target pWordCount"
-.PHONY : CMakeFiles/pWordCount.dir/codegen
+CMakeFiles/pwordcount.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5 "Finished codegen for target pwordcount"
+.PHONY : CMakeFiles/pwordcount.dir/codegen
 
 # clean rule for target.
-CMakeFiles/pWordCount.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pWordCount.dir/build.make CMakeFiles/pWordCount.dir/clean
-.PHONY : CMakeFiles/pWordCount.dir/clean
+CMakeFiles/pwordcount.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/clean
+.PHONY : CMakeFiles/pwordcount.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

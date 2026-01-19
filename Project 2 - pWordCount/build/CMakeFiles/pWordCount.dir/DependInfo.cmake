@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/main.c" "CMakeFiles/pWordCount.dir/main.c.o" "gcc" "CMakeFiles/pWordCount.dir/main.c.o.d"
-  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_counter.c" "CMakeFiles/pWordCount.dir/pwc_counter.c.o" "gcc" "CMakeFiles/pWordCount.dir/pwc_counter.c.o.d"
-  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_reader.c" "CMakeFiles/pWordCount.dir/pwc_reader.c.o" "gcc" "CMakeFiles/pWordCount.dir/pwc_reader.c.o.d"
-  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_utils.c" "CMakeFiles/pWordCount.dir/pwc_utils.c.o" "gcc" "CMakeFiles/pWordCount.dir/pwc_utils.c.o.d"
+  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/main.c" "CMakeFiles/pwordcount.dir/main.c.o" "gcc" "CMakeFiles/pwordcount.dir/main.c.o.d"
+  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_counter.c" "CMakeFiles/pwordcount.dir/pwc_counter.c.o" "gcc" "CMakeFiles/pwordcount.dir/pwc_counter.c.o.d"
+  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_reader.c" "CMakeFiles/pwordcount.dir/pwc_reader.c.o" "gcc" "CMakeFiles/pwordcount.dir/pwc_reader.c.o.d"
+  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_utils.c" "CMakeFiles/pwordcount.dir/pwc_utils.c.o" "gcc" "CMakeFiles/pwordcount.dir/pwc_utils.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

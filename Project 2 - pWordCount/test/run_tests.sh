@@ -42,7 +42,7 @@ for test_file in testfiles/*.txt; do
 	expected=$(wc -w < "$test_file")
 
 	# Get actual system value with pWordCount
-	actual=$(../build/pWordCount ../test/"$test_file" | grep -o '[0-9]\+$')
+	actual=$(../build/pwordcount ../test/"$test_file" | grep -o '[0-9]\+$')
 	
 	# Compare expected and actual values to pass/fail
 	if [ "$expected" -eq "$actual" ]; then
