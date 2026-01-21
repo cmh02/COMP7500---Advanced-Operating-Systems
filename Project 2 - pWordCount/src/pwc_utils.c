@@ -24,7 +24,9 @@
 */
 
 // Libraries
+#include <errno.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
 #include "pwc_utils.h"
@@ -72,6 +74,9 @@ void pwc_errorWithPrefix(const char *message, ...) {
 	// Print with prefix
 	printf("[pWordCount ERROR] ");
 	vprintf(message, args);
+	if (errno != 0) {
+		printf("\nDetailed Inforation: Error Code %d - %s", errno, strerror(errno));
+	}
 	printf("\n");
 
 	// Cleanup variadic args
