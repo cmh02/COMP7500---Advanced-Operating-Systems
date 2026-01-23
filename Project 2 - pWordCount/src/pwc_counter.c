@@ -42,29 +42,16 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 	// Initialize word count
 	int wordCount = 0;
 
-	// Initialize a flag to track if we are inside a word across seperate pipe reads
-	bool flag_currentlyInWord = false;
-
 	// Create a buffer to hold chunks of data from the pipe
 	char textCountingBuffer[COUNT_BUFFER_SIZE];
 
 	// Keep reading from the pipe until no more data is available
 	ssize_t numberBytesRead;
 	while ((numberBytesRead = read(readPipeFileDescriptor, textCountingBuffer, COUNT_BUFFER_SIZE)) > 0) {
-		// Iterate over the bytes currently in the buffer
-		for (ssize_t i = 0; i < numberBytesRead; i++) {
-			
-			// If the current character is a whitespace character and we are currently in a word, then increment
-			if (isspace(textCountingBuffer[i]) && flag_currentlyInWord) {
-				wordCount++;
-				flag_currentlyInWord = false;
-			}
 
-			// If the current character is not a whitespace character, then we are now in a word
-			else if (!isspace(textCountingBuffer[i]) && !flag_currentlyInWord) {
-				flag_currentlyInWord = true;
-			}
-		}
+		// Count words in the buffer using helper function
+		int chunkWordCount = pwc_countWordsInBuffer(textCountingBuffer, numberBytesRead);
+		wordCount += chunkWordCount;
 	}
 
 	// Check for any errors while reading from the pipe
@@ -72,12 +59,7 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 		pwc_errorWithPrefix("The attempt to read data from the pipe has failed!");
 		close(readPipeFileDescriptor);
 		close(writePipeFileDescriptor);
-		return -1;
-	}
-
-	// After finishing reading, if we are still in a word, increment the count
-	if (flag_currentlyInWord) {
-		wordCount++;
+		exit(-1);
 	}
 
 	// Close the read end of the pipe
@@ -90,12 +72,39 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 	if (numberBytesWritten != sizeof(wordCount)) {
 		pwc_errorWithPrefix("The attempt to write the final word count to the pipe has failed!");
 		close(writePipeFileDescriptor);
-		return -1;
+		exit(-1);
 	}
 
 	// Close the write end of the pipe
 	close(writePipeFileDescriptor);
 
-	// Return success
-	return 0;
+	// Exit successfully
+	exit(0);
+}
+
+int pwc_countWordsInBuffer(char* buffer, ssize_t bufferSize) {
+
+	// Initialize word count
+	int wordCount = 0;
+
+	// Initialize a flag to track if we are inside a word
+	bool flag_currentlyInWord = false;
+
+	// Iterate over the bytes currently in the buffer
+	for (ssize_t i = 0; i < bufferSize; i++) {
+		
+		// If the current character is not whitespace and we are not currently in word, then we are now in a word
+		if (!isspace(buffer[i]) && !flag_currentlyInWord) {
+			flag_currentlyInWord = true;
+			wordCount++;
+		}
+
+		// If we reach whitespace, then we are no longer in a word
+		else if (isspace(buffer[i])) {
+			flag_currentlyInWord = false;
+		}
+	}
+
+	// Return the word count
+	return wordCount;
 }
