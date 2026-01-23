@@ -87,6 +87,7 @@ int main(int argc, char **argv) {
 	}
 
 	// If number of cores given, parse it
+	const long numberOfSystemCores = sysconf(_SC_NPROCESSORS_ONLN);
 	if (argc == 3) {
 		
 		// Convert string to long with error checking
@@ -106,7 +107,6 @@ int main(int argc, char **argv) {
 		}
 
 		// If we were given more cores than the system has, warn the user
-		const long numberOfSystemCores = sysconf(_SC_NPROCESSORS_ONLN);
 		if (numberOfProgramCores > numberOfSystemCores) {
 			pwc_warnWithPrefix("The number of cores specified (%ld) exceeds the maximum available cores (%ld)! Defaulting to maximum available cores!", numberOfProgramCores, numberOfSystemCores);
 			numberOfProgramCores = numberOfSystemCores;
@@ -114,8 +114,8 @@ int main(int argc, char **argv) {
 	} 
 	// If number of cores not given, default to 1
 	else {
-		pwc_warnWithPrefix("No number of cores specified, defaulting to 1 core!");
 		long numberOfProgramCores = 1;
+		pwc_warnWithPrefix("No number of cores specified, defaulting to 1 core! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
 	}
 
 	// Initialize two pipes, one for reader->counter and one for counter->reader
