@@ -32,6 +32,7 @@
 
 // Project Libraries
 #include "pwc_utils.h"
+#include "pwc_counter.h"
 
 // Constants
 #define COUNT_BUFFER_SIZE 4096

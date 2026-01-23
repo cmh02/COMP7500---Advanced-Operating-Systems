@@ -30,6 +30,7 @@
 
 // Project Libraries
 #include "pwc_utils.h"
+#include "pwc_reader.h"
 
 // Constants
 #define FILE_READ_BUFFER_SIZE 4096
