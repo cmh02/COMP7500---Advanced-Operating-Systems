@@ -177,6 +177,30 @@ pwc_counter.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counter.c.s
 .PHONY : pwc_counter.c.s
 
+pwc_counterManager.o: pwc_counterManager.c.o
+.PHONY : pwc_counterManager.o
+
+# target to build an object file
+pwc_counterManager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counterManager.c.o
+.PHONY : pwc_counterManager.c.o
+
+pwc_counterManager.i: pwc_counterManager.c.i
+.PHONY : pwc_counterManager.i
+
+# target to preprocess a source file
+pwc_counterManager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counterManager.c.i
+.PHONY : pwc_counterManager.c.i
+
+pwc_counterManager.s: pwc_counterManager.c.s
+.PHONY : pwc_counterManager.s
+
+# target to generate assembly for a file
+pwc_counterManager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counterManager.c.s
+.PHONY : pwc_counterManager.c.s
+
 pwc_reader.o: pwc_reader.c.o
 .PHONY : pwc_reader.o
 
@@ -240,6 +264,9 @@ help:
 	@echo "... pwc_counter.o"
 	@echo "... pwc_counter.i"
 	@echo "... pwc_counter.s"
+	@echo "... pwc_counterManager.o"
+	@echo "... pwc_counterManager.i"
+	@echo "... pwc_counterManager.s"
 	@echo "... pwc_reader.o"
 	@echo "... pwc_reader.i"
 	@echo "... pwc_reader.s"

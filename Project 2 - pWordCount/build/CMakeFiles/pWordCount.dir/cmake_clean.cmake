@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/pwordcount.dir/main.c.o.d"
   "CMakeFiles/pwordcount.dir/pwc_counter.c.o"
   "CMakeFiles/pwordcount.dir/pwc_counter.c.o.d"
+  "CMakeFiles/pwordcount.dir/pwc_counterManager.c.o"
+  "CMakeFiles/pwordcount.dir/pwc_counterManager.c.o.d"
   "CMakeFiles/pwordcount.dir/pwc_reader.c.o"
   "CMakeFiles/pwordcount.dir/pwc_reader.c.o.d"
   "CMakeFiles/pwordcount.dir/pwc_utils.c.o"

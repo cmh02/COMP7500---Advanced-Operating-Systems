@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/main.c" "CMakeFiles/pwordcount.dir/main.c.o" "gcc" "CMakeFiles/pwordcount.dir/main.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_counter.c" "CMakeFiles/pwordcount.dir/pwc_counter.c.o" "gcc" "CMakeFiles/pwordcount.dir/pwc_counter.c.o.d"
+  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_counterManager.c" "CMakeFiles/pwordcount.dir/pwc_counterManager.c.o" "gcc" "CMakeFiles/pwordcount.dir/pwc_counterManager.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_reader.c" "CMakeFiles/pwordcount.dir/pwc_reader.c.o" "gcc" "CMakeFiles/pwordcount.dir/pwc_reader.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/src/pwc_utils.c" "CMakeFiles/pwordcount.dir/pwc_utils.c.o" "gcc" "CMakeFiles/pwordcount.dir/pwc_utils.c.o.d"
   )

@@ -50,8 +50,8 @@
 // Struct for per-counter sets of pipes
 struct pwc_counterPipes {
 	pid_t counterPID;
-	int managerToCounterPipeFileDescriptor[2];
-	int counterToManagerPipeFileDescriptor[2];
+	int writePipeFileDescriptor; // for writing to counter
+	int readPipeFileDescriptor; // for reading from counter
 };
 
 int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescriptor, int readPipeFileDescriptor) {
@@ -72,13 +72,19 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 	// Loop to create the specified number of counter processes
 	for (int i = 0; i < numberOfCounterProcesses; i++) {
 
-		// Make new pipes for the manager <-> counter
+		// Make new pipe for the manager -> counter
 		int managerToCounterPipeFileDescriptor[2];
-		int counterToManagerPipeFileDescriptor[2];
+		if (pipe(managerToCounterPipeFileDescriptor) == -1) {
+			pwc_errorWithPrefix("The attempt to create the manager-to-counter pipe has failed!");
+			exit(-1);
+		}
 
-		// Close unused pipe ends
-		close(managerToCounterPipeFileDescriptor[1]);
-		close(counterToManagerPipeFileDescriptor[0]);
+		// Make new pipe for the counter -> manager
+		int counterToManagerPipeFileDescriptor[2];
+		if (pipe(counterToManagerPipeFileDescriptor) == -1) {
+			pwc_errorWithPrefix("The attempt to create the counter-to-manager pipe has failed!");
+			exit(-1);
+		}
 
 		// Fork a new process
 		pid_t pid = fork();
@@ -92,14 +98,9 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		// Catch each child process
 		if (pid == 0) {
 
-			if (pipe(managerToCounterPipeFileDescriptor) == -1) {
-				pwc_errorWithPrefix("The attempt to create the manager-to-counter pipe has failed!");
-				exit(-1);
-			}
-			if (pipe(counterToManagerPipeFileDescriptor) == -1) {
-				pwc_errorWithPrefix("The attempt to create the counter-to-manager pipe has failed!");
-				exit(-1);
-			}
+			// Close unused pipe ends
+			close(managerToCounterPipeFileDescriptor[1]);
+			close(counterToManagerPipeFileDescriptor[0]);
 
 			// Start up the counter module to count words from the pipe
 			int counterStatus = pwc_counter_countWordsFromPipe(counterToManagerPipeFileDescriptor[1], managerToCounterPipeFileDescriptor[0]);
@@ -108,13 +109,15 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 			exit(0);
 		}
 
+		// Close unused pipe ends
+		close(managerToCounterPipeFileDescriptor[0]);
+		close(counterToManagerPipeFileDescriptor[1]);	
+
 		// Save the counter PID and pipe file descriptors in a struct
 		struct pwc_counterPipes counterPipes;
 		counterPipes.counterPID = pid;
-		counterPipes.managerToCounterPipeFileDescriptor[0] = managerToCounterPipeFileDescriptor[0];
-		counterPipes.managerToCounterPipeFileDescriptor[1] = managerToCounterPipeFileDescriptor[1];
-		counterPipes.counterToManagerPipeFileDescriptor[0] = counterToManagerPipeFileDescriptor[0];
-		counterPipes.counterToManagerPipeFileDescriptor[1] = counterToManagerPipeFileDescriptor[1];
+		counterPipes.writePipeFileDescriptor = managerToCounterPipeFileDescriptor[1];
+		counterPipes.readPipeFileDescriptor = counterToManagerPipeFileDescriptor[0];
 		counterPipesArray[i] = counterPipes;
 	}
 
@@ -154,8 +157,7 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		flag_didLastChunkEndWithCharacter = !isspace(textCountingBuffer[numberBytesRead - 1]);
 
 		// Write the current chunk to the current counter process's pipe
-		int currentCounterPipeWriteDescriptor = counterPipesArray[currentCounterIndex].managerToCounterPipeFileDescriptor[1];
-		ssize_t numberBytesWritten = write(currentCounterPipeWriteDescriptor, textCountingBuffer, numberBytesRead);
+		ssize_t numberBytesWritten = write(counterPipesArray[currentCounterIndex].writePipeFileDescriptor, textCountingBuffer, numberBytesRead);
 
 		// Validate that we wrote all bytes, else exit with error
 		if (numberBytesWritten != numberBytesRead) {
@@ -171,7 +173,7 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 
 	// Once all chunks have been sent off, close all the write ends of pipes to signal counters to return counts
 	for (int i = 0; i < numberOfCounterProcesses; i++) {
-		close(counterPipesArray[i].managerToCounterPipeFileDescriptor[1]);
+		close(counterPipesArray[i].writePipeFileDescriptor);
 	}
 
 	// Read final word counts from each counter process and sum them
@@ -180,15 +182,14 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		int wordCount = 0;
 
 		// Read and validate count
-		int currentCounterPipeReadDescriptor = counterPipesArray[i].counterToManagerPipeFileDescriptor[0];
-		ssize_t numberBytesReadFromPipe = read(currentCounterPipeReadDescriptor, &wordCount, sizeof(wordCount));
+		ssize_t numberBytesReadFromPipe = read(counterPipesArray[i].readPipeFileDescriptor, &wordCount, sizeof(wordCount));
 		if (numberBytesReadFromPipe != sizeof(wordCount)) {
 			pwc_errorWithPrefix("An error occurred while reading from the counter process pipe in the counter manager!");
 			exit(-1);
 		}
 
 		// Close the read end of the pipe
-		close(currentCounterPipeReadDescriptor);
+		close(counterPipesArray[i].readPipeFileDescriptor);
 
 		// Add to total count
 		totalWordCount += wordCount;
