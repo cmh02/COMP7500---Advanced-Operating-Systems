@@ -47,7 +47,7 @@
 #include <unistd.h>
 #include "pwc_utils.h"
 #include "pwc_reader.h"
-#include "pwc_counter.h"
+#include "pwc_counterManager.h"
 
 /*
 	# Main Execution
@@ -87,12 +87,13 @@ int main(int argc, char **argv) {
 	}
 
 	// If number of cores given, parse it
+	long numberOfProgramCores;
 	const long numberOfSystemCores = sysconf(_SC_NPROCESSORS_ONLN);
 	if (argc == 3) {
 		
 		// Convert string to long with error checking
 		char *endOfParsedString;
-		long numberOfProgramCores = strtol(argv[2], &endOfParsedString, 10);
+		numberOfProgramCores = strtol(argv[2], &endOfParsedString, 10);
 
 		// If it did not parse the entire string, then we likely got faulty input, so error out
 		if (*endOfParsedString != '\0') {
@@ -114,7 +115,7 @@ int main(int argc, char **argv) {
 	} 
 	// If number of cores not given, default to 1
 	else {
-		long numberOfProgramCores = 1;
+		numberOfProgramCores = 1;
 		pwc_warnWithPrefix("No number of cores specified, defaulting to 1 core! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
 	}
 
@@ -145,7 +146,7 @@ int main(int argc, char **argv) {
 		close(counterToReaderPipeFileDescriptor[0]);
 
 		// Start up the counter module to count words from the pipe
-		int counterStatus = pwc_counter_countWordsFromPipe(counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
+		int counterStatus = pwc_initCounterManager(numberOfProgramCores, counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
 
 		// Exit child process
 		return 0;
