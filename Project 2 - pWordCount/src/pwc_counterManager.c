@@ -41,6 +41,7 @@
 
 // Project Libraries
 #include "pwc_utils.h"
+#include "pwc_counter.h"
 #include "pwc_counterManager.h"
 
 // Constants
