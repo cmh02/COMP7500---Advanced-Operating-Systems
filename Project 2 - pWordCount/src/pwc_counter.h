@@ -35,3 +35,17 @@
 	- int: 0 if successful, -1 for error.
 */
 int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFileDescriptor);
+
+/*
+	# pwc_countWordsInBuffer
+
+	Counts the number of words in a specified buffer.
+
+	## Arguments
+	- char* buffer: The buffer containing text to count words from.
+	- ssize_t bufferSize: The size of the buffer in bytes.
+
+	## Returns
+	- int: The number of words counted in the buffer.
+*/
+int pwc_countWordsInBuffer(char* buffer, ssize_t bufferSize);
