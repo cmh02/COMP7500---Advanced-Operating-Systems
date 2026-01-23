@@ -54,11 +54,15 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 	while ((numberBytesRead = read(textFileDescriptor, textReadingBuffer, FILE_READ_BUFFER_SIZE)) > 0) {
 
 		// Write the bytes to the pipe
-		ssize_t numberBytesWritten = write(writePipeFileDescriptor, textReadingBuffer, numberBytesRead);
+		ssize_t totalBytesWritten = 0;
+		while (totalBytesWritten < numberBytesRead) {
+			ssize_t numberBytesWritten = write(writePipeFileDescriptor, textReadingBuffer, numberBytesRead);
+			totalBytesWritten += numberBytesWritten;
+		}
 
-		// Confirm that all bytes were written to the pipe
-		if (numberBytesWritten != numberBytesRead) {
-			pwc_errorWithPrefix("The attempt to write data to the pipe has failed!");
+		// Validate that we wrote all bytes, else exit with error
+		if (totalBytesWritten != numberBytesRead) {
+			pwc_errorWithPrefix("An error occurred while writing to the pipe in the reader module!");
 			close(writePipeFileDescriptor);
 			close(readPipeFileDescriptor);
 			close(textFileDescriptor);
