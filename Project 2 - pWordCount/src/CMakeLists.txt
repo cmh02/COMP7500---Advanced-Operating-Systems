@@ -31,9 +31,10 @@ cmake_minimum_required(VERSION 3.10)
 project(pwordcount C)
 
 add_executable(pwordcount
-    main.c
+    pwordcount.c
     pwc_utils.c
 	pwc_reader.c
 	pwc_counter.c
 	pwc_counterManager.c
+	pwc_logger.c
 )
