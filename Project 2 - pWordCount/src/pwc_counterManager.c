@@ -47,7 +47,18 @@
 // Constants
 #define COUNT_BUFFER_SIZE 4096
 
-// Struct for per-counter sets of pipes
+/*
+	# Counter-Process Pipe Set Structure
+
+	This structure defines the set of pipes for each counter process to talk with the counter manager process.
+
+	## Structure Members
+
+	- pid_t counterPID: The PID of the counter process.
+	- int writePipeFileDescriptor: The file descriptor for writing to the counter process.
+	- int readPipeFileDescriptor: The file descriptor for reading from the counter process.
+
+*/
 struct pwc_counterPipes {
 	pid_t counterPID;
 	int writePipeFileDescriptor; // for writing to counter
