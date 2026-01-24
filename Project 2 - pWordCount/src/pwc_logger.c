@@ -32,12 +32,16 @@
 	7. https://www.geeksforgeeks.org/c/c-switch-statement/
 	-> I used this GeeksForGeeks article to refamiliarize myself with switch syntax.
 
+	8. https://www.geeksforgeeks.org/c/variadic-functions-in-c/
+	-> I used this GeeksForGeeks article to refamiliarize myself with making variadic functions for custom logging.
+
 	--------------------------------------------------
 */
 
 // Libraries
-#include <stdio.h>
 #include <time.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 // Project Libraries
 #include "pwc_logger.h"
