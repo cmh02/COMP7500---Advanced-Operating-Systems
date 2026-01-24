@@ -78,6 +78,11 @@
 */
 int main(int argc, char **argv) {
 
+	// Log divider so log file is easier to read
+	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "------------------------------------------------");
+	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "----- New Execution of pWordCount Starting -----");
+	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "------------------------------------------------");
+
 	// If we were not given any arguments, then error out
 	if (argc < 2) {
 		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "No arguments were given! Correct Usage: ./pwordcount <file-path> <number-of-cores>!");
