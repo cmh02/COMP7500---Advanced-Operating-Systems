@@ -32,6 +32,9 @@
 #include "pwc_utils.h"
 #include "pwc_reader.h"
 
+// Module Name
+#define PWC_MODULE_NAME "READER"
+
 // Constants
 #define FILE_READ_BUFFER_SIZE 4096
 

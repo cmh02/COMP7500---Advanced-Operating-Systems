@@ -38,7 +38,12 @@
 // Libraries
 #include <stdio.h>
 #include <time.h>
+
+// Project Libraries
 #include "pwc_logger.h"
+
+// Module Name
+#define PWC_MODULE_NAME "LOGGER"
 
 void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* message) {
 

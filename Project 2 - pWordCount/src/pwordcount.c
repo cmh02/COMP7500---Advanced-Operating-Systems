@@ -45,9 +45,15 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+// Project Libraries
 #include "pwc_utils.h"
 #include "pwc_reader.h"
 #include "pwc_counterManager.h"
+#include "pwc_logger.h"
+
+// Module Name
+#define PWC_MODULE_NAME "MAIN"
 
 /*
 	# Main Execution

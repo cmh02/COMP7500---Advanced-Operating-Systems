@@ -29,7 +29,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
+
+// Project Libraries
 #include "pwc_utils.h"
+
+// Module Name
+#define PWC_MODULE_NAME "UTILS"
 
 /*
 	UTILITIES

@@ -44,6 +44,9 @@
 #include "pwc_counter.h"
 #include "pwc_counterManager.h"
 
+// Module Name
+#define PWC_MODULE_NAME "COUNTER-MANAGER"
+
 // Constants
 #define COUNT_BUFFER_SIZE 4096
 
