@@ -35,13 +35,20 @@
 	8. https://www.geeksforgeeks.org/c/variadic-functions-in-c/
 	-> I used this GeeksForGeeks article to refamiliarize myself with making variadic functions for custom logging.
 
+	9. https://man7.org/linux/man-pages/man2/mkdir.2.html
+	10. https://stackoverflow.com/questions/7430248/creating-a-new-directory-in-c
+	-> I used these resources to understand best practice for creating directories.
+
 	--------------------------------------------------
 */
 
 // Libraries
 #include <time.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 // Project Libraries
 #include "pwc_utils.h"
@@ -49,6 +56,9 @@
 
 // Module Name
 #define PWC_MODULE_NAME "LOGGER"
+
+// Log File Path
+static char logFilePath[256];
 
 void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...) {
 
@@ -85,7 +95,7 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 	}
 
 	// Open file for appending
-	FILE* logFile = fopen(PWC_LOGFILE_PATH, "a");
+	FILE* logFile = fopen(logFilePath, "a");
 	if (!logFile) {
 		return;
 	}
@@ -114,4 +124,27 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 	va_end(args);
 	va_end(argsCopyForPrinting);
 	return;
+}
+
+int pwc_initLogFile(pid_t processPID) {
+	
+	// Make file name string for static referencing
+	snprintf(logFilePath, sizeof(logFilePath), "%s/pwc_%d.log", PWC_LOGDIR_PATH, processPID);
+
+	// Make sure directory exists for log files
+	if (mkdir(PWC_LOGDIR_PATH, 0755) == -1) {
+
+		// If directory exists, continue, otherwise error out
+        if (errno != EEXIST) {
+            return 1;
+        }
+		
+    }
+
+	// Create file to make sure it can exist
+	FILE* logFile = fopen(logFilePath, "w");
+	if (!logFile) { 
+		return 1; 
+	}
+	return 0;
 }

@@ -78,10 +78,11 @@
 */
 int main(int argc, char **argv) {
 
-	// Log divider so log file is easier to read
-	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "------------------------------------------------");
-	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "----- New Execution of pWordCount Starting -----");
-	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "------------------------------------------------");
+	// Initialize the log file for this process
+	if (pwc_initLogFile(getpid())) {
+		fprintf(stderr, "Failed to initialize log file for main process with PID %d!\n", getpid());
+		return 1;
+	}
 
 	// If we were not given any arguments, then error out
 	if (argc < 2) {

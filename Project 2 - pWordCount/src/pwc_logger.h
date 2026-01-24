@@ -40,7 +40,7 @@
 #define PWC_LOGGER_H
 
 // Log File Path
-#define PWC_LOGFILE_PATH "pwc_logfile.log"
+#define PWC_LOGDIR_PATH "../logs/"
 
 // Logger Level Enum
 enum pwc_loggerLevel {
@@ -66,5 +66,18 @@ enum pwc_loggerLevel {
 	- void
 */
 void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...);
+
+/*
+	# pwc_initLogFile
+
+	This function initializes the log file for the given process PID and makes sure the file can be created.
+
+	## Parameters
+	- pid_t processPID: The PID identifier to use for the log file.
+
+	## Returns
+	- int: 0 on success, 1 on failure.
+*/
+int pwc_initLogFile(pid_t processPID);
 
 #endif
