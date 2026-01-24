@@ -22,6 +22,10 @@
 	--------------------------------------------------
 */
 
+// Prevent multiple inclusions
+#ifndef PWC_READER_H
+#define PWC_READER_H
+
 /*
 	# pwc_reader_streamFileToPipe
 
@@ -36,3 +40,5 @@
 	- int: 0 if successful, -1 for error.
 */
 int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescriptor, int readPipeFileDescriptor);
+
+#endif // PWC_READER_H

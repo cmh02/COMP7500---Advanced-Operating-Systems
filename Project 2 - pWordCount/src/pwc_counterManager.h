@@ -22,6 +22,10 @@
 	--------------------------------------------------
 */
 
+// Prevent multiple inclusions
+#ifndef PWC_COUNTERMANAGER_H
+#define PWC_COUNTERMANAGER_H
+
 /*
 	# pwc_initCounterManager
 
@@ -36,3 +40,5 @@
 	- int: 0 if successful, -1 for error.
 */
 int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescriptor, int readPipeFileDescriptor);
+
+#endif // PWC_COUNTERMANAGER_H

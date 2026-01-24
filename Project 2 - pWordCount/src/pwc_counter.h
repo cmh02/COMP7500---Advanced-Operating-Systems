@@ -22,6 +22,10 @@
 	--------------------------------------------------
 */
 
+// Prevent multiple inclusions
+#ifndef PWC_COUNTER_H
+#define PWC_COUNTER_H
+
 /*
 	# pwc_counter_countWordsFromPipe
 
@@ -49,3 +53,5 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 	- int: The number of words counted in the buffer.
 */
 int pwc_countWordsInBuffer(char* buffer, ssize_t bufferSize);
+
+#endif // PWC_COUNTER_H
