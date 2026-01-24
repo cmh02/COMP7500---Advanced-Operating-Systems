@@ -87,7 +87,21 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 	close(writePipeFileDescriptor);
 
 	// Log
-	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has finished counting words! Total word count: %d", getpid(), wordCount);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d finished counting with a total of %d words!", getpid(), wordCount);
+
+	// Log counter usage stats
+	struct rusage cStats;
+	if (getrusage(RUSAGE_SELF, &cStats) == 0) {
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Memory Usage Statistics for Counter process with PID %d:", getpid());
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> User CPU Time Used: %ld seconds and %ld microseconds", cStats.ru_utime.tv_sec, cStats.ru_utime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> System CPU Time Used: %ld seconds and %ld microseconds", cStats.ru_stime.tv_sec, cStats.ru_stime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld kilobytes", cStats.ru_maxrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld kilobytes", cStats.ru_ixrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld kilobytes", cStats.ru_idrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld kilobytes", cStats.ru_isrss);
+	} else {
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while attempting to get resource usage statistics for counter process with PID %d.", getpid());
+	}
 
 	// Exit successfully
 	exit(0);

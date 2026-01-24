@@ -36,6 +36,14 @@
 
 	9. https://stackoverflow.com/questions/5820810/case-insensitive-string-comparison-in-c
 	10. https://pubs.opengroup.org/onlinepubs/9699919799/functions/strcasecmp.html
+	-> I used these resources to understand how to do case-insensitive string comparisons.
+
+	11. https://man7.org/linux/man-pages/man2/getrusage.2.html
+	12. https://www.geeksforgeeks.org/c/wait-system-call-c/
+	13. https://stackoverflow.com/questions/35316374/why-did-wait4-get-replaced-by-waitpid
+	14. https://man7.org/linux/man-pages/man3/waitpid.3p.html
+	15. https://man7.org/linux/man-pages/man2/getrusage.2.html
+	-> I used these resources to understand / debate best practices for waiting and getting resource stats for processes.
 
 	--------------------------------------------------
 */
@@ -161,36 +169,76 @@ int main(int argc, char **argv) {
 		return 0;
 	}
 
-	// Handle parent process, which will be used for reading words from specified file
-	else if (pid > 0) {
-		
-		// Only write to the reader-to-counter pipe
-		close(readerToCounterPipeFileDescriptor[0]);
-
-		// Only read from the counter-to-reader pipe
-		close(counterToReaderPipeFileDescriptor[1]);
-
-		// Start up the reader module to stream file to the pipe
-		int wordCount = pwc_reader_streamFileToPipe(filePath, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
-
-		// Check wordCount for errors
-		if (wordCount < 0) {
-			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while reading the file and counting words.");
-			return 1;
-		}
-
-		// Print the final word count
-		pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "The total word count from file '%s' is: %d", filePath, wordCount);
-
-		// Exit parent process
-		return 0;
-	}
-
 	// Error detection incase fork fails
-	else {
+	else if (pid < 0) {
 
 		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to fork() into parent and child processes has failed!");
 		return 1;
+	}
+		
+	// Only write to the reader-to-counter pipe
+	close(readerToCounterPipeFileDescriptor[0]);
+
+	// Only read from the counter-to-reader pipe
+	close(counterToReaderPipeFileDescriptor[1]);
+
+	// Start up the reader module to stream file to the pipe
+	int wordCount = pwc_reader_streamFileToPipe(filePath, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
+
+	// Check wordCount for errors
+	if (wordCount < 0) {
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while reading the file and counting words.");
+		return 1;
+	}
+
+	// Print the final word count
+	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "The total word count from file '%s' is: %d", filePath, wordCount);
+
+	// Wait for child processes to finish
+	int status;
+	waitpid(pid, &status, 0);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Main process with PID %d has observed child Counter-Manager process with PID %d finish with status code %d!", getpid(), pid, status);
+
+	// Get all stats for child processes
+	struct rusage childUsageStats;
+	if (getrusage(RUSAGE_CHILDREN, &childUsageStats) == 0) {
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Memory Usage Statistics for child processes:");
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> User CPU Time Used: %ld seconds and %ld microseconds", childUsageStats.ru_utime.tv_sec, childUsageStats.ru_utime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> System CPU Time Used: %ld seconds and %ld microseconds", childUsageStats.ru_stime.tv_sec, childUsageStats.ru_stime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld kilobytes", childUsageStats.ru_maxrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld kilobytes", childUsageStats.ru_ixrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld kilobytes", childUsageStats.ru_idrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld kilobytes", childUsageStats.ru_isrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Reclaims (Soft Page Faults): %ld", childUsageStats.ru_minflt);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Faults (Hard Page Faults): %ld", childUsageStats.ru_majflt);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Swaps: %ld", childUsageStats.ru_nswap);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Block Input Operations: %ld", childUsageStats.ru_inblock);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Block Output Operations: %ld", childUsageStats.ru_oublock);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Voluntary Context Switches: %ld", childUsageStats.ru_nvcsw);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Involuntary Context Switches: %ld", childUsageStats.ru_nivcsw);
+	} else {
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while attempting to get resource usage statistics for child processes.");
+	}
+
+	// Get all stats for main process
+	struct rusage mainUsageStats;
+	if (getrusage(RUSAGE_SELF, &mainUsageStats) == 0) {
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Memory Usage Statistics for main process:");
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> User CPU Time Used: %ld seconds and %ld microseconds", mainUsageStats.ru_utime.tv_sec, mainUsageStats.ru_utime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> System CPU Time Used: %ld seconds and %ld microseconds", mainUsageStats.ru_stime.tv_sec, mainUsageStats.ru_stime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld kilobytes", mainUsageStats.ru_maxrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld kilobytes", mainUsageStats.ru_ixrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld kilobytes", mainUsageStats.ru_idrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld kilobytes", mainUsageStats.ru_isrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Reclaims (Soft Page Faults): %ld", mainUsageStats.ru_minflt);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Faults (Hard Page Faults): %ld", mainUsageStats.ru_majflt);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Swaps: %ld", mainUsageStats.ru_nswap);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Block Input Operations: %ld", mainUsageStats.ru_inblock);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Block Output Operations: %ld", mainUsageStats.ru_oublock);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Voluntary Context Switches: %ld", mainUsageStats.ru_nvcsw);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Involuntary Context Switches: %ld", mainUsageStats.ru_nivcsw);
+	} else {
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while attempting to get resource usage statistics for main process.");
 	}
 
 	// Main return

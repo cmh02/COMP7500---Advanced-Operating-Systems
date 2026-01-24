@@ -286,6 +286,13 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		totalWordCount += wordCount;
 	}
 
+	// Wait for all counter processes to finish
+	for (int i = 0; i < numberOfCounterProcesses; i++) {
+		int status;
+		waitpid(counterPipesArray[i].counterPID, &status, 0);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d has observed counter process with PID %d finish with status code %d!", getpid(), counterPipesArray[i].counterPID, status);
+	}
+
 	// Close read ends of all counter pipes
 	for (int i = 0; i < numberOfCounterProcesses; i++) {
 		close(counterPipesArray[i].readPipeFileDescriptor);
@@ -307,6 +314,20 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 
 	// Log final total word count
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d has a final total word count of %d!", getpid(), totalWordCount);
+
+	// Log counter-manager usage stats
+	struct rusage cmStats;
+	if (getrusage(RUSAGE_SELF, &cmStats) == 0) {
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Memory Usage Statistics for Counter-Manager process with PID %d:", getpid());
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> User CPU Time Used: %ld seconds and %ld microseconds", cmStats.ru_utime.tv_sec, cmStats.ru_utime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> System CPU Time Used: %ld seconds and %ld microseconds", cmStats.ru_stime.tv_sec, cmStats.ru_stime.tv_usec);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld kilobytes", cmStats.ru_maxrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld kilobytes", cmStats.ru_ixrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld kilobytes", cmStats.ru_idrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld kilobytes", cmStats.ru_isrss);
+	} else {
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while attempting to get resource usage statistics for counter manager process with PID %d.", getpid());
+	}
 
 	// Return success
 	exit(0);
