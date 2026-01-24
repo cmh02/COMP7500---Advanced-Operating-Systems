@@ -45,7 +45,7 @@
 // Module Name
 #define PWC_MODULE_NAME "LOGGER"
 
-void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* message) {
+void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* message, ...) {
 
 	// Get the current time 
 	time_t currentTime = time(NULL);
@@ -86,7 +86,12 @@ void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* m
 	}
 
 	// Write log entry to file
-	fprintf(logFile, "[%s] [%s] [%s]: %s\n", dateTimeString, logLevelString, module, message);
+	fprintf(logFile, "[%s] [%s] [%s]: %s\n", dateTimeString, logLevelString, module);
+	va_list args;
+	va_start(args, message);
+	vfprintf(logFile, message, args);
+	va_end(args);
+	fputc('\n', logFile);
 	fclose(logFile);
 
 	// Exit

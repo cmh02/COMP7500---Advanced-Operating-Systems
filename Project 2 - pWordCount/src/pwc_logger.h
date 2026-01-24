@@ -56,8 +56,9 @@ enum pwc_loggerLevel {
 	- enum pwc_loggerLevel level: The log level of the message.
 	- const char* module: The module the message originated.
 	- const char* message: The message to log.
+	- ... : Variadic arguments for the message format.
 
 	## Returns
 	- void
 */
-void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* message);
+void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* message, ...);
