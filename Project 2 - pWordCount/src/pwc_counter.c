@@ -45,7 +45,7 @@
 int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFileDescriptor) {
 	
 	// Log
-	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has started counting words from the pipe!", getpid());
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has started counting words from the pipe!", getpid());
 
 	// Initialize word count
 	int wordCount = 0;
@@ -87,7 +87,7 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 	close(writePipeFileDescriptor);
 
 	// Log
-	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has finished counting words! Total word count: %d", getpid(), wordCount);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has finished counting words! Total word count: %d", getpid(), wordCount);
 
 	// Exit successfully
 	exit(0);

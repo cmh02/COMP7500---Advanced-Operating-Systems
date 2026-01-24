@@ -72,13 +72,13 @@ int main(int argc, char **argv) {
 
 	// If we were not given any arguments, then error out
 	if (argc < 2) {
-		pwc_errorWithPrefix("No arguments were given! Correct Usage: ./pwordcount <file-path> <number-of-cores>!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "No arguments were given! Correct Usage: ./pwordcount <file-path> <number-of-cores>!");
 		return 1;
 	}
 	
 	// If we were given more than two arguments, then error out
 	if (argc > 3) {
-		pwc_errorWithPrefix("Too many arguments were provided! Correct Usage: ./pwordcount <file-path> <number-of-cores>!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Too many arguments were provided! Correct Usage: ./pwordcount <file-path> <number-of-cores>!");
 		return 1;
 	}
 
@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
 	// Extract file extension from path by looking for last '.' and validate text file
 	char* lastDotInFilePath = strrchr(filePath, '.');
 	if (lastDotInFilePath == NULL || strcasecmp(lastDotInFilePath, ".txt") != 0) {
-		pwc_errorWithPrefix("Invalid .txt file path specified: '%s'!", filePath);
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid .txt file path specified: '%s'!", filePath);
 		return 1;
 	}
 
@@ -103,30 +103,30 @@ int main(int argc, char **argv) {
 
 		// If it did not parse the entire string, then we likely got faulty input, so error out
 		if (*endOfParsedString != '\0') {
-			pwc_errorWithPrefix("Invalid number of cores specified! Could not parse given argument: '%s'.", argv[2]);
+			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of cores specified! Could not parse given argument: '%s'.", argv[2]);
 			return 1;
 		}
 
 		// Make sure that we were given at least 1 core
 		if (numberOfProgramCores < 1) {
-			pwc_errorWithPrefix("Invalid number of cores specified! The number of cores parsed is less than the minimum of 1: '%ld'!", numberOfProgramCores);
+			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of cores specified! The number of cores parsed is less than the minimum of 1: '%ld'!", numberOfProgramCores);
 			return 1;
 		}
 
 		// If we were given more cores than the system has, warn the user
 		if (numberOfProgramCores > numberOfSystemCores) {
-			pwc_warnWithPrefix("The number of cores specified (%ld) exceeds the maximum available cores (%ld)! Defaulting to maximum available cores!", numberOfProgramCores, numberOfSystemCores);
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "The number of cores specified (%ld) exceeds the maximum available cores (%ld)! Defaulting to maximum available cores!", numberOfProgramCores, numberOfSystemCores);
 			numberOfProgramCores = numberOfSystemCores;
 		}
 	} 
 	// If number of cores not given, default to 1
 	else {
 		numberOfProgramCores = 1;
-		pwc_warnWithPrefix("No number of cores specified, defaulting to 1 core! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
+		pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "No number of cores specified, defaulting to 1 core! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
 	}
 
 	// Log starting information
-	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld cores.", filePath, numberOfProgramCores);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld cores.", filePath, numberOfProgramCores);
 
 	// Initialize two pipes, one for reader->counter and one for counter->reader
 	int readerToCounterPipeFileDescriptor[2];
@@ -134,11 +134,11 @@ int main(int argc, char **argv) {
 
 	// Create the pipes and handle any errors
 	if (pipe(readerToCounterPipeFileDescriptor) == -1) {
-		pwc_errorWithPrefix("The attempt to create the reader-to-counter pipe has failed!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to create the reader-to-counter pipe has failed!");
 		return 1;
 	}
 	if (pipe(counterToReaderPipeFileDescriptor) == -1) {
-		pwc_errorWithPrefix("The attempt to create the counter-to-reader pipe has failed!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to create the counter-to-reader pipe has failed!");
 		return 1;
 	}
 
@@ -175,12 +175,12 @@ int main(int argc, char **argv) {
 
 		// Check wordCount for errors
 		if (wordCount < 0) {
-			pwc_errorWithPrefix("An error occurred while reading the file and counting words.");
+			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while reading the file and counting words.");
 			return 1;
 		}
 
 		// Print the final word count
-		pwc_printWithPrefix("The total word count from file '%s' is: %d", filePath, wordCount);
+		pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "The total word count from file '%s' is: %d", filePath, wordCount);
 
 		// Exit parent process
 		return 0;
@@ -189,11 +189,11 @@ int main(int argc, char **argv) {
 	// Error detection incase fork fails
 	else {
 
-		pwc_errorWithPrefix("The attempt to fork() into parent and child processes has failed!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to fork() into parent and child processes has failed!");
 		return 1;
 	}
 
 	// Main return
-	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Program execution completed successfully for '%s'!", filePath);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Program execution completed successfully for '%s'!", filePath);
 	return 0;
 }

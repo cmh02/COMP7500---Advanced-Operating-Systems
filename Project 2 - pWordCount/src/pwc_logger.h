@@ -48,7 +48,7 @@ enum pwc_loggerLevel {
 
 
 /*
-	# pwc_logToFile
+	# pwc_log
 
 	This function will log a message to the configured log file.
 
@@ -61,4 +61,4 @@ enum pwc_loggerLevel {
 	## Returns
 	- void
 */
-void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* message, ...);
+void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...);

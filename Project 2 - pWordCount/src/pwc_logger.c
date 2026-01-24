@@ -49,7 +49,7 @@
 // Module Name
 #define PWC_MODULE_NAME "LOGGER"
 
-void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* message, ...) {
+void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...) {
 
 	// Get the current time 
 	time_t currentTime = time(NULL);
