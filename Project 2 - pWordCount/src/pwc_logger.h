@@ -35,6 +35,10 @@
 	--------------------------------------------------
 */
 
+// Prevent multiple inclusions
+#ifndef PWC_LOGGER_H
+#define PWC_LOGGER_H
+
 // Log File Path
 #define PWC_LOGFILE_PATH "pwc_logfile.log"
 
@@ -62,3 +66,5 @@ enum pwc_loggerLevel {
 	- void
 */
 void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...);
+
+#endif

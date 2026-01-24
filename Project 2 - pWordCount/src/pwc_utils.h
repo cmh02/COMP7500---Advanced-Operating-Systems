@@ -25,6 +25,9 @@
 
 */
 
+// Libraries
+#include <stdarg.h>
+
 // Prevent multiple inclusions
 #ifndef PWC_UTILS_H
 #define PWC_UTILS_H
@@ -38,12 +41,12 @@
 
 	## Arguments
 	- message: The message to print with format symbols
-	- ... : Arguments for format symbols
+	- args : Arguments for format symbols
 
 	## Returns
 	- void
 */
-void pwc_printWithPrefix(const char *message, ...);
+void pwc_printWithPrefix(const char *message, va_list args);
 
 /*
 	# Warn With Prefix
@@ -52,12 +55,12 @@ void pwc_printWithPrefix(const char *message, ...);
 
 	## Arguments
 	- message: The message to print with format symbols
-	- ... : Arguments for format symbols
+	- args : Arguments for format symbols
 
 	## Returns
 	- void
 */
-void pwc_warnWithPrefix(const char *message, ...);
+void pwc_warnWithPrefix(const char *message, va_list args);
 
 /*
 	# Error With Prefix
@@ -66,11 +69,11 @@ void pwc_warnWithPrefix(const char *message, ...);
 
 	## Arguments
 	- message: The message to print with format symbols
-	- ... : Arguments for format symbols
+	- args : Arguments for format symbols
 
 	## Returns
 	- void
 */
-void pwc_errorWithPrefix(const char *message, ...);
+void pwc_errorWithPrefix(const char *message, va_list args);
 
 #endif // PWC_UTILS_H

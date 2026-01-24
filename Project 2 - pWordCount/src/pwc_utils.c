@@ -40,41 +40,25 @@
 	UTILITIES
 */
 
-void pwc_printWithPrefix(const char *message, ...) {
-
-	// Prepare variadic args
-	va_list args;
-	va_start(args, message);
+void pwc_printWithPrefix(const char *message, va_list args) {
 
 	// Print with prefix
 	printf("[pWordCount] ");
 	vprintf(message, args);
 	printf("\n");
-	
-	// Cleanup variadic args
-	va_end(args);
+
 }
 
-void pwc_warnWithPrefix(const char *message, ...) {
-
-	// Prepare variadic args
-	va_list args;
-	va_start(args, message);
+void pwc_warnWithPrefix(const char *message, va_list args) {
 
 	// Print with prefix
 	printf("[pWordCount WARNING] ");
 	vprintf(message, args);
 	printf("\n");
 
-	// Cleanup variadic args
-	va_end(args);
 }
 
-void pwc_errorWithPrefix(const char *message, ...) {
-
-	// Prepare variadic args
-	va_list args;
-	va_start(args, message);
+void pwc_errorWithPrefix(const char *message, va_list args) {
 
 	// Print with prefix
 	printf("[pWordCount ERROR] ");
@@ -83,7 +67,5 @@ void pwc_errorWithPrefix(const char *message, ...) {
 		printf("\nDetailed Inforation: Error Code %d - %s", errno, strerror(errno));
 	}
 	printf("\n");
-
-	// Cleanup variadic args
-	va_end(args);
+	
 }

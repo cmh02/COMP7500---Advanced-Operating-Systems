@@ -1,42 +1,24 @@
-[01-24-2026 13:58:18] [DEBUG] [MAIN]: Starting execution for '../test/testfiles/t11_big.txt' using 1 cores.
-[01-24-2026 13:58:18] [DEBUG] [READER]: Reader with PID 86594 has been created to stream file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:18] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86598 has been created to manage 1 counter processes!
-[01-24-2026 13:58:18] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86598 has successfully created 1 counter processes!
-[01-24-2026 13:58:18] [DEBUG] [COUNTER]: Counter process with PID 86599 has started counting words from the pipe!
-[01-24-2026 13:58:18] [DEBUG] [READER]: Reader with PID 86594 has finished streaming file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:18] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86598 has finished sending data to all counter processes!
-[01-24-2026 13:58:18] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86598 received word count of 1095695 from counter process with PID 86599!
-[01-24-2026 13:58:18] [DEBUG] [COUNTER]: Counter process with PID 86599 has finished counting words! Total word count: 1095695
-[01-24-2026 13:58:18] [DEBUG] [READER]: Reader with PID 86594 received final word count of 1095695 for file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:18] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86598 has a final total word count of 1095695!
-[01-24-2026 13:58:22] [DEBUG] [MAIN]: Starting execution for '../test/testfiles/t11_big.txt' using 2 cores.
-[01-24-2026 13:58:22] [DEBUG] [READER]: Reader with PID 86756 has been created to stream file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86757 has been created to manage 2 counter processes!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER]: Counter process with PID 86758 has started counting words from the pipe!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86757 has successfully created 2 counter processes!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER]: Counter process with PID 86759 has started counting words from the pipe!
-[01-24-2026 13:58:22] [DEBUG] [READER]: Reader with PID 86756 has finished streaming file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86757 has finished sending data to all counter processes!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER]: Counter process with PID 86759 has finished counting words! Total word count: 547743
-[01-24-2026 13:58:22] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86757 received word count of 547952 from counter process with PID 86758!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER]: Counter process with PID 86758 has finished counting words! Total word count: 547952
-[01-24-2026 13:58:22] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86757 received word count of 547743 from counter process with PID 86759!
-[01-24-2026 13:58:22] [DEBUG] [READER]: Reader with PID 86756 received final word count of 1095695 for file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:22] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86757 has a final total word count of 1095695!
-[01-24-2026 13:58:23] [DEBUG] [MAIN]: Starting execution for '../test/testfiles/t11_big.txt' using 3 cores.
-[01-24-2026 13:58:23] [DEBUG] [READER]: Reader with PID 86909 has been created to stream file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86910 has been created to manage 3 counter processes!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER]: Counter process with PID 86911 has started counting words from the pipe!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86910 has successfully created 3 counter processes!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER]: Counter process with PID 86912 has started counting words from the pipe!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER]: Counter process with PID 86913 has started counting words from the pipe!
-[01-24-2026 13:58:23] [DEBUG] [READER]: Reader with PID 86909 has finished streaming file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86910 has finished sending data to all counter processes!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER]: Counter process with PID 86913 has finished counting words! Total word count: 364936
-[01-24-2026 13:58:23] [DEBUG] [COUNTER]: Counter process with PID 86912 has finished counting words! Total word count: 364972
-[01-24-2026 13:58:23] [DEBUG] [COUNTER]: Counter process with PID 86911 has finished counting words! Total word count: 365787
-[01-24-2026 13:58:23] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86910 received word count of 365787 from counter process with PID 86911!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86910 received word count of 364972 from counter process with PID 86912!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86910 received word count of 364936 from counter process with PID 86913!
-[01-24-2026 13:58:23] [DEBUG] [READER]: Reader with PID 86909 received final word count of 1095695 for file '../test/testfiles/t11_big.txt'!
-[01-24-2026 13:58:23] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 86910 has a final total word count of 1095695!
+[01-24-2026 14:15:48] [DEBUG] [MAIN]: Starting execution for '../test/testfiles/t11_big.txt' using 1 cores.
+[01-24-2026 14:15:48] [DEBUG] [READER]: Reader with PID 90454 has been created to stream file '../test/testfiles/t11_big.txt'!
+[01-24-2026 14:15:48] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 90456 has been created to manage 1 counter processes!
+[01-24-2026 14:15:48] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 90456 has successfully created 1 counter processes!
+[01-24-2026 14:15:48] [DEBUG] [COUNTER]: Counter process with PID 90457 has started counting words from the pipe!
+[01-24-2026 14:15:48] [DEBUG] [READER]: Reader with PID 90454 has finished streaming file '../test/testfiles/t11_big.txt'!
+[01-24-2026 14:15:48] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 90456 has finished sending data to all counter processes!
+[01-24-2026 14:15:48] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 90456 received word count of 1095695 from counter process with PID 90457!
+[01-24-2026 14:15:48] [DEBUG] [COUNTER]: Counter process with PID 90457 has finished counting words! Total word count: 1095695
+[01-24-2026 14:15:48] [DEBUG] [READER]: Reader with PID 90454 received final word count of 1095695 for file '../test/testfiles/t11_big.txt'!
+[01-24-2026 14:15:48] [INFO] [MAIN]: The total word count from file '../test/testfiles/t11_big.txt' is: 1095695
+[01-24-2026 14:15:48] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 90456 has a final total word count of 1095695!
+[01-24-2026 14:22:15] [DEBUG] [MAIN]: Starting execution for '../test/testfiles/t11_big.txt' using 1 cores.
+[01-24-2026 14:22:15] [DEBUG] [READER]: Reader with PID 92363 has been created to stream file '../test/testfiles/t11_big.txt'!
+[01-24-2026 14:22:15] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 92364 has been created to manage 1 counter processes!
+[01-24-2026 14:22:15] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 92364 has successfully created 1 counter processes!
+[01-24-2026 14:22:15] [DEBUG] [COUNTER]: Counter process with PID 92365 has started counting words from the pipe!
+[01-24-2026 14:22:15] [DEBUG] [READER]: Reader with PID 92363 has finished streaming file '../test/testfiles/t11_big.txt'!
+[01-24-2026 14:22:15] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 92364 has finished sending data to all counter processes!
+[01-24-2026 14:22:15] [DEBUG] [COUNTER]: Counter process with PID 92365 has finished counting words! Total word count: 1095695
+[01-24-2026 14:22:15] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 92364 received word count of 1095695 from counter process with PID 92365!
+[01-24-2026 14:22:15] [DEBUG] [READER]: Reader with PID 92363 received final word count of 1095695 for file '../test/testfiles/t11_big.txt'!
+[01-24-2026 14:22:15] [INFO] [MAIN]: The total word count from file '../test/testfiles/t11_big.txt' is: 1095695
+[01-24-2026 14:22:15] [DEBUG] [COUNTER-MANAGER]: Counter-Manager with PID 92364 has a final total word count of 1095695!

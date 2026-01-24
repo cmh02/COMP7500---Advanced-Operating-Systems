@@ -44,6 +44,7 @@
 #include <stdarg.h>
 
 // Project Libraries
+#include "pwc_utils.h"
 #include "pwc_logger.h"
 
 // Module Name
@@ -89,15 +90,28 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 		return;
 	}
 
+	// Get variadic arguments and make copy
+	va_list args, argsCopyForPrinting;
+	va_start(args, message);
+	va_copy(argsCopyForPrinting, args);
+
 	// Write log entry to file
 	fprintf(logFile, "[%s] [%s] [%s]: ", dateTimeString, logLevelString, module);
-	va_list args;
-	va_start(args, message);
 	vfprintf(logFile, message, args);
-	va_end(args);
 	fputc('\n', logFile);
 	fclose(logFile);
 
+	// For info, warn, and error levels, also print to stdout using util functions (seperate prefix formatting)
+	if (level == PWC_LOGLEVEL_INFO) {
+		pwc_printWithPrefix(message, argsCopyForPrinting);
+	} else if (level == PWC_LOGLEVEL_WARNING) {
+		pwc_warnWithPrefix(message, argsCopyForPrinting);
+	} else if (level == PWC_LOGLEVEL_ERROR) {
+		pwc_errorWithPrefix(message, argsCopyForPrinting);
+	}
+
 	// Exit
+	va_end(args);
+	va_end(argsCopyForPrinting);
 	return;
 }
