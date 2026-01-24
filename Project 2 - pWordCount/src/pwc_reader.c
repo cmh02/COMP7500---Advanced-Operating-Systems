@@ -49,7 +49,7 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 
 	// Confirm that the file was opened successfully
 	if (textFileDescriptor < 0) {
-		pwc_errorWithPrefix("The attempt to open file '%s' has failed!", filePath);
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to open file '%s' has failed!", filePath);
 		return -1;
 	}
 
@@ -69,7 +69,7 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 
 		// Validate that we wrote all bytes, else exit with error
 		if (totalBytesWritten != numberBytesRead) {
-			pwc_errorWithPrefix("An error occurred while writing to the pipe in the reader module!");
+			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while writing to the pipe in the reader module!");
 			close(writePipeFileDescriptor);
 			close(readPipeFileDescriptor);
 			close(textFileDescriptor);
@@ -79,7 +79,7 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 
 	// Check for any errors while reading from the file
 	if (numberBytesRead < 0) {
-		pwc_errorWithPrefix("The attempt to read data from file '%s' has failed!", filePath);
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to read data from file '%s' has failed!", filePath);
 		close(writePipeFileDescriptor);
 		close(readPipeFileDescriptor);
 		close(textFileDescriptor);
@@ -98,7 +98,7 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 
 	// Check for any errors while reading from the pipe
 	if (numberBytesReadFromPipe < 0) {
-		pwc_errorWithPrefix("The attempt to read the final word count from the pipe has failed!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to read the final word count from the pipe has failed!");
 		close(readPipeFileDescriptor);
 		close(textFileDescriptor);
 		return -1;

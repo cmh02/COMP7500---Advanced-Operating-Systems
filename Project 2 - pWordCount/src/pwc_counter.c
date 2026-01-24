@@ -64,7 +64,7 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 
 	// Check for any errors while reading from the pipe
 	if (numberBytesRead < 0) {
-		pwc_errorWithPrefix("The attempt to read data from the pipe has failed!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to read data from the pipe has failed!");
 		close(readPipeFileDescriptor);
 		close(writePipeFileDescriptor);
 		exit(-1);
@@ -78,7 +78,7 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 
 	// Check for any errors while writing to the pipe
 	if (numberBytesWritten != sizeof(wordCount)) {
-		pwc_errorWithPrefix("The attempt to write the final word count to the pipe has failed!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to write the final word count to the pipe has failed!");
 		close(writePipeFileDescriptor);
 		exit(-1);
 	}
