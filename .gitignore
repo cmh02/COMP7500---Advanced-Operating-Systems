@@ -1,3 +1,7 @@
 # Scripted log files sometime contain sensitive information so ignoring them
 *.script
 *.log
+*.DS_Store
+
+# Large test files
+Project 2 - pWordCount/test/testfiles/t13_2gbfile.txt
