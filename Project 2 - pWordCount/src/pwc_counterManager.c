@@ -43,6 +43,7 @@
 #include "pwc_utils.h"
 #include "pwc_counter.h"
 #include "pwc_counterManager.h"
+# include "pwc_logger.h"
 
 // Module Name
 #define PWC_MODULE_NAME "COUNTER-MANAGER"
@@ -69,6 +70,9 @@ struct pwc_counterPipes {
 };
 
 int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescriptor, int readPipeFileDescriptor) {
+
+	// Log
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d has been created to manage %d counter processes!", getpid(), numberOfCounterProcesses);
 
 	// Validate number of counter processes
 	if (numberOfCounterProcesses < 1) {
@@ -169,6 +173,9 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		counterPipesArray[i] = counterPipes;
 	}
 
+	// Log that all counters have been created
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d has successfully created %d counter processes!", getpid(), numberOfCounterProcesses);
+
 	// Initialize a flag to track if the last-read chunk ended with a character
 	bool flag_didLastChunkEndWithCharacter = false;
 
@@ -250,6 +257,9 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		close(counterPipesArray[i].writePipeFileDescriptor);
 	}
 
+	// Log that all data has been sent to counters
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d has finished sending data to all counter processes!", getpid());
+
 	// Read final word counts from each counter process and sum them
 	int totalWordCount = 0;
 	for (int i = 0; i < numberOfCounterProcesses; i++) {
@@ -268,6 +278,9 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 			free(counterPipesArray);
 			exit(-1);
 		}
+
+		// Log individual counter word count
+		pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d received word count of %d from counter process with PID %d!", getpid(), wordCount, counterPipesArray[i].counterPID);
 
 		// Add to total count
 		totalWordCount += wordCount;
@@ -291,6 +304,9 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 
 	// Close the output write pipe
 	close(writePipeFileDescriptor);
+
+	// Log final total word count
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d has a final total word count of %d!", getpid(), totalWordCount);
 
 	// Return success
 	exit(0);

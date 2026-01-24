@@ -34,6 +34,7 @@
 // Project Libraries
 #include "pwc_utils.h"
 #include "pwc_counter.h"
+#include "pwc_logger.h"
 
 // Module Name
 #define PWC_MODULE_NAME "COUNTER"
@@ -43,6 +44,9 @@
 
 int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFileDescriptor) {
 	
+	// Log
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has started counting words from the pipe!", getpid());
+
 	// Initialize word count
 	int wordCount = 0;
 
@@ -81,6 +85,9 @@ int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFile
 
 	// Close the write end of the pipe
 	close(writePipeFileDescriptor);
+
+	// Log
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has finished counting words! Total word count: %d", getpid(), wordCount);
 
 	// Exit successfully
 	exit(0);
