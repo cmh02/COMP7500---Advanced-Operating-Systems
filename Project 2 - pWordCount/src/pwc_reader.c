@@ -31,6 +31,7 @@
 // Project Libraries
 #include "pwc_utils.h"
 #include "pwc_reader.h"
+#include "pwc_logger.h"
 
 // Module Name
 #define PWC_MODULE_NAME "READER"
@@ -40,6 +41,9 @@
 
 int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescriptor, int readPipeFileDescriptor) {
 	
+	// Log
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Reader with PID %d has been created to stream file '%s'!", getpid(), filePath);
+
 	// Open the file in read-only mode
 	int textFileDescriptor = open(filePath, O_RDONLY);
 
@@ -85,6 +89,9 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 	// Close the write end of the pipe to signal end of data for the counter
 	close(writePipeFileDescriptor);
 
+	// Log that reading is complete
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Reader with PID %d has finished streaming file '%s'!", getpid(), filePath);
+
 	// Read the final count from the counter via the read pipe
 	int finalWordCount;
 	ssize_t numberBytesReadFromPipe = read(readPipeFileDescriptor, &finalWordCount, sizeof(finalWordCount));
@@ -102,6 +109,9 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 
 	// Close the file descriptor
 	close(textFileDescriptor);
+
+	// Log final word count
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Reader with PID %d received final word count of %d for file '%s'!", getpid(), finalWordCount, filePath);
 
 	// Return the final word count
 	return finalWordCount;
