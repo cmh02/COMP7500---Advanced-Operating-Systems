@@ -90,7 +90,7 @@ void pwc_logToFile(enum pwc_loggerLevel level, const char* module, const char* m
 	}
 
 	// Write log entry to file
-	fprintf(logFile, "[%s] [%s] [%s]: %s\n", dateTimeString, logLevelString, module);
+	fprintf(logFile, "[%s] [%s] [%s]: ", dateTimeString, logLevelString, module);
 	va_list args;
 	va_start(args, message);
 	vfprintf(logFile, message, args);

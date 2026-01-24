@@ -85,12 +85,12 @@ clean: CMakeFiles/pwordcount.dir/clean
 CMakeFiles/pwordcount.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5,6 "Built target pwordcount"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5,6,7 "Built target pwordcount"
 .PHONY : CMakeFiles/pwordcount.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/pwordcount.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/pwordcount.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" 0
 .PHONY : CMakeFiles/pwordcount.dir/rule
@@ -102,7 +102,7 @@ pwordcount: CMakeFiles/pwordcount.dir/rule
 # codegen rule for target.
 CMakeFiles/pwordcount.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5,6 "Finished codegen for target pwordcount"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 2 - pWordCount/build/CMakeFiles" --progress-num=1,2,3,4,5,6,7 "Finished codegen for target pwordcount"
 .PHONY : CMakeFiles/pwordcount.dir/codegen
 
 # clean rule for target.

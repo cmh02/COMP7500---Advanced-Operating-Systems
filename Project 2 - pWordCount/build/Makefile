@@ -129,30 +129,6 @@ pwordcount/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/build
 .PHONY : pwordcount/fast
 
-main.o: main.c.o
-.PHONY : main.o
-
-# target to build an object file
-main.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/main.c.o
-.PHONY : main.c.o
-
-main.i: main.c.i
-.PHONY : main.i
-
-# target to preprocess a source file
-main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/main.c.i
-.PHONY : main.c.i
-
-main.s: main.c.s
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/main.c.s
-.PHONY : main.c.s
-
 pwc_counter.o: pwc_counter.c.o
 .PHONY : pwc_counter.o
 
@@ -200,6 +176,30 @@ pwc_counterManager.s: pwc_counterManager.c.s
 pwc_counterManager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_counterManager.c.s
 .PHONY : pwc_counterManager.c.s
+
+pwc_logger.o: pwc_logger.c.o
+.PHONY : pwc_logger.o
+
+# target to build an object file
+pwc_logger.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_logger.c.o
+.PHONY : pwc_logger.c.o
+
+pwc_logger.i: pwc_logger.c.i
+.PHONY : pwc_logger.i
+
+# target to preprocess a source file
+pwc_logger.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_logger.c.i
+.PHONY : pwc_logger.c.i
+
+pwc_logger.s: pwc_logger.c.s
+.PHONY : pwc_logger.s
+
+# target to generate assembly for a file
+pwc_logger.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_logger.c.s
+.PHONY : pwc_logger.c.s
 
 pwc_reader.o: pwc_reader.c.o
 .PHONY : pwc_reader.o
@@ -249,6 +249,30 @@ pwc_utils.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_utils.c.s
 .PHONY : pwc_utils.c.s
 
+pwordcount.o: pwordcount.c.o
+.PHONY : pwordcount.o
+
+# target to build an object file
+pwordcount.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwordcount.c.o
+.PHONY : pwordcount.c.o
+
+pwordcount.i: pwordcount.c.i
+.PHONY : pwordcount.i
+
+# target to preprocess a source file
+pwordcount.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwordcount.c.i
+.PHONY : pwordcount.c.i
+
+pwordcount.s: pwordcount.c.s
+.PHONY : pwordcount.s
+
+# target to generate assembly for a file
+pwordcount.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwordcount.c.s
+.PHONY : pwordcount.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -258,21 +282,24 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... pwordcount"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
 	@echo "... pwc_counter.o"
 	@echo "... pwc_counter.i"
 	@echo "... pwc_counter.s"
 	@echo "... pwc_counterManager.o"
 	@echo "... pwc_counterManager.i"
 	@echo "... pwc_counterManager.s"
+	@echo "... pwc_logger.o"
+	@echo "... pwc_logger.i"
+	@echo "... pwc_logger.s"
 	@echo "... pwc_reader.o"
 	@echo "... pwc_reader.i"
 	@echo "... pwc_reader.s"
 	@echo "... pwc_utils.o"
 	@echo "... pwc_utils.i"
 	@echo "... pwc_utils.s"
+	@echo "... pwordcount.o"
+	@echo "... pwordcount.i"
+	@echo "... pwordcount.s"
 .PHONY : help
 
 
