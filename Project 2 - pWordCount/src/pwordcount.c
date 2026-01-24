@@ -166,14 +166,14 @@ int main(int argc, char **argv) {
 		int counterStatus = pwc_initCounterManager(numberOfProgramCores, counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
 
 		// Exit child process
-		return 0;
+		exit(0);
 	}
 
 	// Error detection incase fork fails
 	else if (pid < 0) {
 
 		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "The attempt to fork() into parent and child processes has failed!");
-		return 1;
+		exit(1);
 	}
 		
 	// Only write to the reader-to-counter pipe
@@ -205,10 +205,10 @@ int main(int argc, char **argv) {
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Memory Usage Statistics for child processes:");
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> User CPU Time Used: %ld seconds and %ld microseconds", childUsageStats.ru_utime.tv_sec, childUsageStats.ru_utime.tv_usec);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> System CPU Time Used: %ld seconds and %ld microseconds", childUsageStats.ru_stime.tv_sec, childUsageStats.ru_stime.tv_usec);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld kilobytes", childUsageStats.ru_maxrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld kilobytes", childUsageStats.ru_ixrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld kilobytes", childUsageStats.ru_idrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld kilobytes", childUsageStats.ru_isrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld %s", childUsageStats.ru_maxrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld %s", childUsageStats.ru_ixrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld %s", childUsageStats.ru_idrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld %s", childUsageStats.ru_isrss, PWC_MEMORY_UNIT);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Reclaims (Soft Page Faults): %ld", childUsageStats.ru_minflt);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Faults (Hard Page Faults): %ld", childUsageStats.ru_majflt);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Swaps: %ld", childUsageStats.ru_nswap);
@@ -226,10 +226,10 @@ int main(int argc, char **argv) {
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Memory Usage Statistics for main process:");
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> User CPU Time Used: %ld seconds and %ld microseconds", mainUsageStats.ru_utime.tv_sec, mainUsageStats.ru_utime.tv_usec);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> System CPU Time Used: %ld seconds and %ld microseconds", mainUsageStats.ru_stime.tv_sec, mainUsageStats.ru_stime.tv_usec);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld kilobytes", mainUsageStats.ru_maxrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld kilobytes", mainUsageStats.ru_ixrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld kilobytes", mainUsageStats.ru_idrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld kilobytes", mainUsageStats.ru_isrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld %s", mainUsageStats.ru_maxrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld %s", mainUsageStats.ru_ixrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld %s", mainUsageStats.ru_idrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld %s", mainUsageStats.ru_isrss, PWC_MEMORY_UNIT);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Reclaims (Soft Page Faults): %ld", mainUsageStats.ru_minflt);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Page Faults (Hard Page Faults): %ld", mainUsageStats.ru_majflt);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Swaps: %ld", mainUsageStats.ru_nswap);

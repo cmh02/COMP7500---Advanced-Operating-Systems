@@ -21,6 +21,10 @@
 	1. https://www.geeksforgeeks.org/c/variadic-functions-in-c/
 	-> I used this GeeksForGeeks article to refamiliarize myself with making variadic functions for custom printing.
 
+	2. https://sourceforge.net/p/predef/wiki/OperatingSystems/
+	3. https://stackoverflow.com/questions/5919996/how-to-detect-reliably-mac-os-x-ios-linux-windows-in-c-preprocessor
+	-> I used these to understand how to detect Apple vs Linux and define macro for memory unit.
+
 	--------------------------------------------------
 
 */
@@ -32,7 +36,24 @@
 #ifndef PWC_UTILS_H
 #define PWC_UTILS_H
 
-// Function stubs
+
+
+// Memory Unit
+
+/* 
+	# Note on Memory Units
+
+	As different systems report mem usage in different units (MAC is bytes, Linux is KB), this gives an easy way to print out the right unit.
+*/
+#if defined(__APPLE__) && defined(__MACH__)
+	#define PWC_MEMORY_UNIT "bytes"
+#else
+	#define PWC_MEMORY_UNIT "kilobytes"
+#endif
+
+
+
+// Function Stubs
 
 /*
 	# Print With Prefix

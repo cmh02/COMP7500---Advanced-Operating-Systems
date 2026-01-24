@@ -226,7 +226,7 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		// Write the current chunk to the current counter process's pipe
 		ssize_t totalBytesWritten = 0;
 		while (totalBytesWritten < numberBytesRead) {
-			ssize_t numberBytesWritten = write(counterPipesArray[currentCounterIndex].writePipeFileDescriptor, textCountingBuffer, numberBytesRead);
+			ssize_t numberBytesWritten = write(counterPipesArray[currentCounterIndex].writePipeFileDescriptor, textCountingBuffer + totalBytesWritten, numberBytesRead - totalBytesWritten);
 			if (numberBytesWritten <= 0) {
 				pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while writing to the pipe in the counter manager!");
 				for (int i = 0; i < numberOfCounterProcesses; i++) {
@@ -321,10 +321,10 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Memory Usage Statistics for Counter-Manager process with PID %d:", getpid());
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> User CPU Time Used: %ld seconds and %ld microseconds", cmStats.ru_utime.tv_sec, cmStats.ru_utime.tv_usec);
 		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> System CPU Time Used: %ld seconds and %ld microseconds", cmStats.ru_stime.tv_sec, cmStats.ru_stime.tv_usec);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld kilobytes", cmStats.ru_maxrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld kilobytes", cmStats.ru_ixrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld kilobytes", cmStats.ru_idrss);
-		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld kilobytes", cmStats.ru_isrss);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Maximum Resident Set Size: %ld %s", cmStats.ru_maxrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Shared Memory Size: %ld %s", cmStats.ru_ixrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Data Size: %ld %s", cmStats.ru_idrss, PWC_MEMORY_UNIT);
+		pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, " -> Integral Unshared Stack Size: %ld %s", cmStats.ru_isrss, PWC_MEMORY_UNIT);
 	} else {
 		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while attempting to get resource usage statistics for counter manager process with PID %d.", getpid());
 	}
