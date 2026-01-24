@@ -24,6 +24,7 @@
 */
 
 // Libraries
+#include <time.h>
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
@@ -68,4 +69,22 @@ void pwc_errorWithPrefix(const char *message, va_list args) {
 	}
 	printf("\n");
 	
+}
+
+void pwc_startExecutionTimeTracking(struct pwc_executionTimeStruct* execTimeStruct) {
+	
+	// Get start time
+	clock_gettime(CLOCK_MONOTONIC, &execTimeStruct->start);
+
+}
+
+void pwc_stopExecutionTimeTracking(struct pwc_executionTimeStruct* execTimeStruct) {
+	
+	// Get end time
+	clock_gettime(CLOCK_MONOTONIC, &execTimeStruct->end);
+
+	// Calculate total time in seconds
+	execTimeStruct->total = (execTimeStruct->end.tv_sec - execTimeStruct->start.tv_sec) + 
+							(execTimeStruct->end.tv_nsec - execTimeStruct->start.tv_nsec) / 1e9;
+
 }

@@ -25,6 +25,10 @@
 	3. https://stackoverflow.com/questions/5919996/how-to-detect-reliably-mac-os-x-ios-linux-windows-in-c-preprocessor
 	-> I used these to understand how to detect Apple vs Linux and define macro for memory unit.
 
+	4. https://man7.org/linux/man-pages/man3/clock_gettime.3.html
+	https://stackoverflow.com/questions/64893834/measuring-elapsed-time-using-clock-gettimeclock-monotonic
+	-> I used this resource to understand best practices for tracking precise time.
+
 	--------------------------------------------------
 
 */
@@ -50,6 +54,34 @@
 #else
 	#define PWC_MEMORY_UNIT "kilobytes"
 #endif
+
+
+
+// Execution Time Monitoring (Structure and Calculation)
+
+/*
+	# Execution Time Structure
+
+	This struct will allow for easier tracking of execution time for different modules.
+
+	## Structure Members
+	- startTime : The starting time in microseconds
+	- endTime : The ending time in microseconds
+	- totalTime : The total time in microseconds
+*/
+struct pwc_executionTimeStruct {
+	struct timespec start;
+	struct timespec end;
+	double total;
+};
+
+/*
+	# Start Execution Time Tracking
+
+	This function will start tracking execution time. This is recorded via 
+*/
+void pwc_startExecutionTimeTracking(struct pwc_executionTimeStruct* execTimeStruct);
+void pwc_stopExecutionTimeTracking(struct pwc_executionTimeStruct* execTimeStruct);
 
 
 

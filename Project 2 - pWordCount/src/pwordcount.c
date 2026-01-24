@@ -142,6 +142,10 @@ int main(int argc, char **argv) {
 	// Log starting information
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld cores.", filePath, numberOfProgramCores);
 
+	// Start time tracking
+	struct pwc_executionTimeStruct execTimeStruct;
+	pwc_startExecutionTimeTracking(&execTimeStruct);
+
 	// Initialize two pipes, one for reader->counter and one for counter->reader
 	int readerToCounterPipeFileDescriptor[2];
 	int counterToReaderPipeFileDescriptor[2];
@@ -246,6 +250,10 @@ int main(int argc, char **argv) {
 	} else {
 		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "An error occurred while attempting to get resource usage statistics for main process.");
 	}
+
+	// Stop time tracking and log total time
+	pwc_stopExecutionTimeTracking(&execTimeStruct);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Total Execution Time for processing file '%s' with %d processes: %.6f seconds.", filePath, numberOfProgramCores, execTimeStruct.total);
 
 	// Main return
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Program execution completed successfully for '%s'!", filePath);
