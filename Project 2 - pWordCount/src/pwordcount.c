@@ -125,6 +125,9 @@ int main(int argc, char **argv) {
 		pwc_warnWithPrefix("No number of cores specified, defaulting to 1 core! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
 	}
 
+	// Log starting information
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld cores.", filePath, numberOfProgramCores);
+
 	// Initialize two pipes, one for reader->counter and one for counter->reader
 	int readerToCounterPipeFileDescriptor[2];
 	int counterToReaderPipeFileDescriptor[2];
@@ -191,5 +194,6 @@ int main(int argc, char **argv) {
 	}
 
 	// Main return
+	pwc_logToFile(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Program execution completed successfully for '%s'!", filePath);
 	return 0;
 }
