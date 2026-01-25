@@ -45,6 +45,11 @@
 	15. https://man7.org/linux/man-pages/man2/getrusage.2.html
 	-> I used these resources to understand / debate best practices for waiting and getting resource stats for processes.
 
+	16. https://stackoverflow.com/questions/8957222/are-there-standards-for-linux-command-line-switches-and-arguments
+	17. https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html
+	18. https://man7.org/linux/man-pages/man3/getopt.3.html
+	-> I used these resources to understand / debate best practices for command-line flags/args.
+
 	--------------------------------------------------
 */
 
@@ -59,6 +64,7 @@
 #include "pwc_reader.h"
 #include "pwc_counterManager.h"
 #include "pwc_logger.h"
+#include "pwc_config.h"
 
 // Module Name
 #define PWC_MODULE_NAME "MAIN"
@@ -77,6 +83,10 @@
 
 */
 int main(int argc, char **argv) {
+
+	// Create config and populate defaults
+	struct pwc_configuration *config = pwc_configuration();
+	pwc_populateDefaultConfiguration(config);
 
 	// Initialize the log file for this process
 	if (pwc_initLogFile(getpid())) {
