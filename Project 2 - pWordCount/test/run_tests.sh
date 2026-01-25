@@ -15,6 +15,8 @@
 
 	Main test script to run all test cases for pWordCount.
 
+	To run this, simply run: ./run_test.sh from the test directory.
+
 	--------------------------------------------------
 
 	## References
@@ -42,7 +44,7 @@ for test_file in testfiles/*.txt; do
 	expected=$(wc -w < "$test_file")
 
 	# Get actual system value with pWordCount
-	actual=$(../build/pwordcount ../test/"$test_file" | grep -o '[0-9]\+$')
+	actual=$(../build/pwordcount ../test/"$test_file" 1 | grep -o '[0-9]\+$')
 	
 	# Compare expected and actual values to pass/fail
 	if [ "$expected" -eq "$actual" ]; then
