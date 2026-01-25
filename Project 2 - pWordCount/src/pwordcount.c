@@ -73,7 +73,7 @@
 
 	## Arguments
 	- file-path: The path to the file to be read and have its words counted.
-	- number-of-cores: (Optional) The number of CPU cores to utilize for counting
+	- number-of-processes: (Optional) The number of counter processes to be ran. This should be between 1 and the number of cores available on your system.
 
 */
 int main(int argc, char **argv) {
@@ -86,13 +86,13 @@ int main(int argc, char **argv) {
 
 	// If we were not given any arguments, then error out
 	if (argc < 2) {
-		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "No arguments were given! Correct Usage: ./pwordcount <file-path> <number-of-cores>!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "No arguments were given! Correct Usage: ./pwordcount <file-path> <number-of-processes>!");
 		return 1;
 	}
 	
 	// If we were given more than two arguments, then error out
 	if (argc > 3) {
-		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Too many arguments were provided! Correct Usage: ./pwordcount <file-path> <number-of-cores>!");
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Too many arguments were provided! Correct Usage: ./pwordcount <file-path> <number-of-processes>!");
 		return 1;
 	}
 
@@ -106,41 +106,41 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	// If number of cores given, parse it
-	long numberOfProgramCores;
+	// If number of processes given, parse it
+	long numberOfProcesses;
 	const long numberOfSystemCores = sysconf(_SC_NPROCESSORS_ONLN);
 	if (argc == 3) {
 		
 		// Convert string to long with error checking
 		char *endOfParsedString;
-		numberOfProgramCores = strtol(argv[2], &endOfParsedString, 10);
+		numberOfProcesses = strtol(argv[2], &endOfParsedString, 10);
 
 		// If it did not parse the entire string, then we likely got faulty input, so error out
 		if (*endOfParsedString != '\0') {
-			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of cores specified! Could not parse given argument: '%s'.", argv[2]);
+			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of processes specified! Could not parse given argument: '%s'.", argv[2]);
 			return 1;
 		}
 
-		// Make sure that we were given at least 1 core
-		if (numberOfProgramCores < 1) {
-			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of cores specified! The number of cores parsed is less than the minimum of 1: '%ld'!", numberOfProgramCores);
+		// Make sure that we were given at least 1 process
+		if (numberOfProcesses < 1) {
+			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of processes specified! The number of cores parsed is less than the minimum of 1: '%ld'!", numberOfProcesses);
 			return 1;
 		}
 
-		// If we were given more cores than the system has, warn the user
-		if (numberOfProgramCores > numberOfSystemCores) {
-			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "The number of cores specified (%ld) exceeds the maximum available cores (%ld)! Defaulting to maximum available cores!", numberOfProgramCores, numberOfSystemCores);
-			numberOfProgramCores = numberOfSystemCores;
+		// If we were given more processes than available cores, warn the user
+		if (numberOfProcesses > numberOfSystemCores) {
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "The number of processes specified (%ld) exceeds the maximum available cores (%ld)! Defaulting to maximum available cores!", numberOfProcesses, numberOfSystemCores);
+			numberOfProcesses = numberOfSystemCores;
 		}
 	} 
-	// If number of cores not given, default to 1
+	// If number of processes not given, default to 1
 	else {
-		numberOfProgramCores = 1;
-		pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "No number of cores specified, defaulting to 1 core! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
+		numberOfProcesses = 1;
+		pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "No number of processes specified, defaulting to 1 process! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
 	}
 
 	// Log starting information
-	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld cores.", filePath, numberOfProgramCores);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld counting processes.", filePath, numberOfProcesses);
 
 	// Start time tracking
 	struct pwc_executionTimeStruct execTimeStruct;
@@ -173,7 +173,7 @@ int main(int argc, char **argv) {
 		close(counterToReaderPipeFileDescriptor[0]);
 
 		// Start up the counter module to count words from the pipe
-		int counterStatus = pwc_initCounterManager(numberOfProgramCores, counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
+		int counterStatus = pwc_initCounterManager(numberOfProcesses, counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
 
 		// Exit child process
 		exit(0);
@@ -253,7 +253,7 @@ int main(int argc, char **argv) {
 
 	// Stop time tracking and log total time
 	pwc_stopExecutionTimeTracking(&execTimeStruct);
-	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Total Execution Time for processing file '%s' with %d processes: %.6f seconds.", filePath, numberOfProgramCores, execTimeStruct.total);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Total Execution Time for processing file '%s' with %d processes: %.6f seconds.", filePath, numberOfProcesses, execTimeStruct.total);
 
 	// Main return
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Program execution completed successfully for '%s'!", filePath);
