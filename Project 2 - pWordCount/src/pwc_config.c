@@ -91,8 +91,10 @@ int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* co
 	ssize_t lineContentsReadLength;
 
 	// Read line by line through the config file
+	int lineCounter = 0;
 	bool withinComment = false;
 	while ((lineContentsReadLength = getline(&lineContents, &lineContentsBufferLength, configFile)) != -1) {
+		lineCounter++;
 
 		// If the line has no content, skip it
 		if (lineContentsReadLength == 0) { continue; }
@@ -128,7 +130,7 @@ int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* co
 
 		// Check that we found a valid seperator, if not, skip and warn
 		if (!seperator) {
-			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid non-comment line in configuration file, missing '=': %s!", lineContentsTrimmed);
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid non-comment line %d in configuration file, missing '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 
@@ -139,19 +141,19 @@ int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* co
 
 		// Validate that key and value are actually present
 		if (strlen(key) == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line, missing key before '=': %s!", lineContentsTrimmed);
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line %d, missing key before '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 		if (strlen(value) == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line, missing value after '=': %s!", lineContentsTrimmed);
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line %d, missing value after '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 		if (strcmp(key, "\0") == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line, empty key before '=': %s!", lineContentsTrimmed);
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line %d, empty key before '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 		if (strcmp(value, "\0") == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line, empty value after '=': %s!", lineContentsTrimmed);
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line %d, empty value after '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 
