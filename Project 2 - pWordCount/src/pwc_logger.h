@@ -39,6 +39,9 @@
 #ifndef PWC_LOGGER_H
 #define PWC_LOGGER_H
 
+// Libraries
+#include <sys/types.h>
+
 // Log File Path
 #define PWC_LOGDIR_PATH "../logs/"
 

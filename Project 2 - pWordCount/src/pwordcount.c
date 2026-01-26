@@ -172,7 +172,7 @@ int main(int argc, char **argv) {
 
 	// If number of processes given, validate and copy to global
 	const long numberOfSystemCores = sysconf(_SC_NPROCESSORS_ONLN);
-	if (isdigit(tempConfig.NUMBER_OF_PROCESSES)) {
+	if (isdigit(tempConfig.NUMBER_OF_PROCESSES) && (tempConfig.NUMBER_OF_PROCESSES != PWC_UNSET_UNSIGNED_LONG)) {
 
 		// Make sure that we were given at least 1 process
 		if (tempConfig.NUMBER_OF_PROCESSES < 1) {

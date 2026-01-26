@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/pwordcount.dir/pwc_config.c.o"
+  "CMakeFiles/pwordcount.dir/pwc_config.c.o.d"
   "CMakeFiles/pwordcount.dir/pwc_counter.c.o"
   "CMakeFiles/pwordcount.dir/pwc_counter.c.o.d"
   "CMakeFiles/pwordcount.dir/pwc_counterManager.c.o"

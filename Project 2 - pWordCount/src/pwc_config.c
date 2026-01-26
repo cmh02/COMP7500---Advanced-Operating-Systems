@@ -26,6 +26,8 @@
 // Libraries
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 // Project Libraries
 #include "pwc_config.h"
@@ -64,10 +66,10 @@ void pwc_populateNullConfiguration(struct pwc_configuration *config) {
 	// Set all configuration values to null/zero
 	config->LOGGING_SEND_DEBUG_TO_LOG = false;
 	config->LOGGING_SEND_DEBUG_TO_STDOUT = false;
-	config->NUMBER_OF_PROCESSES = NULL;
-	config->BUFFER_SIZE_READER = NULL;
-	config->BUFFER_SIZE_COUNTERMANAGER = NULL;
-	config->BUFFER_SIZE_COUNTER = NULL;
+	config->NUMBER_OF_PROCESSES = PWC_UNSET_UNSIGNED_LONG;
+	config->BUFFER_SIZE_READER = PWC_UNSET_UNSIGNED_LONG;
+	config->BUFFER_SIZE_COUNTERMANAGER = PWC_UNSET_UNSIGNED_LONG;
+	config->BUFFER_SIZE_COUNTER = PWC_UNSET_UNSIGNED_LONG;
 	config->TEXT_FILE_PATH = NULL;
 	config->CONFIG_FILE_PATH = NULL;
 	config->LOGGING_DIRECTORY = NULL;
@@ -144,11 +146,11 @@ int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* co
 			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line, missing value after '=': %s!", lineContentsTrimmed);
 			continue;
 		}
-		if (key == "\0") {
+		if (strcmp(key, "\0") == 0) {
 			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line, empty key before '=': %s!", lineContentsTrimmed);
 			continue;
 		}
-		if (value == "\0") {
+		if (strcmp(value, "\0") == 0) {
 			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "Skipping invalid configuration line, empty value after '=': %s!", lineContentsTrimmed);
 			continue;
 		}
@@ -177,7 +179,7 @@ int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* co
 			}
 		}
 		else if (!strcmp(key, "LOGGING_DIRECTORY")) {
-			config->LOGGING_DIRECTORY = value[0];
+			config->LOGGING_DIRECTORY = &value[0];
 		}
 		else if (!strcmp(key, "NUMBER_OF_PROCESSES")) {
 			unsigned long parsedValue;

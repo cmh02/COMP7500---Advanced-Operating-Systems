@@ -51,6 +51,13 @@ struct pwc_configuration {
 
 
 /*
+	# Unset Unsigned Long Value
+
+	To assist with configuration, this will define a value to be used when a unsigned long config is not set.
+*/
+#define PWC_UNSET_UNSIGNED_LONG (unsigned long)20262002
+
+/*
 	# Program Configuration Access
 
 	Provides global access to the configuration struct.

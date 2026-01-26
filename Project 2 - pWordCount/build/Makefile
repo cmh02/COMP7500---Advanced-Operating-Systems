@@ -129,6 +129,30 @@ pwordcount/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/build
 .PHONY : pwordcount/fast
 
+pwc_config.o: pwc_config.c.o
+.PHONY : pwc_config.o
+
+# target to build an object file
+pwc_config.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_config.c.o
+.PHONY : pwc_config.c.o
+
+pwc_config.i: pwc_config.c.i
+.PHONY : pwc_config.i
+
+# target to preprocess a source file
+pwc_config.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_config.c.i
+.PHONY : pwc_config.c.i
+
+pwc_config.s: pwc_config.c.s
+.PHONY : pwc_config.s
+
+# target to generate assembly for a file
+pwc_config.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/pwordcount.dir/build.make CMakeFiles/pwordcount.dir/pwc_config.c.s
+.PHONY : pwc_config.c.s
+
 pwc_counter.o: pwc_counter.c.o
 .PHONY : pwc_counter.o
 
@@ -282,6 +306,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... pwordcount"
+	@echo "... pwc_config.o"
+	@echo "... pwc_config.i"
+	@echo "... pwc_config.s"
 	@echo "... pwc_counter.o"
 	@echo "... pwc_counter.i"
 	@echo "... pwc_counter.s"
