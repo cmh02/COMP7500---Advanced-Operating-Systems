@@ -151,6 +151,7 @@ int pwc_initLogFile(pid_t processPID) {
 
 		// If directory exists, continue, otherwise error out
         if (errno != EEXIST) {
+			fprintf(stderr, "Failed to create logging directory at path '%s'!\n", config->LOGGING_DIRECTORY);
             return 1;
         }
 		
@@ -158,7 +159,8 @@ int pwc_initLogFile(pid_t processPID) {
 
 	// Create file to make sure it can exist
 	FILE* logFile = fopen(logFilePath, "w");
-	if (!logFile) { 
+	if (!logFile) {
+		fprintf(stderr, "Failed to create log file at path '%s'!\n", logFilePath);
 		return 1; 
 	}
 	fclose(logFile);
