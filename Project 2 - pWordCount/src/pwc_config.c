@@ -125,6 +125,9 @@ int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* co
 		// Trim remaining whitespace after clearing comment
 		lineContentsTrimmed = pwc_trimWhitespace(lineContentsTrimmed);
 
+		// Check if line is now empty, if so skip
+		if (strlen(lineContentsTrimmed) == 0) { continue; }
+
 		// Find the key and value by splitting at =
 		char *seperator = strchr(lineContentsTrimmed, '=');
 
