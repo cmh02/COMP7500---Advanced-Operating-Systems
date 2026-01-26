@@ -37,4 +37,5 @@ add_executable(pwordcount
 	pwc_counter.c
 	pwc_counterManager.c
 	pwc_logger.c
+	pwc_config.c
 )
