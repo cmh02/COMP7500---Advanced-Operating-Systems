@@ -53,6 +53,7 @@
 // Project Libraries
 #include "pwc_utils.h"
 #include "pwc_logger.h"
+#include "pwc_config.h"
 
 // Module Name
 #define PWC_MODULE_NAME "LOGGER"
@@ -139,11 +140,14 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 
 int pwc_initLogFile(pid_t processPID) {
 	
+	// Get config
+	struct pwc_configuration* config = pwc_configuration();
+
 	// Make file name string for static referencing
-	snprintf(logFilePath, sizeof(logFilePath), "%s/pwc_%d.log", PWC_LOGDIR_PATH, processPID);
+	snprintf(logFilePath, sizeof(logFilePath), "%s/pwc_%d.log", config->LOGGING_DIRECTORY, processPID);
 
 	// Make sure directory exists for log files
-	if (mkdir(PWC_LOGDIR_PATH, 0755) == -1) {
+	if (mkdir(config->LOGGING_DIRECTORY, 0755) == -1) {
 
 		// If directory exists, continue, otherwise error out
         if (errno != EEXIST) {
