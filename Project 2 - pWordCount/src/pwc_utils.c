@@ -144,3 +144,21 @@ bool pwc_parseUnsignedLong(const char *str, unsigned long *out) {
 	return true;
 
 }
+
+bool pwc_parseBool(const char *str, bool *out) {
+
+	// Check for true
+	if ((strcmp(str, "true") == 0) || (strcmp(str, "1") == 0) || (strcmp(str, "yes") == 0)) {
+		*out = true;
+		return true;
+	} 
+	// Check for false
+	else if ((strcmp(str, "false") == 0) || (strcmp(str, "0") == 0) || (strcmp(str, "no") == 0)) {
+		*out = false;
+		return true;
+	}
+
+	// If we got here, parsing failed
+	return false;
+
+}

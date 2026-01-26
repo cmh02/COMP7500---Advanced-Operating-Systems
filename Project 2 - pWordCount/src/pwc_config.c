@@ -53,8 +53,24 @@ void pwc_populateDefaultConfiguration(struct pwc_configuration *config) {
 	config->BUFFER_SIZE_READER = 4096;
 	config->BUFFER_SIZE_COUNTERMANAGER = 4096;
 	config->BUFFER_SIZE_COUNTER = 4096;
-	config->CONFIG_PATH = "./config/pwordcount.config";
+	config->TEXT_FILE_PATH = NULL;
+	config->CONFIG_FILE_PATH = "./config/pwordcount.config";
 	config->LOGGING_DIRECTORY = "../logs/";
+
+}
+
+void pwc_populateNullConfiguration(struct pwc_configuration *config) {
+
+	// Set all configuration values to null/zero
+	config->LOGGING_SEND_DEBUG_TO_LOG = false;
+	config->LOGGING_SEND_DEBUG_TO_STDOUT = false;
+	config->NUMBER_OF_PROCESSES = NULL;
+	config->BUFFER_SIZE_READER = NULL;
+	config->BUFFER_SIZE_COUNTERMANAGER = NULL;
+	config->BUFFER_SIZE_COUNTER = NULL;
+	config->TEXT_FILE_PATH = NULL;
+	config->CONFIG_FILE_PATH = NULL;
+	config->LOGGING_DIRECTORY = NULL;
 
 }
 

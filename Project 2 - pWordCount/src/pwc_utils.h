@@ -86,23 +86,6 @@ void pwc_stopExecutionTimeTracking(struct pwc_executionTimeStruct* execTimeStruc
 
 
 
-/*
-	# Configuration Options Structure
-
-	This structure will define the possible config options to be set from a file.
-*/
-struct pwc_configuration {
-	bool LOGGING_SEND_DEBUG_TO_LOG;
-	bool LOGGING_SEND_DEBUG_TO_STDOUT;
-	unsigned long NUMBER_OF_PROCESSES;
-	unsigned long BUFFER_SIZE_READER;
-	unsigned long BUFFER_SIZE_COUNTERMANAGER;
-	unsigned long BUFFER_SIZE_COUNTER;
-	char LOGGING_DIRECTORY;
-};
-
-
-
 // Function Stubs
 
 /*
@@ -148,20 +131,6 @@ void pwc_warnWithPrefix(const char *message, va_list args);
 void pwc_errorWithPrefix(const char *message, va_list args);
 
 /*
-	# Load Configuration File
-
-	Load configuration options from a config file into the given configuration struct.
-
-	## Arguments
-	- filePath : The path to the configuration file
-	- config : Pointer to a pwc_configuration struct to load options into
-
-	## Returns
-	- int : 0 on success, 1 on failure
-*/
-int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* config);
-
-/*
 	# Trim Whitespace
 
 	Trim leading and trailing whitespace from a string. Must be
@@ -188,5 +157,19 @@ char* pwc_trimWhitespace(char *str);
 	- bool : True if parsing was successful, false otherwise
 */
 bool pwc_parseUnsignedLong(const char *str, unsigned long *out);
+
+/*
+	# Parse Bool
+
+	Parse bool value from string with enhanced error detection.
+
+	## Arguments
+	- str : Pointer to the string to parse
+	- out : Pointer to where the bool variable should be stored
+
+	## Returns
+	- bool : True if parsing was successful, false otherwise
+*/
+bool pwc_parseBool(const char *str, bool *out);
 
 #endif // PWC_UTILS_H

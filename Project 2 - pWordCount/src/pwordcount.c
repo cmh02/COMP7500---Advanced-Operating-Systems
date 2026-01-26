@@ -54,10 +54,12 @@
 */
 
 // Libraries
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <getopt.h>
 
 // Project Libraries
 #include "pwc_utils.h"
@@ -68,6 +70,17 @@
 
 // Module Name
 #define PWC_MODULE_NAME "MAIN"
+
+// Command Options Table
+static struct option longOptions[] = {
+	{"file", required_argument, 0, 'f'},
+	{"config", required_argument, 0, 'c'},
+	{"nprocesses", required_argument, 0, 'n'},
+	{"logdir", required_argument, 0, 'l'},
+	{"debug_stdout", no_argument, 0, 's'},
+	{"debug_log", no_argument, 0, 'd'},
+	{0, 0, 0, 0}
+};
 
 /*
 	# Main Execution
@@ -88,69 +101,101 @@ int main(int argc, char **argv) {
 	struct pwc_configuration *config = pwc_configuration();
 	pwc_populateDefaultConfiguration(config);
 
-	// Initialize the log file for this process
+	// Create a temporary config struct and parse command line args into it with getopt
+	int opt;
+	struct pwc_configuration tempConfig;
+	pwc_populateNullConfiguration(&tempConfig);
+	while ((opt = getopt_long(argc, argv, "f:c:n:l:s:d:", longOptions, NULL)) != -1) {
+		switch (opt) {
+
+			// Text File Path
+			case 'f': 
+				tempConfig.TEXT_FILE_PATH = optarg;
+				break;
+
+			// Config File Path
+			case 'c':
+				tempConfig.CONFIG_FILE_PATH = optarg;
+				break;
+
+			// Number of Processes
+			case 'n':
+				pwc_parseUnsignedLong(optarg, &tempConfig.NUMBER_OF_PROCESSES);
+				break;
+			
+			// Logging Directory
+			case 'l':
+				tempConfig.LOGGING_DIRECTORY = optarg;
+				break;
+
+			// Send Debug to Stdout
+			case 's':
+				pwc_parseBool(optarg, &tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT);
+				break;
+
+			// Send Debug to Log
+			case 'd':
+				pwc_parseBool(optarg, &tempConfig.LOGGING_SEND_DEBUG_TO_LOG);
+				break;
+
+			// Unknown Option
+			default:
+				fprintf(stderr, "Unknown command line option provided! Correct Usage: ./pwordcount --file <file-path> [--nprocesses <number-of-processes>] [--config <config-file-path>] [--logdir <logging-directory>] [--debug_stdout] [--debug_log]!\n");
+				return 1;
+		}
+	}
+
+	// Override config location if needed and load file
+	if (tempConfig.CONFIG_FILE_PATH != NULL) { config->CONFIG_FILE_PATH = tempConfig.CONFIG_FILE_PATH; }
+	pwc_loadConfigurationFile(config->CONFIG_FILE_PATH, config);
+
+	// Override log location if needed and initialize logging
+	if (tempConfig.LOGGING_DIRECTORY != NULL) { config->LOGGING_DIRECTORY = tempConfig.LOGGING_DIRECTORY; }
 	if (pwc_initLogFile(getpid())) {
 		fprintf(stderr, "Failed to initialize log file for main process with PID %d!\n", getpid());
 		return 1;
 	}
 
-	// If we were not given any arguments, then error out
-	if (argc < 2) {
-		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "No arguments were given! Correct Usage: ./pwordcount <file-path> <number-of-processes>!");
+	// If file was not given, error out, else copy to global config
+	if (tempConfig.TEXT_FILE_PATH == NULL) {
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "No text file path was specified! Please use the -f <file_name.txt> argument to specify a text file!");
 		return 1;
 	}
-	
-	// If we were given more than two arguments, then error out
-	if (argc > 3) {
-		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Too many arguments were provided! Correct Usage: ./pwordcount <file-path> <number-of-processes>!");
-		return 1;
-	}
-
-	// Get the file path from the first argument
-	const char* filePath = argv[1];
+	config->TEXT_FILE_PATH = tempConfig.TEXT_FILE_PATH;
 
 	// Extract file extension from path by looking for last '.' and validate text file
-	char* lastDotInFilePath = strrchr(filePath, '.');
+	char* lastDotInFilePath = strrchr(tempConfig.TEXT_FILE_PATH, '.');
 	if (lastDotInFilePath == NULL || strcasecmp(lastDotInFilePath, ".txt") != 0) {
-		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid .txt file path specified: '%s'!", filePath);
+		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid .txt file path specified: '%s'!", tempConfig.TEXT_FILE_PATH);
 		return 1;
 	}
 
-	// If number of processes given, parse it
-	long numberOfProcesses;
+	// If number of processes given, validate and copy to global
 	const long numberOfSystemCores = sysconf(_SC_NPROCESSORS_ONLN);
-	if (argc == 3) {
-		
-		// Convert string to long with error checking
-		char *endOfParsedString;
-		numberOfProcesses = strtol(argv[2], &endOfParsedString, 10);
-
-		// If it did not parse the entire string, then we likely got faulty input, so error out
-		if (*endOfParsedString != '\0') {
-			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of processes specified! Could not parse given argument: '%s'.", argv[2]);
-			return 1;
-		}
+	if (isdigit(tempConfig.NUMBER_OF_PROCESSES)) {
 
 		// Make sure that we were given at least 1 process
-		if (numberOfProcesses < 1) {
-			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of processes specified! The number of cores parsed is less than the minimum of 1: '%ld'!", numberOfProcesses);
+		if (tempConfig.NUMBER_OF_PROCESSES < 1) {
+			pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "Invalid number of processes specified! The number of cores parsed is less than the minimum of 1: '%ld'!", tempConfig.NUMBER_OF_PROCESSES);
 			return 1;
 		}
 
 		// If we were given more processes than available cores, warn the user
-		if (numberOfProcesses > numberOfSystemCores) {
-			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "The number of processes specified (%ld) exceeds the maximum available cores (%ld)! Defaulting to maximum available cores!", numberOfProcesses, numberOfSystemCores);
-			numberOfProcesses = numberOfSystemCores;
+		if (tempConfig.NUMBER_OF_PROCESSES > numberOfSystemCores) {
+			pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "The number of processes specified (%ld) exceeds the maximum available cores (%ld)! Defaulting to maximum available cores!", tempConfig.NUMBER_OF_PROCESSES, numberOfSystemCores);
+			tempConfig.NUMBER_OF_PROCESSES = numberOfSystemCores;
 		}
-	} 
-	// If number of processes not given, default to 1
-	else {
-		numberOfProcesses = 1;
-		pwc_log(PWC_LOGLEVEL_WARNING, PWC_MODULE_NAME, "No number of processes specified, defaulting to 1 process! Note that there are up to %ld cores available on this system!", numberOfSystemCores);
+
+		// Copy
+		config->NUMBER_OF_PROCESSES = tempConfig.NUMBER_OF_PROCESSES;
 	}
 
+	// Copy over logging options if set in command line
+	if (tempConfig.LOGGING_SEND_DEBUG_TO_LOG != NULL) { config->LOGGING_SEND_DEBUG_TO_LOG = tempConfig.LOGGING_SEND_DEBUG_TO_LOG; }
+	if (tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT != NULL) { config->LOGGING_SEND_DEBUG_TO_STDOUT = tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT; }
+
 	// Log starting information
-	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld counting processes.", filePath, numberOfProcesses);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld counting processes.", config->TEXT_FILE_PATH, config->NUMBER_OF_PROCESSES);
 
 	// Start time tracking
 	struct pwc_executionTimeStruct execTimeStruct;
@@ -183,7 +228,7 @@ int main(int argc, char **argv) {
 		close(counterToReaderPipeFileDescriptor[0]);
 
 		// Start up the counter module to count words from the pipe
-		int counterStatus = pwc_initCounterManager(numberOfProcesses, counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
+		int counterStatus = pwc_initCounterManager(config->NUMBER_OF_PROCESSES, counterToReaderPipeFileDescriptor[1], readerToCounterPipeFileDescriptor[0]);
 
 		// Exit child process
 		exit(0);
@@ -203,7 +248,7 @@ int main(int argc, char **argv) {
 	close(counterToReaderPipeFileDescriptor[1]);
 
 	// Start up the reader module to stream file to the pipe
-	int wordCount = pwc_reader_streamFileToPipe(filePath, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
+	int wordCount = pwc_reader_streamFileToPipe(config->TEXT_FILE_PATH, readerToCounterPipeFileDescriptor[1], counterToReaderPipeFileDescriptor[0]);
 
 	// Check wordCount for errors
 	if (wordCount < 0) {
@@ -212,8 +257,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Print the final word count
-	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "The total word count from file '%s' is: %d", filePath, wordCount);
-
+	pwc_log(PWC_LOGLEVEL_INFO, PWC_MODULE_NAME, "The total word count from file '%s' is: %d", config->TEXT_FILE_PATH, wordCount);
 	// Wait for child processes to finish
 	int status;
 	waitpid(pid, &status, 0);
@@ -263,9 +307,9 @@ int main(int argc, char **argv) {
 
 	// Stop time tracking and log total time
 	pwc_stopExecutionTimeTracking(&execTimeStruct);
-	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Total Execution Time for processing file '%s' with %d processes: %.6f seconds.", filePath, numberOfProcesses, execTimeStruct.total);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Total Execution Time for processing file '%s' with %ld processes: %.6f seconds.", config->TEXT_FILE_PATH, config->NUMBER_OF_PROCESSES, execTimeStruct.total);
 
 	// Main return
-	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Program execution completed successfully for '%s'!", filePath);
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Program execution completed successfully for '%s'!", config->TEXT_FILE_PATH);
 	return 0;
 }

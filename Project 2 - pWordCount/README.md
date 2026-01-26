@@ -1,6 +1,6 @@
 # Project 2: pwordcount
 
-Author: Chris Hinkson 
+Author: Chris Hinkson
 
 Class: COMP7500 - Advanced Operating Systems
 
@@ -14,9 +14,27 @@ This project creates a C-based system for counting words in a text file. While o
 * Inter-process communication via Unix pipes
 * Word count algorithmetic synchronization
 
+## Running the Program
+
+To run the program from the command line, use the command: `./pwordcount` with the following arguments:
+
+| Command Argument | Required / Optional | Description                                                                                                                                                                                                                                 |
+| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --file           | Required            | The text file to count words in. File must be of type .txt.<br /><br />Example: `--file mytextfile.txt`                                                                                                                                   |
+| --config         | Optional            | Location of configuration file.<br />Defaults to `../config/pwordcount.config`.<br /><br />Example: `--config ../config/custom.config`                                                                                                  |
+| --nprocesses     | Optional            | The number of counter processes to use.<br />Must be an integer greater than 0 but less than the number of available system cores. <br />Can be set in configuration file.<br />Defaults to `1` .<br /><br />Example: `--nprocesses 8` |
+| --logdir         | Optional            | Location of log directory.<br />Can be set in configuration file.<br />Defaults to `../logs/.`<br /><br />Example: `--config ../other/logs`                                                                                             |
+| --debug_stdout   | Optional            | Whether to send debug output to stdout.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_stdout false`                                                                                      |
+| --debug_log      | Optional            | Whether to send debug output to log file.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_log false`                                                                                      |
+
+
+
+## Configuration File
+
+
 ## Multi-Process Edge Count Algorithm
 
-One of the key problems with a multi-process counter is properly counting words when split into chunks. 
+One of the key problems with a multi-process counter is properly counting words when split into chunks.
 
 ### The Initial Example
 
@@ -40,7 +58,7 @@ By introducing a new manager between the reader and counter, called the Counter 
 
 To accomodate for this issue, the manager will scan the ending character of the first chunk. If the ending character is a whitespace, then it will leave the next chunk alone with no adjustments. However, if the ending character is not whitespace, it will remember this as a flag. Then, on the arrival of the next chunk, it will scan the beginning character to examine whether it is whitespace or character. In the case it is the continuation of a word from the previous chunk, it will simply replace the beginning sequential characters (the end of the word from the previous chunk) with whitespace.
 
-This allows each individual counter to not care about whether a word is beginning or ending. It simply counts how many segments of sequential character elements there are in the given buffer. 
+This allows each individual counter to not care about whether a word is beginning or ending. It simply counts how many segments of sequential character elements there are in the given buffer.
 
 ### Algorithm In Action
 

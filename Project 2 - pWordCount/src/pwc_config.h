@@ -27,6 +27,8 @@
 #ifndef PWC_CONFIG_H
 #define PWC_CONFIG_H
 
+// Libraries
+#include <stdbool.h>
 
 
 /*
@@ -41,7 +43,8 @@ struct pwc_configuration {
 	unsigned long BUFFER_SIZE_READER;
 	unsigned long BUFFER_SIZE_COUNTERMANAGER;
 	unsigned long BUFFER_SIZE_COUNTER;
-	const char *CONFIG_PATH;
+	const char *TEXT_FILE_PATH;
+	const char *CONFIG_FILE_PATH;
 	const char *LOGGING_DIRECTORY;
 };
 
@@ -72,6 +75,19 @@ struct pwc_configuration *pwc_configuration(void);
 	- void
 */
 void pwc_populateDefaultConfiguration(struct pwc_configuration *config);
+
+/*
+	# Populate Null Configuration
+
+	Populate a pwc_configuration struct with null values.
+
+	## Arguments
+	- config : Pointer to a pwc_configuration struct to populate
+
+	## Returns
+	- void
+*/
+void pwc_populateNullConfiguration(struct pwc_configuration *config);
 
 /*
 	# Load Configuration File
