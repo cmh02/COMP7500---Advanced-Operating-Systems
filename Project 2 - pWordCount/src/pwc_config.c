@@ -55,9 +55,10 @@ void pwc_populateDefaultConfiguration(struct pwc_configuration *config) {
 	config->BUFFER_SIZE_READER = 4096;
 	config->BUFFER_SIZE_COUNTERMANAGER = 4096;
 	config->BUFFER_SIZE_COUNTER = 4096;
-	config->TEXT_FILE_PATH = NULL;
-	config->CONFIG_FILE_PATH = "../config/pwordcount.config";
-	config->LOGGING_DIRECTORY = "../logs/";
+	strncpy(config->CONFIG_FILE_PATH, "../config/pwordcount.config", PATH_MAX - 1);
+	config->CONFIG_FILE_PATH[PATH_MAX - 1] = '\0';
+	strncpy(config->LOGGING_DIRECTORY, "../logs/", PATH_MAX - 1);
+	config->LOGGING_DIRECTORY[PATH_MAX - 1] = '\0';
 
 }
 
@@ -70,9 +71,9 @@ void pwc_populateNullConfiguration(struct pwc_configuration *config) {
 	config->BUFFER_SIZE_READER = PWC_UNSET_UNSIGNED_LONG;
 	config->BUFFER_SIZE_COUNTERMANAGER = PWC_UNSET_UNSIGNED_LONG;
 	config->BUFFER_SIZE_COUNTER = PWC_UNSET_UNSIGNED_LONG;
-	config->TEXT_FILE_PATH = NULL;
-	config->CONFIG_FILE_PATH = NULL;
-	config->LOGGING_DIRECTORY = NULL;
+	config->TEXT_FILE_PATH[0] = '\0';
+	config->CONFIG_FILE_PATH[0] = '\0';
+	config->LOGGING_DIRECTORY[0] = '\0';
 
 }
 
@@ -184,7 +185,8 @@ int pwc_loadConfigurationFile(const char* filePath, struct pwc_configuration* co
 			}
 		}
 		else if (!strcmp(key, "LOGGING_DIRECTORY")) {
-			config->LOGGING_DIRECTORY = &value[0];
+			strncpy(config->LOGGING_DIRECTORY, value, PATH_MAX - 1);
+			config->LOGGING_DIRECTORY[PATH_MAX - 1] = '\0';
 		}
 		else if (!strcmp(key, "NUMBER_OF_PROCESSES")) {
 			unsigned long parsedValue;

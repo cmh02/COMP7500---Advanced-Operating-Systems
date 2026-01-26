@@ -17,7 +17,9 @@
 
 	## References
 	
-	1.
+	1. https://stackoverflow.com/questions/9449241/where-is-path-max-defined-in-linux
+	2. https://insanecoding.blogspot.com/2007/11/pathmax-simply-isnt.html
+	-> I used these resources to understand best practices for PATH_MAX.
 
 	--------------------------------------------------
 */
@@ -28,6 +30,7 @@
 #define PWC_CONFIG_H
 
 // Libraries
+#include <limits.h>
 #include <stdbool.h>
 
 
@@ -43,9 +46,9 @@ struct pwc_configuration {
 	unsigned long BUFFER_SIZE_READER;
 	unsigned long BUFFER_SIZE_COUNTERMANAGER;
 	unsigned long BUFFER_SIZE_COUNTER;
-	const char *TEXT_FILE_PATH;
-	const char *CONFIG_FILE_PATH;
-	const char *LOGGING_DIRECTORY;
+	char TEXT_FILE_PATH[PATH_MAX];
+	char CONFIG_FILE_PATH[PATH_MAX];
+	char LOGGING_DIRECTORY[PATH_MAX];
 };
 
 

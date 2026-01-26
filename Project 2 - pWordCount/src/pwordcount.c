@@ -110,12 +110,14 @@ int main(int argc, char **argv) {
 
 			// Text File Path
 			case 'f': 
-				tempConfig.TEXT_FILE_PATH = optarg;
+				strncpy(tempConfig.TEXT_FILE_PATH, optarg, PATH_MAX - 1);
+				tempConfig.TEXT_FILE_PATH[PATH_MAX - 1] = '\0';
 				break;
 
 			// Config File Path
 			case 'c':
-				tempConfig.CONFIG_FILE_PATH = optarg;
+				strncpy(tempConfig.CONFIG_FILE_PATH, optarg, PATH_MAX - 1);
+				tempConfig.CONFIG_FILE_PATH[PATH_MAX - 1] = '\0';
 				break;
 
 			// Number of Processes
@@ -125,7 +127,8 @@ int main(int argc, char **argv) {
 			
 			// Logging Directory
 			case 'l':
-				tempConfig.LOGGING_DIRECTORY = optarg;
+				strncpy(tempConfig.LOGGING_DIRECTORY, optarg, PATH_MAX - 1);
+				tempConfig.LOGGING_DIRECTORY[PATH_MAX - 1] = '\0';
 				break;
 
 			// Send Debug to Stdout
@@ -146,22 +149,29 @@ int main(int argc, char **argv) {
 	}
 
 	// Override config location if needed and load file
-	if (tempConfig.CONFIG_FILE_PATH != NULL) { config->CONFIG_FILE_PATH = tempConfig.CONFIG_FILE_PATH; }
+	if (tempConfig.CONFIG_FILE_PATH[0] != '\0') { 
+		strncpy(config->CONFIG_FILE_PATH, tempConfig.CONFIG_FILE_PATH, PATH_MAX - 1); 
+		config->CONFIG_FILE_PATH[PATH_MAX - 1] = '\0'; 
+	}
 	pwc_loadConfigurationFile(config->CONFIG_FILE_PATH, config);
 
 	// Override log location if needed and initialize logging
-	if (tempConfig.LOGGING_DIRECTORY != NULL) { config->LOGGING_DIRECTORY = tempConfig.LOGGING_DIRECTORY; }
+	if (tempConfig.LOGGING_DIRECTORY[0] != '\0') { 
+		strncpy(config->LOGGING_DIRECTORY, tempConfig.LOGGING_DIRECTORY, PATH_MAX - 1); 
+		config->LOGGING_DIRECTORY[PATH_MAX - 1] = '\0';
+	}
 	if (pwc_initLogFile(getpid())) {
 		fprintf(stderr, "Failed to initialize log file for main process with PID %d!\n", getpid());
 		return 1;
 	}
 
 	// If file was not given, error out, else copy to global config
-	if (tempConfig.TEXT_FILE_PATH == NULL) {
+	if ((strcmp(tempConfig.TEXT_FILE_PATH, "") == 0) || (tempConfig.TEXT_FILE_PATH[0] == '\0')) {
 		pwc_log(PWC_LOGLEVEL_ERROR, PWC_MODULE_NAME, "No text file path was specified! Please use the -f <file_name.txt> argument to specify a text file!");
 		return 1;
 	}
-	config->TEXT_FILE_PATH = tempConfig.TEXT_FILE_PATH;
+	strncpy(config->TEXT_FILE_PATH, tempConfig.TEXT_FILE_PATH, PATH_MAX - 1);
+	config->TEXT_FILE_PATH[PATH_MAX - 1] = '\0';
 
 	// Extract file extension from path by looking for last '.' and validate text file
 	char* lastDotInFilePath = strrchr(tempConfig.TEXT_FILE_PATH, '.');
@@ -191,8 +201,8 @@ int main(int argc, char **argv) {
 	}
 
 	// Copy over logging options if set in command line
-	if (tempConfig.LOGGING_SEND_DEBUG_TO_LOG != NULL) { config->LOGGING_SEND_DEBUG_TO_LOG = tempConfig.LOGGING_SEND_DEBUG_TO_LOG; }
-	if (tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT != NULL) { config->LOGGING_SEND_DEBUG_TO_STDOUT = tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT; }
+	if (tempConfig.LOGGING_SEND_DEBUG_TO_LOG) { config->LOGGING_SEND_DEBUG_TO_LOG = tempConfig.LOGGING_SEND_DEBUG_TO_LOG; }
+	if (tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT) { config->LOGGING_SEND_DEBUG_TO_STDOUT = tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT; }
 
 	// Log starting information
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld counting processes.", config->TEXT_FILE_PATH, config->NUMBER_OF_PROCESSES);
