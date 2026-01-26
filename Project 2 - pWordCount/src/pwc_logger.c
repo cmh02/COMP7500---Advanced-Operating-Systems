@@ -60,6 +60,9 @@
 // Log File Path
 static char logFilePath[256];
 
+// Initialized Flag
+static bool isLogFileInitialized = false;
+
 void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...) {
 
 	// Get the current time 
@@ -94,16 +97,24 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 			logLevelString = "UNKNOWN";
 	}
 
+	// Get variadic arguments and make copy
+	va_list args, argsCopyForPrinting;
+	va_start(args, message);
+	va_copy(argsCopyForPrinting, args);
+
+	// If log file not initialized, print and exit
+	if (!isLogFileInitialized) {
+		pwc_printWithPrefix(message, argsCopyForPrinting);
+		va_end(args);
+		va_end(argsCopyForPrinting);
+		return;
+	}
+
 	// Open file for appending
 	FILE* logFile = fopen(logFilePath, "a");
 	if (!logFile) {
 		return;
 	}
-
-	// Get variadic arguments and make copy
-	va_list args, argsCopyForPrinting;
-	va_start(args, message);
-	va_copy(argsCopyForPrinting, args);
 
 	// Write log entry to file
 	fprintf(logFile, "[%s] [%s] [%s]: ", dateTimeString, logLevelString, module);
@@ -146,5 +157,7 @@ int pwc_initLogFile(pid_t processPID) {
 	if (!logFile) { 
 		return 1; 
 	}
+	fclose(logFile);
+	isLogFileInitialized = true;
 	return 0;
 }
