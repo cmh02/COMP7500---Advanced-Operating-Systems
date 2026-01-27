@@ -41,15 +41,13 @@
 
 // Project Libraries
 #include "pwc_utils.h"
+#include "pwc_logger.h"
+#include "pwc_config.h"
 #include "pwc_counter.h"
 #include "pwc_counterManager.h"
-# include "pwc_logger.h"
 
 // Module Name
 #define PWC_MODULE_NAME "COUNTER-MANAGER"
-
-// Constants
-#define COUNT_BUFFER_SIZE 4096
 
 /*
 	# Counter-Process Pipe Set Structure
@@ -73,6 +71,9 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 
 	// Log
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter-Manager with PID %d has been created to manage %d counter processes!", getpid(), numberOfCounterProcesses);
+
+	// Get config
+	struct pwc_configuration* config = pwc_configuration();
 
 	// Validate number of counter processes
 	if (numberOfCounterProcesses < 1) {
@@ -183,11 +184,11 @@ int pwc_initCounterManager(int numberOfCounterProcesses, int writePipeFileDescri
 	int currentCounterIndex = 0;
 
 	// Initialize a buffer to hold chunks of data from the pipe
-	char textCountingBuffer[COUNT_BUFFER_SIZE];
+	char textCountingBuffer[config->BUFFER_SIZE_COUNTERMANAGER];
 
 	// Keep reading from the pipe until no more data is available
 	ssize_t numberBytesRead;
-	while ((numberBytesRead = read(readPipeFileDescriptor, textCountingBuffer, COUNT_BUFFER_SIZE)) > 0) {
+	while ((numberBytesRead = read(readPipeFileDescriptor, textCountingBuffer, config->BUFFER_SIZE_COUNTERMANAGER)) > 0) {
 
 		// Validate that we read bytes, else exit with error
 		if (numberBytesRead <= 0) {
