@@ -18,19 +18,16 @@ This project creates a C-based system for counting words in a text file. While o
 
 To run the program from the command line, use the command: `./pwordcount` with the following arguments:
 
-| Command Argument | Required / Optional | Description                                                                                                                                                                                                                                 |
-| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --file           | Required            | The text file to count words in. File must be of type .txt.<br /><br />Example: `--file mytextfile.txt`                                                                                                                                   |
-| --config         | Optional            | Location of configuration file.<br />Defaults to `../config/pwordcount.config`.<br /><br />Example: `--config ../config/custom.config`                                                                                                  |
-| --nprocesses     | Optional            | The number of counter processes to use.<br />Must be an integer greater than 0 but less than the number of available system cores. <br />Can be set in configuration file.<br />Defaults to `1` .<br /><br />Example: `--nprocesses 8` |
-| --logdir         | Optional            | Location of log directory.<br />Can be set in configuration file.<br />Defaults to `../logs/.`<br /><br />Example: `--config ../other/logs`                                                                                             |
-| --debug_stdout   | Optional            | Whether to send debug output to stdout.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_stdout false`                                                                                      |
-| --debug_log      | Optional            | Whether to send debug output to log file.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_log false`                                                                                      |
-
-
+| Command Argument     | Required / Optional | Description                                                                                                                                                                                                                                 |
+| -------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --file or -f         | Required            | The text file to count words in. File must be of type .txt.<br /><br />Example: `--file mytextfile.txt`                                                                                                                                   |
+| --config or -c       | Optional            | Location of configuration file.<br />Defaults to `../config/pwordcount.config`.<br /><br />Example: `--config ../config/custom.config`                                                                                                  |
+| --nprocesses or -n   | Optional            | The number of counter processes to use.<br />Must be an integer greater than 0 but less than the number of available system cores. <br />Can be set in configuration file.<br />Defaults to `1` .<br /><br />Example: `--nprocesses 8` |
+| --logdir or -l       | Optional            | Location of log directory.<br />Can be set in configuration file.<br />Defaults to `../logs/.`<br /><br />Example: `--config ../other/logs`                                                                                             |
+| --debug_stdout or -s | Optional            | Whether to send debug output to stdout.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_stdout false`                                                                                      |
+| --debug_log or -d    | Optional            | Whether to send debug output to log file.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_log false`                                                                                      |
 
 ## Configuration File
-
 
 ## Multi-Process Edge Count Algorithm
 
