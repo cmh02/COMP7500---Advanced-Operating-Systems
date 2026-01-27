@@ -33,29 +33,30 @@
 
 // Project Libraries
 #include "pwc_utils.h"
-#include "pwc_counter.h"
+#include "pwc_config.h"
 #include "pwc_logger.h"
+#include "pwc_counter.h"
 
 // Module Name
 #define PWC_MODULE_NAME "COUNTER"
-
-// Constants
-#define COUNT_BUFFER_SIZE 4096
 
 int pwc_counter_countWordsFromPipe(int writePipeFileDescriptor, int readPipeFileDescriptor) {
 	
 	// Log
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Counter process with PID %d has started counting words from the pipe!", getpid());
 
+	// Get config
+	struct pwc_configuration* config = pwc_configuration();
+
 	// Initialize word count
 	int wordCount = 0;
 
 	// Create a buffer to hold chunks of data from the pipe
-	char textCountingBuffer[COUNT_BUFFER_SIZE];
+	char textCountingBuffer[config->BUFFER_SIZE_COUNTER];
 
 	// Keep reading from the pipe until no more data is available
 	ssize_t numberBytesRead;
-	while ((numberBytesRead = read(readPipeFileDescriptor, textCountingBuffer, COUNT_BUFFER_SIZE)) > 0) {
+	while ((numberBytesRead = read(readPipeFileDescriptor, textCountingBuffer, config->BUFFER_SIZE_COUNTER)) > 0) {
 
 		// Count words in the buffer using helper function
 		int chunkWordCount = pwc_countWordsInBuffer(textCountingBuffer, numberBytesRead);
