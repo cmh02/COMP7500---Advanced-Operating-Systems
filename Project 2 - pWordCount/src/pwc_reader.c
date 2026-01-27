@@ -32,17 +32,18 @@
 #include "pwc_utils.h"
 #include "pwc_reader.h"
 #include "pwc_logger.h"
+#include "pwc_config.h"
 
 // Module Name
 #define PWC_MODULE_NAME "READER"
-
-// Constants
-#define FILE_READ_BUFFER_SIZE 4096
 
 int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescriptor, int readPipeFileDescriptor) {
 	
 	// Log
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Reader with PID %d has been created to stream file '%s'!", getpid(), filePath);
+
+	// Get config
+	struct pwc_configuration* config = pwc_configuration();
 
 	// Open the file in read-only mode
 	int textFileDescriptor = open(filePath, O_RDONLY);
@@ -54,12 +55,11 @@ int pwc_reader_streamFileToPipe(const char* filePath, int writePipeFileDescripto
 	}
 
 	// Ceate a buffer to hold chunks of text from file
-	char textReadingBuffer[FILE_READ_BUFFER_SIZE];
+	char textReadingBuffer[config->BUFFER_SIZE_READER];
 
 	// Keep reading from the file in chunks until end of file is reached
 	ssize_t numberBytesRead;
-	while ((numberBytesRead = read(textFileDescriptor, textReadingBuffer, FILE_READ_BUFFER_SIZE)) > 0) {
-
+	while ((numberBytesRead = read(textFileDescriptor, textReadingBuffer, config->BUFFER_SIZE_READER)) > 0) {
 		// Write the bytes to the pipe
 		ssize_t totalBytesWritten = 0;
 		while (totalBytesWritten < numberBytesRead) {
