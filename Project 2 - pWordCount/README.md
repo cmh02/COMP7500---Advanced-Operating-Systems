@@ -21,6 +21,7 @@ To run the program from the command line, use the command: `./pwordcount` with t
 | Command Argument     | Required / Optional | Description                                                                                                                                                                                                                                 |
 | -------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | --file or -f         | Required            | The text file to count words in. File must be of type .txt.<br /><br />Example: `--file mytextfile.txt`                                                                                                                                   |
+| --help or -h         | Optional            | Command description for help using the command.<br /><br />Example: `--help`                                                                                                                                                              |
 | --config or -c       | Optional            | Location of configuration file.<br />Defaults to `../config/pwordcount.config`.<br /><br />Example: `--config ../config/custom.config`                                                                                                  |
 | --nprocesses or -n   | Optional            | The number of counter processes to use.<br />Must be an integer greater than 0 but less than the number of available system cores. <br />Can be set in configuration file.<br />Defaults to `1` .<br /><br />Example: `--nprocesses 8` |
 | --logdir or -l       | Optional            | Location of log directory.<br />Can be set in configuration file.<br />Defaults to `../logs/.`<br /><br />Example: `--config ../other/logs`                                                                                             |
@@ -28,6 +29,7 @@ To run the program from the command line, use the command: `./pwordcount` with t
 | --debug_log or -d    | Optional            | Whether to send debug output to log file.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_log false`                                                                                      |
 
 ## Configuration File
+
 
 ## Multi-Process Edge Count Algorithm
 

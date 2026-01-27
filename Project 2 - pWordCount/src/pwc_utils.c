@@ -52,6 +52,24 @@
 	UTILITIES
 */
 
+void pwc_printCommandHelp() {
+	printf("[pWordCount] This program can be used to count the number of words in a text file!\n");
+	printf("\n");
+	printf("\tCommand-Line Syntax:\n");
+	printf("\t\t./pwordcount --file <file-path> [flags]\n");
+	printf("\n");
+	printf("\tCommand Flags:\n");
+	printf("\t\t--file (-f) <file-path> : The path to the text file to count words from. This file must exist. (Required)\n");
+	printf("\t\t--config (-c) <config-file-path> : The path to the configuration file to use. This file must exist. (Optional)\n");
+	printf("\t\t--nprocesses (-n) <number-of-processes> : The number of counter processes to use. This must be between 0 and the number of CPU cores available. (Optional)\n");
+	printf("\t\t--logdir (-l) <log-directory> : The directory to store log files in. Directory will be created if it does not exist.. (Optional)\n");
+	printf("\t\t--debug_stdout (-s) : Whether to send debug logs to stdout. Must be 'true' or 'false'. (Optional)\n");
+	printf("\t\t--debug_log (-d) : Whether to send debug logs to log file. Must be 'true' or 'false'. (Optional)\n");
+	printf("\t\t--help (-h) : Display this help message. (Optional)\n");
+	printf("\n");
+}
+
+
 void pwc_printWithPrefix(const char *message, va_list args) {
 
 	// Print with prefix

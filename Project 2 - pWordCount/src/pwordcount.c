@@ -74,6 +74,7 @@
 // Command Options Table
 static struct option longOptions[] = {
 	{"file", required_argument, 0, 'f'},
+	{"help", no_argument, 0, 'h'},
 	{"config", required_argument, 0, 'c'},
 	{"nprocesses", required_argument, 0, 'n'},
 	{"logdir", required_argument, 0, 'l'},
@@ -101,11 +102,17 @@ int main(int argc, char **argv) {
 	struct pwc_configuration *config = pwc_configuration();
 	pwc_populateDefaultConfiguration(config);
 
+	// Check for no arguments, in which case show help menu
+	if (argc == 1) {
+		pwc_printCommandHelp();
+		return 0;
+	}
+
 	// Create a temporary config struct and parse command line args into it with getopt
 	int opt;
 	struct pwc_configuration tempConfig;
 	pwc_populateNullConfiguration(&tempConfig);
-	while ((opt = getopt_long(argc, argv, "f:c:n:l:s:d:", longOptions, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "f:c:n:l:s:d:h", longOptions, NULL)) != -1) {
 		switch (opt) {
 
 			// Text File Path
@@ -113,6 +120,10 @@ int main(int argc, char **argv) {
 				strncpy(tempConfig.TEXT_FILE_PATH, optarg, PATH_MAX - 1);
 				tempConfig.TEXT_FILE_PATH[PATH_MAX - 1] = '\0';
 				break;
+
+			case 'h':
+				pwc_printCommandHelp();
+				return 0;
 
 			// Config File Path
 			case 'c':
@@ -143,7 +154,7 @@ int main(int argc, char **argv) {
 
 			// Unknown Option
 			default:
-				fprintf(stderr, "Unknown command line option provided! Correct Usage: ./pwordcount --file <file-path> [--nprocesses <number-of-processes>] [--config <config-file-path>] [--logdir <logging-directory>] [--debug_stdout] [--debug_log]!\n");
+				fprintf(stderr, "Unknown command line option provided! For help, use ./pwordcount --help!\n");
 				return 1;
 		}
 	}

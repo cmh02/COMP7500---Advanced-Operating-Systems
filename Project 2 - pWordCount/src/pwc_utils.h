@@ -90,6 +90,19 @@ void pwc_stopExecutionTimeTracking(struct pwc_executionTimeStruct* execTimeStruc
 // Function Stubs
 
 /*
+	# Print Command Help
+
+	Print out the command help message for program usage.
+
+	## Arguments
+	- void
+
+	## Returns
+	- void
+*/
+void pwc_printCommandHelp(void);
+
+/*
 	# Print With Prefix
 
 	Print a message to std out with pWordCount prefix.
