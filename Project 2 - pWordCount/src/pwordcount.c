@@ -75,11 +75,11 @@
 static struct option longOptions[] = {
 	{"file", required_argument, 0, 'f'},
 	{"help", no_argument, 0, 'h'},
-	{"config", required_argument, 0, 'c'},
-	{"nprocesses", required_argument, 0, 'n'},
-	{"logdir", required_argument, 0, 'l'},
-	{"debug_stdout", no_argument, 0, 's'},
-	{"debug_log", no_argument, 0, 'd'},
+	{"config", optional_argument, 0, 'c'},
+	{"nprocesses", optional_argument, 0, 'n'},
+	{"logdir", optional_argument, 0, 'l'},
+	{"debug_stdout", optional_argument, 0, 's'},
+	{"debug_log", optional_argument, 0, 'd'},
 	{0, 0, 0, 0}
 };
 
