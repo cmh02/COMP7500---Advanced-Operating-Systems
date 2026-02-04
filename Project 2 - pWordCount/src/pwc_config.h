@@ -65,10 +65,10 @@ struct pwc_configuration {
 
 	Provides global access to the configuration struct.
 
-	# Arguments
+	## Arguments
 	- void
 
-	# Returns
+	## Returns
 	- struct pwc_configuration* : Pointer to the global configuration struct
 */
 struct pwc_configuration *pwc_configuration(void);
