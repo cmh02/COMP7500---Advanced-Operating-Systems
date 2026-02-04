@@ -234,13 +234,13 @@ int main(int argc, char **argv) {
 	if (tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT) { config->LOGGING_SEND_DEBUG_TO_STDOUT = tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT; }
 
 	// Validate and copy over buffer sizes if set in command line
-	if (isdigit(tempConfig.BUFFER_SIZE_READER) && (tempConfig.BUFFER_SIZE_READER != PWC_UNSET_UNSIGNED_LONG)) { 
+	if (isdigit(tempConfig.BUFFER_SIZE_READER) && (tempConfig.BUFFER_SIZE_READER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_READER > 0)) { 
 		config->BUFFER_SIZE_READER = tempConfig.BUFFER_SIZE_READER; 
 	}
-	if (isdigit(tempConfig.BUFFER_SIZE_COUNTERMANAGER) && (tempConfig.BUFFER_SIZE_COUNTERMANAGER != PWC_UNSET_UNSIGNED_LONG)) { 
+	if (isdigit(tempConfig.BUFFER_SIZE_COUNTERMANAGER) && (tempConfig.BUFFER_SIZE_COUNTERMANAGER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_COUNTERMANAGER > 0)) { 
 		config->BUFFER_SIZE_COUNTERMANAGER = tempConfig.BUFFER_SIZE_COUNTERMANAGER; 
 	}
-	if (isdigit(tempConfig.BUFFER_SIZE_COUNTER) && (tempConfig.BUFFER_SIZE_COUNTER != PWC_UNSET_UNSIGNED_LONG)) { 
+	if (isdigit(tempConfig.BUFFER_SIZE_COUNTER) && (tempConfig.BUFFER_SIZE_COUNTER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_COUNTER > 0)) { 
 		config->BUFFER_SIZE_COUNTER = tempConfig.BUFFER_SIZE_COUNTER; 
 	}
 
