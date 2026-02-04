@@ -211,7 +211,7 @@ int main(int argc, char **argv) {
 
 	// If number of processes given, validate and copy to global
 	const long numberOfSystemCores = sysconf(_SC_NPROCESSORS_ONLN);
-	if (isdigit(tempConfig.NUMBER_OF_PROCESSES) && (tempConfig.NUMBER_OF_PROCESSES != PWC_UNSET_UNSIGNED_LONG)) {
+	if (tempConfig.NUMBER_OF_PROCESSES != PWC_UNSET_UNSIGNED_LONG) {
 
 		// Make sure that we were given at least 1 process
 		if (tempConfig.NUMBER_OF_PROCESSES < 1) {
@@ -228,21 +228,16 @@ int main(int argc, char **argv) {
 		// Copy
 		config->NUMBER_OF_PROCESSES = tempConfig.NUMBER_OF_PROCESSES;
 	}
+	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Final number of processes to be used: %ld", config->NUMBER_OF_PROCESSES);
 
 	// Copy over logging options if set in command line
 	if (tempConfig.LOGGING_SEND_DEBUG_TO_LOG) { config->LOGGING_SEND_DEBUG_TO_LOG = tempConfig.LOGGING_SEND_DEBUG_TO_LOG; }
 	if (tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT) { config->LOGGING_SEND_DEBUG_TO_STDOUT = tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT; }
 
 	// Validate and copy over buffer sizes if set in command line
-	if (isdigit(tempConfig.BUFFER_SIZE_READER) && (tempConfig.BUFFER_SIZE_READER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_READER > 0)) { 
-		config->BUFFER_SIZE_READER = tempConfig.BUFFER_SIZE_READER; 
-	}
-	if (isdigit(tempConfig.BUFFER_SIZE_COUNTERMANAGER) && (tempConfig.BUFFER_SIZE_COUNTERMANAGER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_COUNTERMANAGER > 0)) { 
-		config->BUFFER_SIZE_COUNTERMANAGER = tempConfig.BUFFER_SIZE_COUNTERMANAGER; 
-	}
-	if (isdigit(tempConfig.BUFFER_SIZE_COUNTER) && (tempConfig.BUFFER_SIZE_COUNTER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_COUNTER > 0)) { 
-		config->BUFFER_SIZE_COUNTER = tempConfig.BUFFER_SIZE_COUNTER; 
-	}
+	if ((tempConfig.BUFFER_SIZE_READER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_READER > 0)) { config->BUFFER_SIZE_READER = tempConfig.BUFFER_SIZE_READER; }
+	if ((tempConfig.BUFFER_SIZE_COUNTERMANAGER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_COUNTERMANAGER > 0)) { config->BUFFER_SIZE_COUNTERMANAGER = tempConfig.BUFFER_SIZE_COUNTERMANAGER; }
+	if ((tempConfig.BUFFER_SIZE_COUNTER != PWC_UNSET_UNSIGNED_LONG) && (tempConfig.BUFFER_SIZE_COUNTER > 0)) { config->BUFFER_SIZE_COUNTER = tempConfig.BUFFER_SIZE_COUNTER; }
 
 	// Log starting information
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld counting processes.", config->TEXT_FILE_PATH, config->NUMBER_OF_PROCESSES);
