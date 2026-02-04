@@ -80,6 +80,9 @@ static struct option longOptions[] = {
 	{"logdir", optional_argument, 0, 'l'},
 	{"debug_stdout", optional_argument, 0, 's'},
 	{"debug_log", optional_argument, 0, 'd'},
+	{"buffersize_r", optional_argument, 0, 'x'},
+	{"buffersize_cm", optional_argument, 0, 'y'},
+	{"buffersize_c", optional_argument, 0, 'z'},
 	{0, 0, 0, 0}
 };
 
@@ -112,7 +115,7 @@ int main(int argc, char **argv) {
 	int opt;
 	struct pwc_configuration tempConfig;
 	pwc_populateNullConfiguration(&tempConfig);
-	while ((opt = getopt_long(argc, argv, "f:c:n:l:s:d:h", longOptions, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "f:c:n:l:s:d:x:y:z:h", longOptions, NULL)) != -1) {
 		switch (opt) {
 
 			// Text File Path
@@ -150,6 +153,21 @@ int main(int argc, char **argv) {
 			// Send Debug to Log
 			case 'd':
 				pwc_parseBool(optarg, &tempConfig.LOGGING_SEND_DEBUG_TO_LOG);
+				break;
+
+			// Reader Buffer Size
+			case 'x':
+				pwc_parseUnsignedLong(optarg, &tempConfig.BUFFER_SIZE_READER);
+				break;
+
+			// Counter-Manager Buffer Size
+			case 'y':
+				pwc_parseUnsignedLong(optarg, &tempConfig.BUFFER_SIZE_COUNTERMANAGER);
+				break;
+
+			// Counter Buffer Size
+			case 'z':
+				pwc_parseUnsignedLong(optarg, &tempConfig.BUFFER_SIZE_COUNTER);
 				break;
 
 			// Unknown Option
@@ -214,6 +232,17 @@ int main(int argc, char **argv) {
 	// Copy over logging options if set in command line
 	if (tempConfig.LOGGING_SEND_DEBUG_TO_LOG) { config->LOGGING_SEND_DEBUG_TO_LOG = tempConfig.LOGGING_SEND_DEBUG_TO_LOG; }
 	if (tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT) { config->LOGGING_SEND_DEBUG_TO_STDOUT = tempConfig.LOGGING_SEND_DEBUG_TO_STDOUT; }
+
+	// Validate and copy over buffer sizes if set in command line
+	if (isdigit(tempConfig.BUFFER_SIZE_READER) && (tempConfig.BUFFER_SIZE_READER != PWC_UNSET_UNSIGNED_LONG)) { 
+		config->BUFFER_SIZE_READER = tempConfig.BUFFER_SIZE_READER; 
+	}
+	if (isdigit(tempConfig.BUFFER_SIZE_COUNTERMANAGER) && (tempConfig.BUFFER_SIZE_COUNTERMANAGER != PWC_UNSET_UNSIGNED_LONG)) { 
+		config->BUFFER_SIZE_COUNTERMANAGER = tempConfig.BUFFER_SIZE_COUNTERMANAGER; 
+	}
+	if (isdigit(tempConfig.BUFFER_SIZE_COUNTER) && (tempConfig.BUFFER_SIZE_COUNTER != PWC_UNSET_UNSIGNED_LONG)) { 
+		config->BUFFER_SIZE_COUNTER = tempConfig.BUFFER_SIZE_COUNTER; 
+	}
 
 	// Log starting information
 	pwc_log(PWC_LOGLEVEL_DEBUG, PWC_MODULE_NAME, "Starting execution for '%s' using %ld counting processes.", config->TEXT_FILE_PATH, config->NUMBER_OF_PROCESSES);
