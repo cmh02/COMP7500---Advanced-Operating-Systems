@@ -18,18 +18,41 @@ This project creates a C-based system for counting words in a text file. While o
 
 To run the program from the command line, use the command: `./pwordcount` with the following arguments:
 
-| Command Argument     | Required / Optional | Description                                                                                                                                                                                                                                 |
-| -------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| --file or -f         | Required            | The text file to count words in. File must be of type .txt.<br /><br />Example: `--file mytextfile.txt`                                                                                                                                   |
-| --help or -h         | Optional            | Command description for help using the command.<br /><br />Example: `--help`                                                                                                                                                              |
-| --config or -c       | Optional            | Location of configuration file.<br />Defaults to `../config/pwordcount.config`.<br /><br />Example: `--config ../config/custom.config`                                                                                                  |
-| --nprocesses or -n   | Optional            | The number of counter processes to use.<br />Must be an integer greater than 0 but less than the number of available system cores. <br />Can be set in configuration file.<br />Defaults to `1` .<br /><br />Example: `--nprocesses 8` |
-| --logdir or -l       | Optional            | Location of log directory.<br />Can be set in configuration file.<br />Defaults to `../logs/.`<br /><br />Example: `--config ../other/logs`                                                                                             |
-| --debug_stdout or -s | Optional            | Whether to send debug output to stdout.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_stdout false`                                                                                      |
-| --debug_log or -d    | Optional            | Whether to send debug output to log file.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_log false`                                                                                      |
+| Command Argument      | Required / Optional | Description                                                                                                                                                                                                                                 |
+| --------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| --file or -f          | Required            | The text file to count words in. File must be of type .txt.<br /><br />Example: `--file mytextfile.txt`                                                                                                                                   |
+| --help or -h          | Optional            | Command description for help using the command.<br /><br />Example: `--help`                                                                                                                                                              |
+| --config or -c        | Optional            | Location of configuration file.<br />Defaults to `../config/pwordcount.config`.<br /><br />Example: `--config ../config/custom.config`                                                                                                  |
+| --nprocesses or -n    | Optional            | The number of counter processes to use.<br />Must be an integer greater than 0 but less than the number of available system cores. <br />Can be set in configuration file.<br />Defaults to `1` .<br /><br />Example: `--nprocesses 8` |
+| --logdir or -l        | Optional            | Location of log directory.<br />Can be set in configuration file.<br />Defaults to `../logs/.`<br /><br />Example: `--config ../other/logs`                                                                                             |
+| --debug_stdout or -s  | Optional            | Whether to send debug output to stdout.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_stdout false`                                                                                      |
+| --debug_log or -d     | Optional            | Whether to send debug output to log file.<br />Can be set in configuration file.<br />Defaults to `true`.<br /><br />Example: `--debug_log false`                                                                                      |
+| --buffersize_r or -x  | Optional            | The size of the Reader Module buffer, in bytes.<br /><br />Example: `--buffersize_r 4096`                                                                                                                                                 |
+| --buffersize_cm or -y | Optional            | The size of the Counter Manager Module buffer, in bytes.<br /><br />Example: `--buffersize_cm 4096`                                                                                                                                       |
+| --buffersize_c or -z  | Optional            | The size of the Counter Module buffer, in bytes.<br /><br />Example: `--buffersize_c 4096`                                                                                                                                                |
 
 ## Configuration File
 
+A configuration file is used to provide users with a way of persisting the desired tool arguments. This file is ideally kept located in a top-level `config` directory, although the specific path can be changed at the command-line too. This file contains many of the settings for the tool which are also available at the command line.
+
+When using both command line arguments and the configuration file, the command line arguments will always take precedence. The priority of tool settings, therefore, is as follows from highest priority to lowest priority:
+
+1. Command-Line Arguments/Flags
+2. Configuration Options
+3. Tool Default Settings
+
+Following this style of override behavior allows for the most dynamic usage to maintain complete controllability. It also enables for a different configuration file to be specified when running the command instead of requiring a static configuration file location or complete recompilation.
+
+As mentioned, in the case that neither a command argument or configuration option are provided, a default value is available. These are currently also set in the configuration file, which is intended to be changed by the end user. These values have been hard-coded to ensure that the program cannot break due to the lack of an argument or option:
+
+- Debug output to the log file defaults to `true`.
+- Debug output to the standard output defaults to `true`.
+- The number of counter subprocesses defaults to `1`.
+- The buffer size for the Reader Module defaults to `4096 bytes`.
+- The buffer size for the Counter-Manager Module defaults to `4096 bytes`.
+- The buffer size for the Counter Module defaults to `4096 bytes`.
+- The location of the configuration file defaults to `../config/pwordcount.config`.
+- The location of the logging directory defaults to `../logs/`.
 
 ## Multi-Process Edge Count Algorithm
 
