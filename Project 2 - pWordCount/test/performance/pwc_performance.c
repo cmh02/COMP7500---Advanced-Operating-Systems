@@ -16,9 +16,10 @@
 	consumption and time for execution, and do not seek to validate every edge case. This responsibility
 	is being left with the unit testing portion of this project.
 
-	Two main goals will be measured here:
+	Three main goals will be measured here:
 	- Execution time for each test file at different process counts.
 	- Memory consumption for each test file at different process counts.
+	- The above two goals at different buffer sizes for each module.
 
 	--------------------------------------------------
 
@@ -41,7 +42,7 @@
 #include <unistd.h>
 #include <string.h>
 
-int launchPWordCount(const char* testFilePath, const char* processCount, long* memoryUsageHolder, double* executionTimeHolder) {
+int launchPWordCount(const char* testFilePath, const char* processCount, const char* buffersize_reader, const char* buffersize_counterManager, const char* buffersize_counter, long* memoryUsageHolder, double* executionTimeHolder) {
 	
 	// Begin measuring execution time (externally)
 	struct timespec startTime, endTime;
@@ -61,7 +62,16 @@ int launchPWordCount(const char* testFilePath, const char* processCount, long* m
 	if (pid == 0) {
 
 		// Launch pwordcount
-		execl("../../build/pwordcount", "pwordcount", testFilePath, processCount, (char *)NULL);
+		execl("../../build/pwordcount", 
+			"pwordcount", 
+			"-c", "../../config/pwordcount.config",
+			"-f", testFilePath,
+			"-n", processCount, 
+			"-x", buffersize_reader,
+			"-y", buffersize_counterManager,
+			"-z", buffersize_counter,
+			(char *)NULL
+		);
 
 		// Detect any failures
 		printf("Failed to launch pwordcount!");
@@ -96,7 +106,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Write headers for mem
-	fprintf(memoryLogFile, "Test File,Process Count,Memory Usage\n");
+	fprintf(memoryLogFile, "Test File,Process Count,Reader Buffer Size,Counter Manager Buffer Size, Counter Buffer Size,Memory Usage\n");
 
 	// Initialize a csv to log time results
 	FILE* timeLogFile = fopen("results/performance_time.csv", "w");
@@ -107,7 +117,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Write headers for time
-	fprintf(timeLogFile, "Test File,Process Count,Execution Time (seconds)\n");
+	fprintf(timeLogFile, "Test File,Process Count,Reader Buffer Size,Counter Manager Buffer Size, Counter Buffer Size,Execution Time (seconds)\n");
 
 	// Get the test file directory which should be located at ../testfiles/*.txt
 	DIR *testFileDirectory = opendir("../testfiles");
@@ -135,34 +145,53 @@ int main(int argc, char **argv) {
 		// Iterate over process counts
 		for (int processCount = 1; processCount <= 8; processCount++) {
 
-			// Make holders for timeand memory
-			long memoryUsage;
-			double executionTime;
+			// Iterate over reader buffer sizes
+			for (int bufferSize_reader = 1024; bufferSize_reader <= 1024 * 8; bufferSize_reader *= 2) {
 
-			// Turn process count into string
-			char processCountString[4];
-			snprintf(processCountString, sizeof(processCountString), "%d", processCount);
+				// Iterate over counter manager buffer sizes
+				for (int bufferSize_counterManager = 1024; bufferSize_counterManager <= 1024 * 8; bufferSize_counterManager *= 2) {
 
-			// Get relative path to test file for the pwordcount
-			char testFilePath[256];
-			snprintf(testFilePath, sizeof(testFilePath), "../testfiles/%s", testFileName);
+					// Iterate over counter buffer sizes
+					for (int bufferSize_counter = 1024; bufferSize_counter <= 1024 * 8; bufferSize_counter *= 2) {
 
-			// Launch pwordcount for this test file and process count
-			int launchStatus = launchPWordCount(testFilePath, processCountString, &memoryUsage, &executionTime);
-			if (launchStatus != 0) {
-				printf("Failed to launch pwordcount for test file '%s' with %d processes!\n", testFileName, processCount);
-				closedir(testFileDirectory);
-				fclose(memoryLogFile);
-				fclose(timeLogFile);
-				return 1;
+						// Make holders for timeand memory
+						long memoryUsage;
+						double executionTime;
+
+						// Turn process count into string
+						char processCountString[4];
+						snprintf(processCountString, sizeof(processCountString), "%d", processCount);
+
+						// Turn buffer sizes into strings
+						char bufferSize_readerString[16];
+						snprintf(bufferSize_readerString, sizeof(bufferSize_readerString), "%d", bufferSize_reader);
+						char bufferSize_counterManagerString[16];
+						snprintf(bufferSize_counterManagerString, sizeof(bufferSize_counterManagerString), "%d", bufferSize_counterManager);
+						char bufferSize_counterString[16];
+						snprintf(bufferSize_counterString, sizeof(bufferSize_counterString), "%d", bufferSize_counter);
+
+						// Get relative path to test file for the pwordcount
+						char testFilePath[256];
+						snprintf(testFilePath, sizeof(testFilePath), "../testfiles/%s", testFileName);
+
+						// Launch pwordcount for this test file and process count
+						int launchStatus = launchPWordCount(testFilePath, processCountString, bufferSize_readerString, bufferSize_counterManagerString, bufferSize_counterString, &memoryUsage, &executionTime);
+						if (launchStatus != 0) {
+							printf("Failed to launch pwordcount for test file '%s' with %d processes!\n", testFileName, processCount);
+							closedir(testFileDirectory);
+							fclose(memoryLogFile);
+							fclose(timeLogFile);
+							return 1;
+						}
+
+						// Log memory to csv
+						fprintf(memoryLogFile, "%s,%d,%d,%d,%d,%ld\n", testFileName, processCount, bufferSize_reader, bufferSize_counterManager, bufferSize_counter, memoryUsage);
+
+						// Log time to csv
+						fprintf(timeLogFile, "%s,%d,%d,%d,%d,%.6f\n", testFileName, processCount, bufferSize_reader, bufferSize_counterManager, bufferSize_counter, executionTime);
+					}
+				}
 			}
-
-			// Log memory to csv
-			fprintf(memoryLogFile, "%s,%d,%ld\n", testFileName, processCount, memoryUsage);
-
-			// Log time to csv
-			fprintf(timeLogFile, "%s,%d,%.6f\n", testFileName, processCount, executionTime);
-
 		}
 
 	}
