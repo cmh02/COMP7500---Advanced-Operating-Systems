@@ -43,18 +43,23 @@ for test_file in testfiles/*.txt; do
 	# Get expected value using wc
 	expected=$(wc -w < "$test_file")
 
-	# Get actual system value with pWordCount
-	actual=$(../build/pwordcount ../test/"$test_file" 1 | grep -o '[0-9]\+$')
+	# Iterate over 1 -> 5 counters (n)
+	for n in {1..5}; do
+
+		# Get actual system value with pWordCount
+		actual=$(../build/pwordcount -f ../test/"$test_file" -n $n | grep -o '[0-9]\+$')
+		
+		# Compare expected and actual values to pass/fail
+		if [ "$expected" -eq "$actual" ]; then
+			echo "[PASS] Test case [f = $test_file | n = $n] has passed! Expected: $expected, Got: $actual"
+			testCasesPassed=$((testCasesPassed + 1))
+		else
+			echo "[FAIL] Test case [f = $test_file | n = $n] has failed! Expected: $expected, Got: $actual"
+			testCasesFailed=$((testCasesFailed + 1))
+		fi
+		echo "--------------------------"
 	
-	# Compare expected and actual values to pass/fail
-	if [ "$expected" -eq "$actual" ]; then
-		echo "[PASS] Test case $test_file has passed! Expected: $expected, Got: $actual"
-		testCasesPassed=$((testCasesPassed + 1))
-	else
-		echo "[FAIL] Test case $test_file has failed! Expected: $expected, Got: $actual"
-		testCasesFailed=$((testCasesFailed + 1))
-	fi
-	echo "--------------------------"
+	done
 
 done
 
