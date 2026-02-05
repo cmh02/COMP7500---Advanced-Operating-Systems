@@ -32,6 +32,13 @@
 	7. https://www.geeksforgeeks.org/c/c-switch-statement/
 	-> I used this GeeksForGeeks article to refamiliarize myself with switch syntax.
 
+	8. https://www.geeksforgeeks.org/c/variadic-functions-in-c/
+	-> I used this GeeksForGeeks article to refamiliarize myself with making variadic functions for custom logging.
+
+	9. https://man7.org/linux/man-pages/man2/mkdir.2.html
+	10. https://stackoverflow.com/questions/7430248/creating-a-new-directory-in-c
+	-> I used these resources to understand best practice for creating directories.
+
 	--------------------------------------------------
 */
 

@@ -17,7 +17,9 @@
 
 	## References
 	
-	1. 
+	1. https://stackoverflow.com/questions/9449241/where-is-path-max-defined-in-linux
+	2. https://insanecoding.blogspot.com/2007/11/pathmax-simply-isnt.html
+	-> I used these resources to understand best practices for PATH_MAX.
 
 	--------------------------------------------------
 */

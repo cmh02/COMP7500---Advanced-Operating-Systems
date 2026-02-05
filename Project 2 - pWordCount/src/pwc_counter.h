@@ -17,7 +17,8 @@
 
 	## References
 	
-	1.
+	1. https://www.geeksforgeeks.org/c/isspace-in-c/
+	-> I used this GeeksForGeeks article to safely find any whitespace characters.
 
 	--------------------------------------------------
 */
