@@ -17,7 +17,8 @@
 
 	## References
 	
-	1.
+	1. https://www.geeksforgeeks.org/c/input-output-system-calls-c-create-open-close-read-write/
+	-> I used this GeeksForGeeks article to further understand behavior of open(), read(), and write() calls.
 
 	--------------------------------------------------
 */

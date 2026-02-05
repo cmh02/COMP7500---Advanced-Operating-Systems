@@ -17,7 +17,16 @@
 
 	## References
 	
-	1.
+	1. https://www.geeksforgeeks.org/c/isspace-in-c/
+	-> I used this GeeksForGeeks article to safely find any whitespace characters.
+
+	2. https://www.w3schools.com/c/c_structs.php
+	3. https://www.geeksforgeeks.org/c/structures-c/
+	-> I used these articles to refamiliarize myself with struct syntax.
+
+	4. https://stackoverflow.com/questions/10468128/how-do-you-make-an-array-of-structs-in-c
+	5. https://www.geeksforgeeks.org/c/dynamic-array-in-c/
+	-> I used these resources to understand malloc/calloc for dynamic allocation of arrays with structs.
 
 	--------------------------------------------------
 */
