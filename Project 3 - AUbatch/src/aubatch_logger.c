@@ -47,13 +47,12 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
 // Project Libraries
-#include "pwc_utils.h"
-#include "pwc_logger.h"
-#include "pwc_config.h"
+#include "aubatch_logger.h"
 
 // Module Name
 #define PWC_MODULE_NAME "LOGGER"
@@ -144,7 +143,7 @@ int pwc_initLogFile(pid_t processPID) {
 	struct pwc_configuration* config = pwc_configuration();
 
 	// Make file name string for static referencing
-	snprintf(logFilePath, sizeof(logFilePath), "%s/pwc_%d.log", config->LOGGING_DIRECTORY, processPID);
+	snprintf(logFilePath, sizeof(logFilePath), "%s/aubatch_%d.log", config->LOGGING_DIRECTORY, processPID);
 
 	// Make sure directory exists for log files
 	if (mkdir(config->LOGGING_DIRECTORY, 0755) == -1) {
