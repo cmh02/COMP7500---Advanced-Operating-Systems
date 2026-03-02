@@ -43,31 +43,31 @@
 */
 
 // Prevent multiple inclusions
-#ifndef PWC_LOGGER_H
-#define PWC_LOGGER_H
+#ifndef AUBATCH_LOGGER_H
+#define AUBATCH_LOGGER_H
 
 // Libraries
 #include <sys/types.h>
 
 // Log File Path
-#define PWC_LOGDIR_PATH "../logs/"
+#define AUBATCH_LOGDIR_PATH "../logs/"
 
 // Logger Level Enum
-enum pwc_loggerLevel {
-	PWC_LOGLEVEL_INFO = 0,
-	PWC_LOGLEVEL_DEBUG = 1,
-	PWC_LOGLEVEL_WARNING = 2,
-	PWC_LOGLEVEL_ERROR = 3
+enum aubatch_loggerLevel {
+	AUBATCH_LOGLEVEL_INFO = 0,
+	AUBATCH_LOGLEVEL_DEBUG = 1,
+	AUBATCH_LOGLEVEL_WARNING = 2,
+	AUBATCH_LOGLEVEL_ERROR = 3
 };
 
 
 /*
-	# pwc_log
+	# aubatch_log
 
 	This function will log a message to the configured log file.
 
 	## Parameters
-	- enum pwc_loggerLevel level: The log level of the message.
+	- enum aubatch_loggerLevel level: The log level of the message.
 	- const char* module: The module the message originated.
 	- const char* message: The message to log.
 	- ... : Variadic arguments for the message format.
@@ -75,10 +75,10 @@ enum pwc_loggerLevel {
 	## Returns
 	- void
 */
-void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...);
+void aubatch_log(enum aubatch_loggerLevel level, const char* module, const char* message, ...);
 
 /*
-	# pwc_initLogFile
+	# aubatch_initLogFile
 
 	This function initializes the log file for the given process PID and makes sure the file can be created.
 
@@ -88,6 +88,6 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 	## Returns
 	- int: 0 on success, 1 on failure.
 */
-int pwc_initLogFile(pid_t processPID);
+int aubatch_initLogFile(pid_t processPID);
 
 #endif
