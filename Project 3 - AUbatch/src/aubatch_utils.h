@@ -115,6 +115,20 @@ void aubatch_warnWithPrefix(const char *message, va_list args);
 void aubatch_errorWithPrefix(const char *message, va_list args);
 
 /*
+	# Debug With Prefix
+
+	Print a debug message to std out with AUbatch prefix.
+
+	## Arguments
+	- message: The message to print with format symbols
+	- args : Arguments for format symbols
+
+	## Returns
+	- void
+*/
+void aubatch_debugWithPrefix(const char *message, va_list args);
+
+/*
 	# Trim Whitespace
 
 	Trim leading and trailing whitespace from a string. Must be

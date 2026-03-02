@@ -87,6 +87,15 @@ void aubatch_errorWithPrefix(const char *message, va_list args) {
 	
 }
 
+void aubatch_debugWithPrefix(const char *message, va_list args) {
+
+	// Print with prefix
+	printf("[AUBatch DEBUG] ");
+	vprintf(message, args);
+	printf("\n");
+
+}
+
 char* aubatch_trimWhitespace(char *str) {
 
 	// Find the first non-whitespace character

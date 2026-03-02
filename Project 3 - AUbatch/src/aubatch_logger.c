@@ -52,10 +52,12 @@
 #include <sys/types.h>
 
 // Project Libraries
+#include "aubatch_utils.h"
 #include "aubatch_logger.h"
+#include "aubatch_config.h"
 
 // Module Name
-#define PWC_MODULE_NAME "LOGGER"
+#define AUBATCH_MODULE_NAME "LOGGER"
 
 // Log File Path
 static char logFilePath[256];
@@ -63,7 +65,7 @@ static char logFilePath[256];
 // Initialized Flag
 static bool isLogFileInitialized = false;
 
-void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message, ...) {
+void pwc_log(enum aubatch_loggerLevel level, const char* module, const char* message, ...) {
 
 	// Get the current time 
 	time_t currentTime = time(NULL);
@@ -81,16 +83,16 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 	// Prepare log level string
 	char* logLevelString;
 	switch (level) {
-		case PWC_LOGLEVEL_INFO:
+		case AUBATCH_LOGLEVEL_INFO:
 			logLevelString = "INFO";
 			break;
-		case PWC_LOGLEVEL_DEBUG:
+		case AUBATCH_LOGLEVEL_DEBUG:
 			logLevelString = "DEBUG";
 			break;
-		case PWC_LOGLEVEL_WARNING:
+		case AUBATCH_LOGLEVEL_WARNING:
 			logLevelString = "WARNING";
 			break;
-		case PWC_LOGLEVEL_ERROR:
+		case AUBATCH_LOGLEVEL_ERROR:
 			logLevelString = "ERROR";
 			break;
 		default:
@@ -104,11 +106,14 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 
 	// If log file not initialized, print and exit
 	if (!isLogFileInitialized) {
-		pwc_printWithPrefix(message, argsCopyForPrinting);
+		aubatch_printWithPrefix(message, argsCopyForPrinting);
 		va_end(args);
 		va_end(argsCopyForPrinting);
 		return;
 	}
+
+	// Get program configuration
+	struct aubatch_configuration* config = aubatch_configuration();
 
 	// Open file for appending
 	FILE* logFile = fopen(logFilePath, "a");
@@ -116,19 +121,26 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 		return;
 	}
 
-	// Write log entry to file
-	fprintf(logFile, "[%s] [%s] [%s]: ", dateTimeString, logLevelString, module);
-	vfprintf(logFile, message, args);
-	fputc('\n', logFile);
-	fclose(logFile);
+	// If not debug level, always write to log, or if debug, then check config before write
+	if ((level != AUBATCH_LOGLEVEL_DEBUG) || ((level == AUBATCH_LOGLEVEL_DEBUG) && (config->LOGGING_SEND_DEBUG_TO_LOG))) {
+		fprintf(logFile, "[%s] [%s] [%s]: ", dateTimeString, logLevelString, module);
+		vfprintf(logFile, message, args);
+		fputc('\n', logFile);
+		fclose(logFile);
+	}
 
 	// For info, warn, and error levels, also print to stdout using util functions (seperate prefix formatting)
-	if (level == PWC_LOGLEVEL_INFO) {
-		pwc_printWithPrefix(message, argsCopyForPrinting);
-	} else if (level == PWC_LOGLEVEL_WARNING) {
-		pwc_warnWithPrefix(message, argsCopyForPrinting);
-	} else if (level == PWC_LOGLEVEL_ERROR) {
-		pwc_errorWithPrefix(message, argsCopyForPrinting);
+	if (level == AUBATCH_LOGLEVEL_INFO) {
+		aubatch_printWithPrefix(message, argsCopyForPrinting);
+	} else if (level == AUBATCH_LOGLEVEL_WARNING) {
+		aubatch_warnWithPrefix(message, argsCopyForPrinting);
+	} else if (level == AUBATCH_LOGLEVEL_ERROR) {
+		aubatch_errorWithPrefix(message, argsCopyForPrinting);
+	}
+
+	// For debug, check config file, and print if enabled
+	if ((level == AUBATCH_LOGLEVEL_DEBUG) && (config->LOGGING_SEND_DEBUG_TO_STDOUT)) {
+		aubatch_debugWithPrefix(message, argsCopyForPrinting);
 	}
 
 	// Exit
@@ -137,10 +149,10 @@ void pwc_log(enum pwc_loggerLevel level, const char* module, const char* message
 	return;
 }
 
-int pwc_initLogFile(pid_t processPID) {
+int aubatch_initLogFile(pid_t processPID) {
 	
 	// Get config
-	struct pwc_configuration* config = pwc_configuration();
+	struct aubatch_configuration* config = aubatch_configuration();
 
 	// Make file name string for static referencing
 	snprintf(logFilePath, sizeof(logFilePath), "%s/aubatch_%d.log", config->LOGGING_DIRECTORY, processPID);
