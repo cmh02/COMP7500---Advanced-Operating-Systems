@@ -89,6 +89,19 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy);
 enum aubatch_schedulingPolicy aubatch_scheduler_getSchedulingPolicy();
 
 /*
+	# Get Scheduling Policy Name
+
+	This function will return the name of the current scheduling policy for the scheduler.
+
+	## Parameters
+	- None
+
+	## Returns
+	- const char*: the name of the current scheduling policy for the scheduler
+*/
+const char* aubatch_scheduler_getSchedulingPolicyName();
+
+/*
 	# Get Current Wait Time
 
 	This function will get current (estimated) wait time for queue.

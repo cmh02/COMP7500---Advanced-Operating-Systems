@@ -71,6 +71,10 @@ enum aubatch_schedulingPolicy aubatch_scheduler_getSchedulingPolicy() {
 	return aubatch_scheduler_currentSchedulingPolicy;
 }
 
+const char* aubatch_scheduler_getSchedulingPolicyName() {
+	return aubatch_schedulingPolicyNames[aubatch_scheduler_currentSchedulingPolicy];
+}
+
 uint8_t aubatch_scheduler_getCurrentWaitTime() {
 	return aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
 }
