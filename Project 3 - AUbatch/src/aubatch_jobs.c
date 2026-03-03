@@ -100,7 +100,7 @@ int aubatch_jobQueue_dequeueJob(struct aubatch_jobQueue* queue) {
 	return 0;
 }
 
-int aubatch_jobQueue_insertJob(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index) {
+int aubatch_jobQueue_insertJobAtIndex(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index) {
 
 	// If the queue is empty, just enqueue the job
 	if (queue->size == 0) {
@@ -115,6 +115,7 @@ int aubatch_jobQueue_insertJob(struct aubatch_jobQueue* queue, struct aubatch_jo
 
 	// Handle inserting into empty queue
 	if (queue->size == 0) {
+		aubatch_jobQueue_spliceJobNode(NULL, NULL, &node);
 		queue->head = &node;
 		queue->tail = &node;
 		queue->size++;
@@ -126,8 +127,7 @@ int aubatch_jobQueue_insertJob(struct aubatch_jobQueue* queue, struct aubatch_jo
 
 	// Handle inserting at beginning of non-empty queue
 	if (index == 0) {
-		node.next = queue->head;
-		queue->head->prev = &node;
+		aubatch_jobQueue_spliceJobNode(NULL, queue->head, &node);
 		queue->head = &node;
 		queue->size++;
 
@@ -138,8 +138,7 @@ int aubatch_jobQueue_insertJob(struct aubatch_jobQueue* queue, struct aubatch_jo
 
 	// Handle inserting at end of non-empty queue
 	if (index >= queue->size) {
-		node.prev = queue->tail;
-		queue->tail->next = &node;
+		aubatch_jobQueue_spliceJobNode(queue->tail, NULL, &node);
 		queue->tail = &node;
 		queue->size++;
 
@@ -153,13 +152,24 @@ int aubatch_jobQueue_insertJob(struct aubatch_jobQueue* queue, struct aubatch_jo
 	for (uint32_t i = 0; i < index; i++) {
 		current = current->next;
 	}
-	node.prev = current->prev;
-	node.next = current;
-	current->prev->next = &node;
-	current->prev = &node;
+	aubatch_jobQueue_spliceJobNode(current->prev, current, &node);
 	queue->size++;
 
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u at index %u of job queue.", node.job.id, index);
+	return 0;
+}
+
+int aubatch_jobQueue_spliceJobNode(struct aubatch_jobNode* node1, struct aubatch_jobNode* node2, struct aubatch_jobNode* newNode) {
+
+	// Update new node to point to node1 (prev) and node2 (next)
+	newNode->prev = node1;
+	newNode->next = node2;
+
+	// Update node1 and node2 to point to new node
+	node1->next = newNode;
+	node2->prev = newNode;
+
+	// Return success
 	return 0;
 }

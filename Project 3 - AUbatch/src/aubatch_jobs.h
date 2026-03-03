@@ -165,7 +165,7 @@ struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job);
 struct aubatch_job aubatch_jobQueue_dequeJob(struct aubatch_jobQueue* queue);
 
 /*
-	# Job Queue - Insert Job
+	# Job Queue - Insert Job At Index
 
 	This function will insert a job into the queue at the specified index.
 
@@ -174,4 +174,17 @@ struct aubatch_job aubatch_jobQueue_dequeJob(struct aubatch_jobQueue* queue);
 	- struct aubatch_job job: the job to insert into the queue
 	- uint32_t index: the index to insert the job at
 */
-struct aubatch_job aubatch_jobQueue_insertJob(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index);
+struct aubatch_job aubatch_jobQueue_insertJobAtIndex(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index);
+
+/*
+	# Job Queue - Splice Job Node
+
+	This function will splice a job node into a linked list between two existing nodes.
+	Note that this does not modify the queue itself, only the nodes.
+
+	## Parameters
+	- struct aubatch_jobNode* node1: pointer to the first node to splice between
+	- struct aubatch_jobNode* node2: pointer to the second node to splice between
+	- struct aubatch_jobNode* newNode: pointer to the new node
+*/
+int aubatch_jobQueue_spliceJobNode(struct aubatch_jobNode* node1, struct aubatch_jobNode* node2, struct aubatch_jobNode* newNode);
