@@ -52,6 +52,13 @@
 	UTILITIES
 */
 
+void aubatch_printWithoutPrefix(const char *message, va_list args) {
+
+	// Print without prefix
+	vprintf(message, args);
+	printf("\n");
+
+}
 
 void aubatch_printWithPrefix(const char *message, va_list args) {
 

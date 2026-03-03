@@ -60,6 +60,20 @@
 // Function Stubs
 
 /*
+	# Print Without Prefix
+
+	Print a message to std out without AUbatch prefix.
+
+	## Arguments
+	- message: The message to print with format symbols
+	- args : Arguments for format symbols
+
+	## Returns
+	- void
+*/
+void aubatch_printWithoutPrefix(const char *message, va_list args);
+
+/*
 	# Print With Prefix
 
 	Print a message to std out with AUbatch prefix.
