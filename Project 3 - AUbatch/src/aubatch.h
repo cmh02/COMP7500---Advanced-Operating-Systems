@@ -33,6 +33,7 @@
 #include "aubatch_utils.h"
 #include "aubatch_logger.h"
 #include "aubatch_config.h"
+#include "aubatch_cmdparser.h"
 
 // Module Name
 #define AUBATCH_MODULE_NAME "MAIN"

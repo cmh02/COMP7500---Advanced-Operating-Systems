@@ -41,7 +41,7 @@ int main(int argc, char* argv[]) {
 	// Initialize logger with config path
 	aubatch_initLogFile(getpid());
 
-	// Log success message
-	aubatch_log(AUBATCH_LOGLEVEL_INFO, AUBATCH_MODULE_NAME, "AUbatch started successfully with configuration file: %s", config->CONFIG_FILE_PATH);
+	// Launch commmand loop
+	aubatch_cmdparser_enterCommandLoop();
 	
 }

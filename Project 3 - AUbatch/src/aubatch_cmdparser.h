@@ -33,5 +33,7 @@
 #include "aubatch_utils.h"
 
 
+int aubatch_cmdparser_enterCommandLoop();
+
 
 #endif // AUBATCH_CMDPARSER_H
