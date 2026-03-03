@@ -17,7 +17,9 @@
 
 	## References
 	
-	1. 
+	1. https://www.tutorialspoint.com/cprogramming/c_lookup_tables.htm
+	2. https://www.reddit.com/r/C_Programming/comments/1b5ejqg/what_is_the_correct_way_to_define_a_lookup_table/
+	-> I used these resources to build a lookup table for policy names.
 
 	--------------------------------------------------
 */
@@ -48,6 +50,18 @@ enum aubatch_schedulingPolicy {
 };
 
 /*
+	# Available Scheduling Policy Names
+
+	This array will provide string names for the scheduling policies, indexed by the enum values.
+*/
+static const char *aubatch_schedulingPolicyNames[] = {
+	"NOT SET",
+	"FCFS",
+	"SJF",
+	"PRIORITY"
+};
+
+/*
 	# Set Scheduling Policy
 
 	This function will set the scheduling policy for the scheduler.
@@ -69,6 +83,7 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy);
 	## Returns
 	- enum aubatch_schedulingPolicy: the current scheduling policy for the scheduler
 */
+enum aubatch_schedulingPolicy aubatch_scheduler_getSchedulingPolicy();
 
 /*
 	# Scheduling Insertion
