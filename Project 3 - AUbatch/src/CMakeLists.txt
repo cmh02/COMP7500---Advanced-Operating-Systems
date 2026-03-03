@@ -35,4 +35,5 @@ add_executable(aubatch
     aubatch_utils.c
 	aubatch_logger.c
 	aubatch_config.c
+	aubatch_cmdparser.c
 )
