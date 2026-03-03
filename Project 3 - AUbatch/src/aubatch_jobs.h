@@ -99,6 +99,8 @@ struct aubatch_jobQueue {
 	struct aubatch_jobNode* head;
 	struct aubatch_jobNode* tail;
 	uint32_t size;
+	uint32_t totalSeenJobs;
+	uint32_t totalExpectedWaitTime;
 };
 
 /*
