@@ -57,7 +57,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 
 		// Get user input
 		char input[AUBATCH_MAX_COMMAND_LENGTH];
-		printf("> ");
+		aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "> ");
 		if (fgets(input, sizeof(input), stdin) == NULL) {
 			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Error reading input.");
 			continue;
