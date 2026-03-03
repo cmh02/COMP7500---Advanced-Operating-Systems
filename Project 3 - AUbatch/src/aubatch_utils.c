@@ -52,10 +52,6 @@
 	UTILITIES
 */
 
-void aubatch_printCommandHelp() {
-	printf("[AUbatch] Help menu not implemented yet.\n");
-}
-
 
 void aubatch_printWithPrefix(const char *message, va_list args) {
 

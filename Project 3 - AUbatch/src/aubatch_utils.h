@@ -60,19 +60,6 @@
 // Function Stubs
 
 /*
-	# Print Command Help
-
-	Print out the command help message for program usage.
-
-	## Arguments
-	- void
-
-	## Returns
-	- void
-*/
-void aubatch_printCommandHelp(void);
-
-/*
 	# Print With Prefix
 
 	Print a message to std out with AUbatch prefix.
