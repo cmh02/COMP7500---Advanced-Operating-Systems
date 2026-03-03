@@ -32,6 +32,7 @@
 #include <unistd.h>
 
 // Project Libraries
+#include "aubatch_utils.h"
 #include "aubatch_config.h"
 #include "aubatch_logger.h"
 
@@ -93,7 +94,7 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 		if (lineContentsReadLength == 0) { continue; }
 
 		// Trim whitesapce
-		char *lineContentsTrimmed = pwc_trimWhitespace(lineContents);
+		char *lineContentsTrimmed = aubatch_trimWhitespace(lineContents);
 
 		// If the line begins a multiline comment (/*), set flag and skip
 		if (!strncmp(lineContentsTrimmed, "/*", 2)) {
@@ -116,7 +117,7 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 		}
 
 		// Trim remaining whitespace after clearing comment
-		lineContentsTrimmed = pwc_trimWhitespace(lineContentsTrimmed);
+		lineContentsTrimmed = aubatch_trimWhitespace(lineContentsTrimmed);
 
 		// Check if line is now empty, if so skip
 		if (strlen(lineContentsTrimmed) == 0) { continue; }
@@ -132,8 +133,8 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 
 		// Split at the seperator
 		*seperator = '\0';
-		char *key = pwc_trimWhitespace(lineContentsTrimmed);
-		char *value = pwc_trimWhitespace(seperator + 1);
+		char *key = aubatch_trimWhitespace(lineContentsTrimmed);
+		char *value = aubatch_trimWhitespace(seperator + 1);
 
 		// Validate that key and value are actually present
 		if (strlen(key) == 0) {
