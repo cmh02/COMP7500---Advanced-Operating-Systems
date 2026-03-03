@@ -81,3 +81,85 @@ struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job) {
 	return job;
 
 }
+
+int aubatch_jobQueue_dequeueJob(struct aubatch_jobQueue* queue) {
+
+	// If the queue is empty, log and return failure
+	if (queue->size == 0) {
+		aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Attempted to dequeue job from empty queue!");
+		return 1;
+	}
+
+	// Get job from head of queue and update queue
+	struct aubatch_job job = queue->head->job;
+	queue->head = queue->head->next;
+
+	// Update size, log, and return
+	queue->size--;
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Dequeued job with ID %u from job queue.", job.id);
+	return 0;
+}
+
+int aubatch_jobQueue_insertJob(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index) {
+
+	// If the queue is empty, just enqueue the job
+	if (queue->size == 0) {
+		return aubatch_jobQueue_enqueueJob(queue, job);
+	}
+
+	// Create new node for job
+	struct aubatch_jobNode node;
+	node.job = job;
+	node.next = NULL;
+	node.prev = NULL;
+
+	// Handle inserting into empty queue
+	if (queue->size == 0) {
+		queue->head = &node;
+		queue->tail = &node;
+		queue->size++;
+
+		// Log and return
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u in empty job queue.", node.job.id);
+		return 0;
+	}
+
+	// Handle inserting at beginning of non-empty queue
+	if (index == 0) {
+		node.next = queue->head;
+		queue->head->prev = &node;
+		queue->head = &node;
+		queue->size++;
+
+		// Log and return
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u at beginning of job queue.", node.job.id);
+		return 0;
+	}
+
+	// Handle inserting at end of non-empty queue
+	if (index >= queue->size) {
+		node.prev = queue->tail;
+		queue->tail->next = &node;
+		queue->tail = &node;
+		queue->size++;
+
+		// Log and return
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u at end of job queue.", node.job.id);
+		return 0;
+	}
+
+	// Handle inserting in middle of non-empty queue
+	struct aubatch_jobNode* current = queue->head;
+	for (uint32_t i = 0; i < index; i++) {
+		current = current->next;
+	}
+	node.prev = current->prev;
+	node.next = current;
+	current->prev->next = &node;
+	current->prev = &node;
+	queue->size++;
+
+	// Log and return
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u at index %u of job queue.", node.job.id, index);
+	return 0;
+}
