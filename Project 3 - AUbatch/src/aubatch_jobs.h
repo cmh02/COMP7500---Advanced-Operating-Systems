@@ -27,6 +27,7 @@
 #define AUBATCH_JOBS_H
 
 // Libraries
+#include <time.h>
 #include <unistd.h>
 #include <stdint.h>
 
@@ -65,6 +66,10 @@ struct aubatch_job {
 	uint32_t id;
 	uint32_t execution_time;
 	uint32_t priority;
+	time_t creation_time;
+	time_t arrival_time;
+	time_t start_time;
+	time_t completion_time;
 	enum aubatch_jobStatus status;
 };
 

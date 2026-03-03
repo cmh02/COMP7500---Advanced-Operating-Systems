@@ -37,10 +37,15 @@ struct aubatch_job aubatch_jobs_createNewJob(char name, int executionTime, int p
 		return newJob;
 	}
 
-	// Copy over name, execution time, and priority, then set status to NEW
+	// Copy over name, execution time, and priority
 	newJob.name = name;
 	newJob.execution_time = executionTime;
 	newJob.priority = priority;
+
+	// Set creation time to now
+	newJob.creation_time = time(NULL);
+
+	// Set status to new
 	newJob.status = AUBATCH_JOBSTATUS_NEW;
 
 	// Log and return
