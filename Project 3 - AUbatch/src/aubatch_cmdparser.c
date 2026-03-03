@@ -131,7 +131,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 			aubatch_scheduler_insert(job);
 
 			// Print submission message
-			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_JOBSUBMISSION, job.name, aubatch_scheduler_getCurrentQueueSize(), aubatch_scheduler_getCurrentWaitTime(), aubatch_schedulingPolicyNames[aubatch_scheduler_getSchedulingPolicy()]);
+			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_JOBSUBMISSION, job.name, aubatch_scheduler_getCurrentQueueSize(), aubatch_scheduler_getCurrentWaitTime(), aubatch_scheduler_getSchedulingPolicyName());
 
 		// Quit command
 		} else if (strcmp(args[0], "quit") == 0) {
