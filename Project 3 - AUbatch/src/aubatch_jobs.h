@@ -151,20 +151,6 @@ struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job);
 #endif // AUBATCH_JOBS_H
 
 /*
-	# Job Queue - Deque Job
-
-	This function will remove a job from the front of the queue and return it.
-
-	## Parameters
-	- struct aubatch_jobQueue* queue: pointer to the job queue to remove from
-
-	## Returns
-	- struct aubatch_job: the job removed from the front of the queue, or a job with ID 0 on failure
-
-*/
-struct aubatch_job aubatch_jobQueue_dequeJob(struct aubatch_jobQueue* queue);
-
-/*
 	# Job Queue - Get Node At Index
 
 	This function will return a pointer to the node at the specified index in the queue.
@@ -177,18 +163,6 @@ struct aubatch_job aubatch_jobQueue_dequeJob(struct aubatch_jobQueue* queue);
 	- struct aubatch_jobNode*: pointer to the node at the specified index, or NULL if the index is out of bounds
 */
 struct aubatch_jobNode* aubatch_jobQueue_getNodeAtIndex(struct aubatch_jobQueue* queue, uint32_t index);
-
-/*
-	# Job Queue - Insert Job At Index
-
-	This function will insert a job into the queue at the specified index.
-
-	## Parameters
-	- struct aubatch_jobQueue* queue: pointer to the job queue to insert into
-	- struct aubatch_job job: the job to insert into the queue
-	- uint32_t index: the index to insert the job at
-*/
-struct aubatch_job aubatch_jobQueue_insertJobAtIndex(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index);
 
 /*
 	# Job Queue - Splice Job Node

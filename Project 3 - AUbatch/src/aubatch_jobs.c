@@ -82,24 +82,6 @@ struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job) {
 
 }
 
-int aubatch_jobQueue_dequeueJob(struct aubatch_jobQueue* queue) {
-
-	// If the queue is empty, log and return failure
-	if (queue->size == 0) {
-		aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Attempted to dequeue job from empty queue!");
-		return 1;
-	}
-
-	// Get job from head of queue and update queue
-	struct aubatch_job job = queue->head->job;
-	queue->head = queue->head->next;
-
-	// Update size, log, and return
-	queue->size--;
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Dequeued job with ID %u from job queue.", job.id);
-	return 0;
-}
-
 struct aubatch_jobNode* aubatch_jobQueue_getNodeAtIndex(struct aubatch_jobQueue* queue, uint32_t index) {
 
 	// If the queue is empty or index is out of bounds, return NULL
@@ -128,69 +110,6 @@ struct aubatch_jobNode* aubatch_jobQueue_getNodeAtIndex(struct aubatch_jobQueue*
 
 	}
 	return currentNode;
-}
-
-int aubatch_jobQueue_insertJobAtIndex(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index) {
-
-	// If the queue is empty, just enqueue the job
-	if (queue->size == 0) {
-		return aubatch_jobQueue_enqueueJob(queue, job);
-	}
-
-	// Create new node for job
-	struct aubatch_jobNode node;
-	node.job = job;
-	node.next = NULL;
-	node.prev = NULL;
-
-	// Handle inserting into empty queue
-	if (queue->size == 0) {
-		aubatch_jobQueue_spliceJobNode(NULL, NULL, &node);
-		queue->head = &node;
-		queue->tail = &node;
-		queue->size++;
-
-		// Log and return
-		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u in empty job queue.", node.job.id);
-		return 0;
-	}
-
-	// Handle inserting at beginning of non-empty queue
-	if (index == 0) {
-		aubatch_jobQueue_spliceJobNode(NULL, queue->head, &node);
-		queue->head = &node;
-		queue->size++;
-
-		// Log and return
-		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u at beginning of job queue.", node.job.id);
-		return 0;
-	}
-
-	// Handle inserting at end of non-empty queue
-	if (index >= queue->size) {
-		aubatch_jobQueue_spliceJobNode(queue->tail, NULL, &node);
-		queue->tail = &node;
-		queue->size++;
-
-		// Log and return
-		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u at end of job queue.", node.job.id);
-		return 0;
-	}
-
-	// Get the node currently at index
-	struct aubatch_jobNode* currentNodeAtIndex = aubatch_jobQueue_getNodeAtIndex(queue, index);
-	if (currentNodeAtIndex == NULL) {
-		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to get node at index %u when inserting job with ID %u into job queue!", index, node.job.id);
-		return 1;
-	}
-
-	// Insert the new node inplace by splicing it
-	aubatch_jobQueue_spliceJobNode(currentNodeAtIndex->prev, currentNodeAtIndex, &node);
-	queue->size++;
-
-	// Log and return
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u at index %u of job queue.", node.job.id, index);
-	return 0;
 }
 
 int aubatch_jobQueue_spliceJobNode(struct aubatch_jobNode* node1, struct aubatch_jobNode* node2, struct aubatch_jobNode* newNode) {
