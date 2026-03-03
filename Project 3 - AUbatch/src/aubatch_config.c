@@ -74,7 +74,7 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 	// Open config file and detect any errors
 	FILE* configFile = fopen(filePath, "r");
 	if (configFile == NULL) {
-		pwc_log(PWC_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "The attempt to open the configuration file at path '%s' has failed!", filePath);
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "The attempt to open the configuration file at path '%s' has failed!", filePath);
 		return 1;
 	}
 
@@ -126,7 +126,7 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 
 		// Check that we found a valid seperator, if not, skip and warn
 		if (!seperator) {
-			pwc_log(PWC_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid non-comment line %d in configuration file, missing '=': %s!", lineCounter, lineContentsTrimmed);
+			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid non-comment line %d in configuration file, missing '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 
@@ -137,19 +137,19 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 
 		// Validate that key and value are actually present
 		if (strlen(key) == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, missing key before '=': %s!", lineCounter, lineContentsTrimmed);
+			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, missing key before '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 		if (strlen(value) == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, missing value after '=': %s!", lineCounter, lineContentsTrimmed);
+			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, missing value after '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 		if (strcmp(key, "\0") == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, empty key before '=': %s!", lineCounter, lineContentsTrimmed);
+			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, empty key before '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 		if (strcmp(value, "\0") == 0) {
-			pwc_log(PWC_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, empty value after '=': %s!", lineCounter, lineContentsTrimmed);
+			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Skipping invalid configuration line %d, empty value after '=': %s!", lineCounter, lineContentsTrimmed);
 			continue;
 		}
 
@@ -162,7 +162,7 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 				config->LOGGING_SEND_DEBUG_TO_LOG = false;
 			}
 			else {
-				pwc_log(PWC_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_DEBUG_TO_LOG: %s, using default value of '%s'!", value, config->LOGGING_SEND_DEBUG_TO_LOG ? "true" : "false");
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_DEBUG_TO_LOG: %s, using default value of '%s'!", value, config->LOGGING_SEND_DEBUG_TO_LOG ? "true" : "false");
 			}
 		}
 		if (!strcmp(key, "LOGGING_SEND_DEBUG_TO_STDOUT")) {
@@ -173,7 +173,7 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 				config->LOGGING_SEND_DEBUG_TO_STDOUT = false;
 			}
 			else {
-				pwc_log(PWC_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_DEBUG_TO_STDOUT: %s, using default value of '%s'!", value, config->LOGGING_SEND_DEBUG_TO_STDOUT ? "true" : "false");
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_DEBUG_TO_STDOUT: %s, using default value of '%s'!", value, config->LOGGING_SEND_DEBUG_TO_STDOUT ? "true" : "false");
 			}
 		}
 		else if (!strcmp(key, "LOGGING_DIRECTORY")) {
