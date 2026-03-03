@@ -95,6 +95,9 @@ void aubatch_log(enum aubatch_loggerLevel level, const char* module, const char*
 		case AUBATCH_LOGLEVEL_ERROR:
 			logLevelString = "ERROR";
 			break;
+		case AUBATCH_LOGLEVEL_INTERACTIVE:
+			logLevelString = "INTERACTIVE";
+			break;
 		default:
 			logLevelString = "UNKNOWN";
 	}
@@ -136,11 +139,10 @@ void aubatch_log(enum aubatch_loggerLevel level, const char* module, const char*
 		aubatch_warnWithPrefix(message, argsCopyForPrinting);
 	} else if (level == AUBATCH_LOGLEVEL_ERROR) {
 		aubatch_errorWithPrefix(message, argsCopyForPrinting);
-	}
-
-	// For debug, check config file, and print if enabled
-	if ((level == AUBATCH_LOGLEVEL_DEBUG) && (config->LOGGING_SEND_DEBUG_TO_STDOUT)) {
+	} else if ((level == AUBATCH_LOGLEVEL_DEBUG) && (config->LOGGING_SEND_DEBUG_TO_STDOUT)) {
 		aubatch_debugWithPrefix(message, argsCopyForPrinting);
+	} else if (level == AUBATCH_LOGLEVEL_INTERACTIVE) {
+		aubatch_printWithoutPrefix(message, argsCopyForPrinting);
 	}
 
 	// Exit
