@@ -156,6 +156,9 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 	}
 
+	// Set arrival time of job to now
+	node.job.arrival_time = time(NULL);
+
 	// Increment queue size, total seen jobs, and expected wait time
 	aubatch_scheduler_currentJobQueue.size++;
 	aubatch_scheduler_currentJobQueue.totalSeenJobs++;
