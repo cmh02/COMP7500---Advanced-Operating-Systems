@@ -32,7 +32,17 @@
 #include "aubatch.h"
 #include "aubatch_utils.h"
 
+/*
+	# Command Parser Command Loop
 
+	Enter the command loop for the command parser.
+
+	## Arguments
+	- None
+
+	## Returns
+	- void
+*/
 int aubatch_cmdparser_enterCommandLoop();
 
 
