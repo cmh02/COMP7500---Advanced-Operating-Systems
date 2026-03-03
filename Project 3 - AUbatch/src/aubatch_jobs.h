@@ -127,13 +127,14 @@ uint32_t aubatch_jobs_generateNextJobID();
 	This function will create a new job with the given information.
 
 	## Parameters
+	- name: the name of the job
 	- executionTime: the execution time for the job
 	- priority: the priority for the job
 
 	## Returns
 	- struct aubatch_job: the new job struct with the given information and a generated ID
 */
-struct aubatch_job aubatch_jobs_createNewJob(int executionTime, int priority);
+struct aubatch_job aubatch_jobs_createNewJob(char name, int executionTime, int priority);
 
 /*
 	# Run Job

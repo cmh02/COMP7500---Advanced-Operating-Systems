@@ -25,7 +25,7 @@
 // Project Libraries
 #include "aubatch_jobs.h"
 
-struct aubatch_job aubatch_createNewJob(char name, int executionTime, int priority) {
+struct aubatch_job aubatch_jobs_createNewJob(char name, int executionTime, int priority) {
 
 	// Initialize a new job
 	struct aubatch_job newJob;
