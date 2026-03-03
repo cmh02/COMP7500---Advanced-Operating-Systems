@@ -147,12 +147,26 @@ int aubatch_jobQueue_insertJobAtIndex(struct aubatch_jobQueue* queue, struct aub
 		return 0;
 	}
 
-	// Handle inserting in middle of non-empty queue
-	struct aubatch_jobNode* current = queue->head;
-	for (uint32_t i = 0; i < index; i++) {
-		current = current->next;
+	// Determine whether faster to traverse from head or tail
+	struct aubatch_jobNode* currentNode;
+	if (index < queue->size / 2) {
+		
+		// Traversing from head
+		currentNode = queue->head;
+		for (uint32_t i = 0; i < index; i++) {
+			currentNode = currentNode->next;
+		}
+
+	} else {
+
+		// Traversing from tail
+		struct aubatch_jobNode* currentNode = queue->tail;
+		for (uint32_t i = queue->size - 1; i > index; i--) {
+			currentNode = currentNode->prev;
+		}
+
 	}
-	aubatch_jobQueue_spliceJobNode(current->prev, current, &node);
+	aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, &node);
 	queue->size++;
 
 	// Log and return
