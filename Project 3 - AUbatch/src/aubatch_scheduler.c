@@ -53,7 +53,7 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 
 	// Make a new queue and sort all jobs according to new policy
 	struct aubatch_jobQueue oldQueue = aubatch_scheduler_currentJobQueue;
-	aubatch_scheduler_currentJobQueue = (struct aubatch_jobQueue){ .head = NULL, .tail = NULL, .size = 0 };
+	aubatch_scheduler_currentJobQueue = (struct aubatch_jobQueue){ .head = NULL, .tail = NULL, .size = 0, .totalSeenJobs = 0, .totalExpectedWaitTime = 0 };
 
 	// Re-insert all jobs with new policy
 	struct aubatch_jobNode* currentNode = oldQueue.head;
@@ -140,8 +140,12 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 	}
 
-	// Increment queue size, log, return
+	// Increment queue size, total seen jobs, and expected wait time
 	aubatch_scheduler_currentJobQueue.size++;
+	aubatch_scheduler_currentJobQueue.totalSeenJobs++;
+	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime += job.execution_time;
+
+	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u according to %d policy! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentSchedulingPolicy, aubatch_scheduler_currentJobQueue.size);
 	return 0;
 
