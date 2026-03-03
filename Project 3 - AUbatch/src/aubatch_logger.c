@@ -65,7 +65,7 @@ static char logFilePath[256];
 // Initialized Flag
 static bool isLogFileInitialized = false;
 
-void pwc_log(enum aubatch_loggerLevel level, const char* module, const char* message, ...) {
+void aubatch_log(enum aubatch_loggerLevel level, const char* module, const char* message, ...) {
 
 	// Get the current time 
 	time_t currentTime = time(NULL);
