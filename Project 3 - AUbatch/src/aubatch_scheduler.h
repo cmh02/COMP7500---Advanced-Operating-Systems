@@ -80,10 +80,52 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy);
 
 	This function will return the current scheduling policy for the scheduler.
 
+	## Parameters
+	- None
+
 	## Returns
 	- enum aubatch_schedulingPolicy: the current scheduling policy for the scheduler
 */
 enum aubatch_schedulingPolicy aubatch_scheduler_getSchedulingPolicy();
+
+/*
+	# Get Current Wait Time
+
+	This function will get current (estimated) wait time for queue.
+
+	## Parameters
+	- None
+
+	## Returns
+	- uint8_t: the current (estimated) wait time for queue
+*/
+uint8_t aubatch_scheduler_getCurrentWaitTime();
+
+/*
+	# Get Current Queue Size
+
+	This function will get the current size of queue.
+
+	## Parameters
+	- None
+
+	## Returns
+	- uint8_t: the current size of queue
+*/
+uint8_t aubatch_scheduler_getCurrentQueueSize();
+
+/*
+	# Get Current Total Seen Jobs
+
+	This function will get the current total seen jobs for queue.
+
+	## Parameters
+	- None
+
+	## Returns
+	- uint8_t: the current total seen jobs for the current queue
+*/
+uint8_t aubatch_scheduler_getCurrentTotalSeenJobs();
 
 /*
 	# Scheduling Insertion
