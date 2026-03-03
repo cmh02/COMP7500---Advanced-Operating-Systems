@@ -27,7 +27,7 @@
 
 struct aubatch_job aubatch_createNewJob(int executionTime, int priority) {
 
-	// Make new struct for job
+	// Initialize a new job
 	struct aubatch_job newJob;
 
 	// Get new ID and verify success
@@ -37,7 +37,7 @@ struct aubatch_job aubatch_createNewJob(int executionTime, int priority) {
 		return newJob;
 	}
 
-	// Set other fields for job and return struct
+	// Copy over execution time & priority, set status to NEW
 	newJob.execution_time = executionTime;
 	newJob.priority = priority;
 	newJob.status = AUBATCH_JOBSTATUS_NEW;
@@ -50,13 +50,13 @@ struct aubatch_job aubatch_createNewJob(int executionTime, int priority) {
 uint32_t aubatch_jobs_nextJobID;
 uint32_t aubatch_jobs_generateNextJobID() {
 
-	// Check that var for next ID has been initialized
+	// Start ID's at 1 so we can reserve 0 for error cases / maxing out ID's
 	if (aubatch_jobs_nextJobID == 0) {
 		aubatch_jobs_nextJobID = 1;
 		return aubatch_jobs_nextJobID;
 	}
 
-	// Check that we haven't maxed out ID yet
+	// Check that we haven't maxed out ID's yet
 	if (aubatch_jobs_nextJobID == UINT32_MAX) {
 		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "The maximum Job ID has been reached - cannot generate new Job ID's!");
 		return 0;
@@ -68,11 +68,11 @@ uint32_t aubatch_jobs_generateNextJobID() {
 
 struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job) {
 
-	// Log job run
+	// Log job run and update status
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Running job with ID %u, execution time %u, and priority %u.", job.id, job.execution_time, job.priority);
 	job.status = AUBATCH_JOBSTATUS_RUNNING;
 
-	// Sleep for the job's execution time
+	// Mock the job's execution for the specified time
 	sleep(job.execution_time);
 
 	// Log job completion and return
