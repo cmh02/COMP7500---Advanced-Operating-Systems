@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/aubatch.dir/aubatch.c.o"
   "CMakeFiles/aubatch.dir/aubatch.c.o.d"
+  "CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o"
+  "CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o.d"
   "CMakeFiles/aubatch.dir/aubatch_config.c.o"
   "CMakeFiles/aubatch.dir/aubatch_config.c.o.d"
   "CMakeFiles/aubatch.dir/aubatch_logger.c.o"

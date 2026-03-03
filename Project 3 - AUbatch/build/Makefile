@@ -153,6 +153,30 @@ aubatch.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch.c.s
 .PHONY : aubatch.c.s
 
+aubatch_cmdparser.o: aubatch_cmdparser.c.o
+.PHONY : aubatch_cmdparser.o
+
+# target to build an object file
+aubatch_cmdparser.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o
+.PHONY : aubatch_cmdparser.c.o
+
+aubatch_cmdparser.i: aubatch_cmdparser.c.i
+.PHONY : aubatch_cmdparser.i
+
+# target to preprocess a source file
+aubatch_cmdparser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_cmdparser.c.i
+.PHONY : aubatch_cmdparser.c.i
+
+aubatch_cmdparser.s: aubatch_cmdparser.c.s
+.PHONY : aubatch_cmdparser.s
+
+# target to generate assembly for a file
+aubatch_cmdparser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_cmdparser.c.s
+.PHONY : aubatch_cmdparser.c.s
+
 aubatch_config.o: aubatch_config.c.o
 .PHONY : aubatch_config.o
 
@@ -237,6 +261,9 @@ help:
 	@echo "... aubatch.o"
 	@echo "... aubatch.i"
 	@echo "... aubatch.s"
+	@echo "... aubatch_cmdparser.o"
+	@echo "... aubatch_cmdparser.i"
+	@echo "... aubatch_cmdparser.s"
 	@echo "... aubatch_config.o"
 	@echo "... aubatch_config.i"
 	@echo "... aubatch_config.s"
