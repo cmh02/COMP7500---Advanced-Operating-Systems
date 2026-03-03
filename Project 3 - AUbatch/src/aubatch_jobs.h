@@ -61,6 +61,7 @@ enum aubatch_jobStatus {
 
 */
 struct aubatch_job {
+	char name;
 	uint32_t id;
 	uint32_t execution_time;
 	uint32_t priority;

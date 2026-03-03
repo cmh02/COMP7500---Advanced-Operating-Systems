@@ -25,7 +25,7 @@
 // Project Libraries
 #include "aubatch_jobs.h"
 
-struct aubatch_job aubatch_createNewJob(int executionTime, int priority) {
+struct aubatch_job aubatch_createNewJob(char name, int executionTime, int priority) {
 
 	// Initialize a new job
 	struct aubatch_job newJob;
@@ -37,7 +37,8 @@ struct aubatch_job aubatch_createNewJob(int executionTime, int priority) {
 		return newJob;
 	}
 
-	// Copy over execution time & priority, set status to NEW
+	// Copy over name, execution time, and priority, then set status to NEW
+	newJob.name = name;
 	newJob.execution_time = executionTime;
 	newJob.priority = priority;
 	newJob.status = AUBATCH_JOBSTATUS_NEW;
