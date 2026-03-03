@@ -67,6 +67,39 @@ struct aubatch_job {
 	enum aubatch_jobStatus status;
 };
 
+/* 
+	# Job Queue Node Data Structure
+
+	This struct will provide a node for the job queue double-linked-list.
+
+	## Fields
+	- job: the job contained in this node
+	- next: pointer to the next node in the queue
+	- prev: pointer to the previous node in the queue
+*/
+struct aubatch_jobNode {
+	struct aubatch_job job;
+	struct aubatch_jobNode* next;
+	struct aubatch_jobNode* prev;
+};
+
+/* 
+	# Job Queue Data Structure
+
+	This struct will provide a queue for the jobs in the system.
+	This is implemented as a double-linked-list with some easy access and modifiers.
+
+	## Fields
+	- head: pointer to the first job in the queue
+	- tail: pointer to the last job in the queue
+	- size: the number of jobs currently in the queue
+*/
+struct aubatch_jobQueue {
+	struct aubatch_jobNode* head;
+	struct aubatch_jobNode* tail;
+	uint32_t size;
+};
+
 /*
 	# Next Job ID
 
