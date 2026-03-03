@@ -38,7 +38,7 @@
 // Module Name
 #define AUBATCH_MODULE_NAME "MAIN"
 
-// Progream Information
+// Program Information
 #define AUBATCH_PROGRAM_NAME "AUbatch"
 #define AUBATCH_PROGRAM_AUTHOR "Chris Hinkson"
 #define AUBATCH_PROGRAM_VERSION "1.0"
