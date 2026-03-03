@@ -1,0 +1,1 @@
+/usr/bin/cc  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/aubatch.dir/aubatch.c.o CMakeFiles/aubatch.dir/aubatch_utils.c.o CMakeFiles/aubatch.dir/aubatch_logger.c.o CMakeFiles/aubatch.dir/aubatch_config.c.o -o aubatch

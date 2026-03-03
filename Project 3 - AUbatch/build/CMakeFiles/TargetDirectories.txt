@@ -1,0 +1,3 @@
+/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles/aubatch.dir
+/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles/edit_cache.dir
+/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles/rebuild_cache.dir
