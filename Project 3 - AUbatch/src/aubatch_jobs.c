@@ -100,6 +100,36 @@ int aubatch_jobQueue_dequeueJob(struct aubatch_jobQueue* queue) {
 	return 0;
 }
 
+struct aubatch_jobNode* aubatch_jobQueue_getNodeAtIndex(struct aubatch_jobQueue* queue, uint32_t index) {
+
+	// If the queue is empty or index is out of bounds, return NULL
+	if (queue->size == 0 || index >= queue->size) {
+		return NULL;
+	}
+
+	// If in first half of queue, traverse from head
+	struct aubatch_jobNode* currentNode;
+	if (index < queue->size / 2) {
+		
+		// Traversing from head
+		currentNode = queue->head;
+		for (uint32_t i = 0; i < index; i++) {
+			currentNode = currentNode->next;
+		}
+
+	// If in second half of queue, traverse from tail
+	} else {
+
+		// Traversing from tail
+		currentNode = queue->tail;
+		for (uint32_t i = queue->size - 1; i > index; i--) {
+			currentNode = currentNode->prev;
+		}
+
+	}
+	return currentNode;
+}
+
 int aubatch_jobQueue_insertJobAtIndex(struct aubatch_jobQueue* queue, struct aubatch_job job, uint32_t index) {
 
 	// If the queue is empty, just enqueue the job
@@ -147,26 +177,15 @@ int aubatch_jobQueue_insertJobAtIndex(struct aubatch_jobQueue* queue, struct aub
 		return 0;
 	}
 
-	// Determine whether faster to traverse from head or tail
-	struct aubatch_jobNode* currentNode;
-	if (index < queue->size / 2) {
-		
-		// Traversing from head
-		currentNode = queue->head;
-		for (uint32_t i = 0; i < index; i++) {
-			currentNode = currentNode->next;
-		}
-
-	} else {
-
-		// Traversing from tail
-		struct aubatch_jobNode* currentNode = queue->tail;
-		for (uint32_t i = queue->size - 1; i > index; i--) {
-			currentNode = currentNode->prev;
-		}
-
+	// Get the node currently at index
+	struct aubatch_jobNode* currentNodeAtIndex = aubatch_jobQueue_getNodeAtIndex(queue, index);
+	if (currentNodeAtIndex == NULL) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to get node at index %u when inserting job with ID %u into job queue!", index, node.job.id);
+		return 1;
 	}
-	aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, &node);
+
+	// Insert the new node inplace by splicing it
+	aubatch_jobQueue_spliceJobNode(currentNodeAtIndex->prev, currentNodeAtIndex, &node);
 	queue->size++;
 
 	// Log and return

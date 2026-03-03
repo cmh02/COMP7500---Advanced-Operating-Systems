@@ -165,6 +165,20 @@ struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job);
 struct aubatch_job aubatch_jobQueue_dequeJob(struct aubatch_jobQueue* queue);
 
 /*
+	# Job Queue - Get Node At Index
+
+	This function will return a pointer to the node at the specified index in the queue.
+
+	## Parameters
+	- struct aubatch_jobQueue* queue: pointer to the job queue to get the node from
+	- uint32_t index: the index to get the node at
+
+	## Returns
+	- struct aubatch_jobNode*: pointer to the node at the specified index, or NULL if the index is out of bounds
+*/
+struct aubatch_jobNode* aubatch_jobQueue_getNodeAtIndex(struct aubatch_jobQueue* queue, uint32_t index);
+
+/*
 	# Job Queue - Insert Job At Index
 
 	This function will insert a job into the queue at the specified index.
