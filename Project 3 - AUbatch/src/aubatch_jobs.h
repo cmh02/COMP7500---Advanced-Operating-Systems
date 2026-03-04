@@ -77,20 +77,32 @@ const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status);
 	This struct will represent a job in the system
 
 	## Fields
-	- id: the unique identifier for the job
-	- execution_time: the execution time for the job
-	- priority: the priority for the job
+	- name: the name of the job (user-specified)
+	- id: the unique ID of the job (system)
+	- priority: the priority of the job (user-specified)
+	- time_requestedExecution: the execution time requested for the job (user-specified)
+	- time_creation: the time the job was created (system)
+	- time_arrival: the time the job arrived in the queue (system)
+	- time_start: the time the job started execution (system)
+	- time_completion: the time the job completed execution (system)
+	- time_wait: the total time the job spent waiting in the queue (system)
+	- time_actualExecution: the actual execution time of the job (system)
+	- time_turnaround: the total turnaround time for the job (system)
+	- status: the current status of the job (system)
 
 */
 struct aubatch_job {
 	char name[AUBATCH_MAX_JOB_NAME_LENGTH];
 	uint32_t id;
-	uint32_t execution_time;
 	uint32_t priority;
-	time_t creation_time;
-	time_t arrival_time;
-	time_t start_time;
-	time_t completion_time;
+	uint32_t time_requestedExecution;
+	time_t time_creation;
+	time_t time_arrival;
+	time_t time_start;
+	time_t time_completion;
+	time_t time_wait;
+	time_t time_actualExecution;
+	time_t time_turnaround;
 	enum aubatch_jobStatus status;
 };
 
@@ -156,7 +168,7 @@ uint32_t aubatch_jobs_generateNextJobID();
 
 	## Parameters
 	- name: the name of the job
-	- executionTime: the execution time for the job
+	- executionTime: the requested execution time for the job
 	- priority: the priority for the job
 
 	## Returns

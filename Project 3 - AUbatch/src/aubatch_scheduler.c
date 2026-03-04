@@ -189,7 +189,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 			// Traverse list to find first job with a longer execution time
 			struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
-			while ((currentNode != NULL) && (currentNode->job.execution_time <= node->job.execution_time)) {
+			while ((currentNode != NULL) && (currentNode->job.time_requestedExecution <= node->job.time_requestedExecution)) {
 				currentNode = currentNode->next;
 			}
 
@@ -240,12 +240,12 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	}
 
 	// Set arrival time of job to now
-	node->job.arrival_time = time(NULL);
+	node->job.time_arrival = time(NULL);
 
 	// Increment queue size, total seen jobs, and expected wait time
 	aubatch_scheduler_currentJobQueue.size++;
 	aubatch_scheduler_currentJobQueue.totalSeenJobs++;
-	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime += job.execution_time;
+	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime += job.time_requestedExecution;
 
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();
@@ -331,7 +331,7 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 
 	// Update size and expected wait time for queue
 	aubatch_scheduler_currentJobQueue.size--;
-	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime -= job.execution_time;
+	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime -= job.time_requestedExecution;
 
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();

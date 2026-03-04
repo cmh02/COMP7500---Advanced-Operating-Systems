@@ -54,17 +54,17 @@ struct aubatch_job aubatch_jobs_createNewJob(char* name, int executionTime, int 
 	// Copy over name, execution time, and priority
 	strncpy(newJob.name, name, AUBATCH_MAX_JOB_NAME_LENGTH - 1);
 	newJob.name[AUBATCH_MAX_JOB_NAME_LENGTH - 1] = '\0';
-	newJob.execution_time = executionTime;
+	newJob.time_requestedExecution = executionTime;
 	newJob.priority = priority;
 
 	// Set creation time to now
-	newJob.creation_time = time(NULL);
+	newJob.time_creation = time(NULL);
 
 	// Set status to new
 	newJob.status = AUBATCH_JOBSTATUS_NEW;
 
 	// Log and return
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Created new job with ID %u, execution time %u, and priority %u.", newJob.id, newJob.execution_time, newJob.priority);
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Created new job with ID %u, execution time %u, and priority %u.", newJob.id, newJob.time_requestedExecution, newJob.priority);
 	return newJob;
 }
 
@@ -90,11 +90,11 @@ uint32_t aubatch_jobs_generateNextJobID() {
 struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job) {
 
 	// Log job run and update status
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Running job with ID %u, execution time %u, and priority %u.", job.id, job.execution_time, job.priority);
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Running job with ID %u, execution time %u, and priority %u.", job.id, job.time_requestedExecution, job.priority);
 	job.status = AUBATCH_JOBSTATUS_RUNNING;
 
 	// Mock the job's execution for the specified time
-	sleep(job.execution_time);
+	sleep(job.time_requestedExecution);
 
 	// Log job completion and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Completed job with ID %u.", job.id);
