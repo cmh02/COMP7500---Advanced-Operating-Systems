@@ -51,6 +51,26 @@ enum aubatch_jobStatus {
 };
 
 /*
+	# Job Status Names
+
+	This will provide string representations for the job statuses.
+	The index of each string corresponds to the value of the enum.
+*/
+static const char* aubatch_jobStatusNames[] = {
+	"NEW",
+	"READY",
+	"RUNNING",
+	"COMPLETED",
+	"FAILED"
+};
+
+/* 
+	# Get Job Status Name
+*/
+const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status);
+
+
+/*
 	# Job Data Structure
 
 	This struct will represent a job in the system

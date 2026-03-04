@@ -25,6 +25,10 @@
 // Project Libraries
 #include "aubatch_jobs.h"
 
+const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status) {
+	return aubatch_jobStatusNames[status];
+}
+
 struct aubatch_job aubatch_jobs_createNewJob(char name, int executionTime, int priority) {
 
 	// Initialize a new job
