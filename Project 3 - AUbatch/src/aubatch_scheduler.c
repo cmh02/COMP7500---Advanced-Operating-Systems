@@ -352,9 +352,11 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting = true;
 
 	// Move queue head up
-	aubatch_scheduler_currentJobQueue.head = node->next;
-	if (aubatch_scheduler_currentJobQueue.head != NULL) {
+	if (node->next != NULL) {
+		aubatch_scheduler_currentJobQueue.head = node->next;
 		aubatch_scheduler_currentJobQueue.head->prev = NULL;
+	} else {
+		aubatch_scheduler_currentJobQueue.head = NULL;
 	}
 	
 	// Free memory for old head node
