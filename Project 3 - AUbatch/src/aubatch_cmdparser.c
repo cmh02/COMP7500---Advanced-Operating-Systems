@@ -134,7 +134,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 				continue;
 			}
 			uint32_t executionTime;
-			aubatch_parseUnsignedLong(executionTimeRaw, &executionTime);
+			aubatch_parseUnsignedInt32(executionTimeRaw, &executionTime);
 
 			// Make job and insert
 			struct aubatch_job job = aubatch_jobs_createNewJob(jobName[0], executionTime, 1);

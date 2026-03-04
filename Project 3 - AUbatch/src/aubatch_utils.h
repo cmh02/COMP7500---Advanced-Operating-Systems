@@ -157,6 +157,20 @@ char* aubatch_trimWhitespace(char *str);
 bool aubatch_parseUnsignedLong(const char *str, unsigned long *out);
 
 /*
+	# Parse Unsigned Int32
+
+	Parse uint32_t from string with enhanced error detection.
+
+	## Arguments
+	- str : Pointer to the string to parse
+	- out : Pointer to where the uint32_t should be stored
+
+	## Returns
+	- bool : True if parsing was successful, false otherwise
+*/
+bool aubatch_parseUnsignedInt32(const char *str, uint32_t *out);
+
+/*
 	# Parse Bool
 
 	Parse bool value from string with enhanced error detection.

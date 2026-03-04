@@ -146,6 +146,22 @@ bool aubatch_parseUnsignedLong(const char *str, unsigned long *out) {
 
 }
 
+bool aubatch_parseUnsignedInt32(const char *str, uint32_t *out) {
+
+	// Parse as unsigned long
+	unsigned long parsedValue;
+	bool parsingSuccess = aubatch_parseUnsignedLong(str, &parsedValue);
+	if (!parsingSuccess) { return false; }
+
+	// Check that the parsed value fits in uint32_t
+	if (parsedValue > UINT32_MAX) { return false; }
+
+	// Set output and return
+	*out = (uint32_t)parsedValue;
+	return true;
+
+}
+
 bool aubatch_parseBool(const char *str, bool *out) {
 
 	// Check for true
