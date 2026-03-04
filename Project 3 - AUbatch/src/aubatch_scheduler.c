@@ -26,6 +26,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <stdbool.h>
 
 // Project Libraries
 #include "aubatch_jobs.h"
@@ -59,8 +60,13 @@ static struct aubatch_jobQueue aubatch_scheduler_currentJobQueue;
 struct aubatch_currentJobMetrics {
 	struct aubatch_job job;
 	time_t time_poppedFromQueue;
+	bool isCurrentlyExecuting;
 } aubatch_scheduler_currentJobMetrics;
-struct aubatch_currentJobMetrics aubatch_scheduler_currentJobMetrics = { .job = { .id = 0 }, .time_poppedFromQueue = 0 };
+struct aubatch_currentJobMetrics aubatch_scheduler_currentJobMetrics = { 
+	.job = (struct aubatch_job){ .id = 0 }, 
+	.time_poppedFromQueue = 0,
+	.isCurrentlyExecuting = false
+};
 
 /*
 	# Job Queue Mutex
@@ -334,6 +340,11 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	// Get job from node
 	struct aubatch_job job = node->job;
 
+	// Record pop time for current job metrics
+	aubatch_scheduler_currentJobMetrics.job = job;
+	aubatch_scheduler_currentJobMetrics.time_poppedFromQueue = time(NULL);
+	aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting = true;
+
 	// Move queue head up
 	aubatch_scheduler_currentJobQueue.head = node->next;
 	if (aubatch_scheduler_currentJobQueue.head != NULL) {
@@ -350,10 +361,6 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();
 
-	// Record pop time for current job metrics
-	aubatch_scheduler_currentJobMetrics.job = job;
-	time(&aubatch_scheduler_currentJobMetrics.time_poppedFromQueue);
-
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Popped job with ID %u from the queue! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentJobQueue.size);
 	return job;
@@ -365,9 +372,10 @@ int aubatch_scheduler_recordFinishedJob(struct aubatch_job job) {
 	aubatch_scheduler_lockFinishedQueueMutex();
 
 	// If the job is same as one currently being executed, then clear current job metrics since it is now finished
-	if (aubatch_scheduler_currentJobMetrics.job.id == job.id) {
+	if ((aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting) && (aubatch_scheduler_currentJobMetrics.job.id == job.id)) {
 		aubatch_scheduler_currentJobMetrics.job = (struct aubatch_job){ .id = 0 };
 		aubatch_scheduler_currentJobMetrics.time_poppedFromQueue = 0;
+		aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting = false;
 	}
 
 	// Make a new node for the finished job
@@ -433,7 +441,7 @@ void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
 	}
 
 	// Print currently executing job if there is one
-	if (aubatch_scheduler_currentJobMetrics.job.id != 0) {
+	if ((aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting) && (aubatch_scheduler_currentJobMetrics.job.id != 0)) {
 		struct aubatch_job job = aubatch_scheduler_currentJobMetrics.job;
 		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(AUBATCH_JOBSTATUS_RUNNING));
 	}
