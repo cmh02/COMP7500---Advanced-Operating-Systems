@@ -137,9 +137,9 @@ int aubatch_jobQueue_spliceJobNode(struct aubatch_jobNode* node1, struct aubatch
 	newNode->prev = node1;
 	newNode->next = node2;
 
-	// Update node1 and node2 to point to new node
-	node1->next = newNode;
-	node2->prev = newNode;
+	// Update node1 and node2 to point to new node if they exist
+	if (node1 != NULL) { node1->next = newNode; }
+	if (node2 != NULL) { node2->prev = newNode; }
 
 	// Return success
 	return 0;

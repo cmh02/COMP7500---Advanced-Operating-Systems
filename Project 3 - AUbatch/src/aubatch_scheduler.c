@@ -105,21 +105,20 @@ uint8_t aubatch_scheduler_getCurrentTotalSeenJobs() {
 
 int aubatch_scheduler_insert(struct aubatch_job job) {
 
+	// Log insertion attempt
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Request was made to insert job with ID %u into queue according to %s policy!", job.id, aubatch_scheduler_getSchedulingPolicyName());
+
 	// Make a new node for the job
 	struct aubatch_jobNode* node = malloc(sizeof(struct aubatch_jobNode));
 	if (node == NULL) {
 		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to allocate memory (malloc) for job node to contain job with ID %u!", job.id);
 		return 1;
+	} else {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Successfully allocated memory (malloc) for job node to contain job with ID %u!", job.id);
 	}
 	node->job = job;
 	node->next = NULL;
 	node->prev = NULL;
-
-	// If queue is empty, always insert at beginning
-	if (aubatch_scheduler_currentJobQueue.size == 0) {
-		aubatch_scheduler_currentJobQueue.head = node;
-		aubatch_scheduler_currentJobQueue.tail = node;
-	}
 	
 	// Handle insertion based on policy
 	switch (aubatch_scheduler_currentSchedulingPolicy) {
@@ -127,9 +126,15 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 		// First Come First Serve
 		case AUBATCH_SCHEDULINGPOLICY_FCFS: {
 
-			// Simply insert job at end of queue
+			// Simply insert job at end of queue, updating head/tail as needed
 			aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, node);
-			aubatch_scheduler_currentJobQueue.tail = node;
+			if (node->prev == NULL) {
+				aubatch_scheduler_currentJobQueue.head = node;
+			}
+			if (node->next == NULL) {
+				aubatch_scheduler_currentJobQueue.tail = node;
+			}
+			break;
 
 		}
 
@@ -150,6 +155,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
 				aubatch_scheduler_currentJobQueue.tail = node;
 			}
+			break;
 
 		}
 
@@ -170,6 +176,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
 				aubatch_scheduler_currentJobQueue.tail = node;
 			}
+			break;
 
 		}
 
@@ -180,6 +187,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Cannot insert job with ID %u into queue because the scheduling policy is not set!", job.id);
 			free(node);
 			return 1;
+
 		}
 
 	}

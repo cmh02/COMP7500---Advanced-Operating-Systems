@@ -63,6 +63,13 @@ static const char* aubatch_jobStatusNames[] = {
 */
 const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status);
 
+/*
+	# Maximum Job Name Length
+
+	This constant will define the maximum length for a job name.
+*/
+#define AUBATCH_MAX_JOB_NAME_LENGTH 100
+
 
 /*
 	# Job Data Structure
@@ -76,7 +83,7 @@ const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status);
 
 */
 struct aubatch_job {
-	char name;
+	char name[AUBATCH_MAX_JOB_NAME_LENGTH];
 	uint32_t id;
 	uint32_t execution_time;
 	uint32_t priority;

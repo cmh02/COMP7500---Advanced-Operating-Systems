@@ -172,6 +172,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 		// Handle unknown commands
 		} else {
 			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Unknown command: %s", command);
+			break;
 		}
 	}
 	return 0;
