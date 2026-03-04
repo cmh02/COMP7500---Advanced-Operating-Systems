@@ -56,10 +56,17 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 	aubatch_scheduler_currentJobQueue = (struct aubatch_jobQueue){ .head = NULL, .tail = NULL, .size = 0, .totalSeenJobs = 0, .totalExpectedWaitTime = 0 };
 
 	// Re-insert all jobs with new policy
+	struct aubatch_jobNode* nextNode;
 	struct aubatch_jobNode* currentNode = oldQueue.head;
 	while (currentNode != NULL) {
+
+		// Insert
 		aubatch_scheduler_insert(currentNode->job);
-		currentNode = currentNode->next;
+
+		// Safely free old node since we make a new node for each job
+		nextNode = currentNode->next;
+		free(currentNode);
+		currentNode = nextNode;
 	}
 
 	// Log and return
@@ -90,11 +97,14 @@ uint8_t aubatch_scheduler_getCurrentTotalSeenJobs() {
 int aubatch_scheduler_insert(struct aubatch_job job) {
 
 	// Make a new node for the job
-	struct aubatch_jobNode node = { 
-		.job = job, 
-		.next = NULL, 
-		.prev = NULL 
-	};
+	struct aubatch_jobNode* node = malloc(sizeof(struct aubatch_jobNode));
+	if (node == NULL) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to allocate memory (malloc) for job node to contain job with ID %u!", job.id);
+		return 1;
+	}
+	node->job = job;
+	node->next = NULL;
+	node->prev = NULL;
 
 	// If queue is empty, always insert at beginning
 	if (aubatch_scheduler_currentJobQueue.size == 0) {
@@ -119,7 +129,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 			// Traverse list to find first job with a longer execution time
 			struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
-			while ((currentNode != NULL) && (currentNode->job.execution_time <= node.job.execution_time)) {
+			while ((currentNode != NULL) && (currentNode->job.execution_time <= node->job.execution_time)) {
 				currentNode = currentNode->next;
 			}
 
@@ -139,7 +149,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 			// Traverse list to find first job with a higher priority value (meaning lower priority)
 			struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
-			while ((currentNode != NULL) && (currentNode->job.priority <= node.job.priority)) {
+			while ((currentNode != NULL) && (currentNode->job.priority <= node->job.priority)) {
 				currentNode = currentNode->next;
 			}
 
@@ -157,7 +167,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	}
 
 	// Set arrival time of job to now
-	node.job.arrival_time = time(NULL);
+	node->job.arrival_time = time(NULL);
 
 	// Increment queue size, total seen jobs, and expected wait time
 	aubatch_scheduler_currentJobQueue.size++;
@@ -170,8 +180,41 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 }
 
-struct aubatch_jobQueue aubatch_scheduler_getCurrentJobQueue() {
+size_t aubatch_scheduler_screenshotJobQueue(struct aubatch_jobNode** startNode) {
 
-	// bruh
-	return aubatch_scheduler_currentJobQueue;
+	// Iterate over nodes in the current queue
+	size_t screenshotSize = 0;
+	struct aubatch_jobNode* lastAddedNode;
+	struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
+	while (currentNode != NULL) {
+
+		// Get job
+		struct aubatch_job job = currentNode->job;
+
+		// Make new node for screenshot
+		struct aubatch_jobNode* screenshotNode = malloc(sizeof(struct aubatch_jobNode));
+		if (screenshotNode == NULL) {
+			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to allocate memory (malloc) for job node screenshot!");
+			continue;
+		}
+		screenshotNode->job = job;
+
+		// If this is the first node in the screenshot just set startNode to it
+		if (screenshotSize == 0) {
+			*startNode = screenshotNode;
+		}
+
+		// Otherwise, splice screenshot node into screenshot list
+		else {
+			aubatch_jobQueue_spliceJobNode(lastAddedNode, NULL, screenshotNode);
+		}
+
+		// Update lastAddedNode, inc screenshot size, move on
+		lastAddedNode = screenshotNode;
+		screenshotSize++;
+		currentNode = currentNode->next;
+	}
+
+	// Return size of screenshot in mem
+	return screenshotSize * sizeof(struct aubatch_jobNode);
 }

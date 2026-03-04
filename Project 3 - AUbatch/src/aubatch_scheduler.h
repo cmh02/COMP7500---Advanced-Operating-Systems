@@ -169,6 +169,18 @@ struct aubatch_jobQueue aubatch_scheduler_getCurrentJobQueue();
 */
 int aubatch_scheduler_insert(struct aubatch_job job);
 
+/*
+	# Screenshot Job Queue
+
+	This function will provide a deep copy of the current job queue as a linked list of job nodes.
+	
+	## Parameters
+	- struct aubatch_jobNode** startNode: pointer to a pointer which will be set to the first node in the screenshot linked list
+	
+	## Returns
+	- size_t: the size of the screenshot in memory that must be freed once screenshot is no longer needed
+*/
+size_t aubatch_scheduler_screenshotJobQueue(struct aubatch_jobNode** startNode);
 
 
 
