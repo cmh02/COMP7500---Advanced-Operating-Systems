@@ -167,22 +167,6 @@ int aubatch_cmdparser_enterCommandLoop() {
 
 		// List jobs
 		} else if (strcmp(args[0], "list") == 0) {
-			
-			// // Get screenshot from scheduler
-			// struct aubatch_jobNode* screenshot = aubatch_scheduler_screenshotJobQueue();
-
-			// // Iterate over screenshot
-			// while (screenshot != NULL) {
-
-			// 	// Get job and print info
-			// 	struct aubatch_job job = screenshot->job;
-			// 	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(job.status));
-				
-			// 	// Free node and move to next
-			// 	struct aubatch_jobNode* nextNode = screenshot->next;
-			// 	free(screenshot);
-			// 	screenshot = nextNode;
-			// }
 
 			// Make call to scheduler to print job queue into interactive channel
 			aubatch_scheduler_printJobQueue(AUBATCH_LOGLEVEL_INTERACTIVE);
@@ -199,8 +183,8 @@ int aubatch_cmdparser_enterCommandLoop() {
 
 		// Handle unknown commands
 		} else {
-			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Unknown command: %s", command);
-			break;
+			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Unknown command: %s\n", command);
+			continue;
 		}
 	}
 	return 0;
