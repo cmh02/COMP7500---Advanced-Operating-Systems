@@ -32,6 +32,7 @@
 #include "aubatch_config.h"
 #include "aubatch_scheduler.h"
 #include "aubatch_cmdparser.h"
+#include "aubatch_dispatcher.h"
 
 // Module Name
 #define AUBATCH_MODULE_NAME "MAIN"
