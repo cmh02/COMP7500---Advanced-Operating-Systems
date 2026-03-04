@@ -32,8 +32,10 @@ project(aubatch C)
 
 add_executable(aubatch
     aubatch.c
+	aubatch_jobs.c
     aubatch_utils.c
 	aubatch_logger.c
 	aubatch_config.c
+	aubatch_scheduler.c
 	aubatch_cmdparser.c
 )
