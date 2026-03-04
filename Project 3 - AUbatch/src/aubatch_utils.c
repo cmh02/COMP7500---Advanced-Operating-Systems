@@ -180,3 +180,14 @@ bool aubatch_parseBool(const char *str, bool *out) {
 	return false;
 
 }
+
+void aubatch_convertTimeToHHMMSS(time_t timeInSeconds, char* outputBuffer) {
+
+	// Get ctime of input time
+	char* ctimestring = ctime(&timeInSeconds);
+
+	// Copy just the HH:MM:SS part of the ctime string to output
+	strncpy(outputBuffer, ctimestring + 11, 8);
+	outputBuffer[8] = '\0';
+
+}

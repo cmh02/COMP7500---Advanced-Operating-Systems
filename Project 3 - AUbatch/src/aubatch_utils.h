@@ -185,4 +185,16 @@ bool aubatch_parseUnsignedInt32(const char *str, uint32_t *out);
 */
 bool aubatch_parseBool(const char *str, bool *out);
 
+/*
+	# Convert time to HH:MM:SS
+
+	This will convert a time in seconds to a string in the format HH:MM:SS.
+	Note that this is done via ctime splitting, not natural time conversion.
+
+	## Parameters
+	- timeInSeconds: the time in seconds to convert
+	- outputBuffer: a char array to write the output string to > 9 chars
+*/
+void aubatch_convertTimeToHHMMSS(time_t timeInSeconds, char* outputBuffer);
+
 #endif // AUBATCH_UTILS_H

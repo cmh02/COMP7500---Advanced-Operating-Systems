@@ -30,6 +30,7 @@
 
 // Project Libraries
 #include "aubatch_jobs.h"
+#include "aubatch_utils.h"
 #include "aubatch_logger.h"
 #include "aubatch_scheduler.h"
 
@@ -439,7 +440,9 @@ void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
 		
 		// Get job and print info
 		struct aubatch_job job = currentNode->job;
-		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(job.status));
+		char arrivalTime[9];
+		aubatch_convertTimeToHHMMSS(job.time_arrival, arrivalTime);
+		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%s\t%s\n", job.name, job.time_requestedExecution, job.priority, arrivalTime, aubatch_jobs_getJobStatusName(job.status));
 		
 		// Move to next node
 		currentNode = currentNode->next;
@@ -448,7 +451,9 @@ void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
 	// Print currently executing job if there is one
 	if ((aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting) && (aubatch_scheduler_currentJobMetrics.job.id != 0)) {
 		struct aubatch_job job = aubatch_scheduler_currentJobMetrics.job;
-		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(AUBATCH_JOBSTATUS_RUNNING));
+		char arrivalTime[9];
+		aubatch_convertTimeToHHMMSS(job.time_arrival, arrivalTime);
+		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%s\t%s\n", job.name, job.time_requestedExecution, job.priority, arrivalTime, aubatch_jobs_getJobStatusName(AUBATCH_JOBSTATUS_RUNNING));
 	}
 
 	// Iterate over waiting job queue and print info for each job
@@ -457,7 +462,9 @@ void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
 		
 		// Get job and print info
 		struct aubatch_job job = currentNode->job;
-		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(job.status));
+		char arrivalTime[9];
+		aubatch_convertTimeToHHMMSS(job.time_arrival, arrivalTime);
+		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%s\t%s\n", job.name, job.time_requestedExecution, job.priority, arrivalTime, aubatch_jobs_getJobStatusName(job.status));
 		
 		// Move to next node
 		currentNode = currentNode->next;
