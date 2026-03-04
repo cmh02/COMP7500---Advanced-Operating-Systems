@@ -29,6 +29,7 @@
 #define AUBATCH_SCHEDULER_H
 
 // Libraries
+#include <stdlib.h>
 
 // Project Libraries
 #include "aubatch_jobs.h"
