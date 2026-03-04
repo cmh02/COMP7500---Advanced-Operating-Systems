@@ -312,14 +312,16 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	aubatch_scheduler_currentJobQueue.totalSeenJobs++;
 	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime += job.time_requestedExecution;
 
+	// Log within mutex since raw access to size
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u according to %d policy! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentSchedulingPolicy, aubatch_scheduler_currentJobQueue.size);
+
 	// Send signal on CV that queue is no longer empty
 	pthread_cond_signal(&queueNotEmptyCV);
 
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();
 
-	// Log and return
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u according to %d policy! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentSchedulingPolicy, aubatch_scheduler_currentJobQueue.size);
+	// Return
 	return 0;
 
 }
@@ -366,11 +368,13 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	aubatch_scheduler_currentJobQueue.size--;
 	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime -= job.time_requestedExecution;
 
+	// Log within mutex
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Popped job with ID %u from the queue! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentJobQueue.size);
+
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();
 
-	// Log and return
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Popped job with ID %u from the queue! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentJobQueue.size);
+	// Return
 	return job;
 }
 
@@ -411,11 +415,13 @@ int aubatch_scheduler_recordFinishedJob(struct aubatch_job job) {
 	aubatch_scheduler_finishedJobQueue.size++;
 	aubatch_scheduler_finishedJobQueue.totalSeenJobs++;
 
+	// Log within mutex
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Recorded finished job with ID %u into finished job queue! There are now %u jobs in the finished job queue!", job.id, aubatch_scheduler_finishedJobQueue.size);
+
 	// Unlock the finished job queue mutex
 	aubatch_scheduler_unlockFinishedQueueMutex();
 
-	// Log and return
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Recorded finished job with ID %u into finished job queue! There are now %u jobs in the finished job queue!", job.id, aubatch_scheduler_finishedJobQueue.size);
+	// Return
 	return 0;
 }
 

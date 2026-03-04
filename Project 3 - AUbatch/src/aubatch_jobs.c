@@ -68,14 +68,8 @@ struct aubatch_job aubatch_jobs_createNewJob(char* name, int executionTime, int 
 	return newJob;
 }
 
-uint32_t aubatch_jobs_nextJobID;
+uint32_t aubatch_jobs_nextJobID = 1;
 uint32_t aubatch_jobs_generateNextJobID() {
-
-	// Start ID's at 1 so we can reserve 0 for error cases / maxing out ID's
-	if (aubatch_jobs_nextJobID == 0) {
-		aubatch_jobs_nextJobID = 1;
-		return aubatch_jobs_nextJobID;
-	}
 
 	// Check that we haven't maxed out ID's yet
 	if (aubatch_jobs_nextJobID == UINT32_MAX) {
