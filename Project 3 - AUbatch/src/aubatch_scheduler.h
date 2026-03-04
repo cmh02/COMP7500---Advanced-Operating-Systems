@@ -165,19 +165,6 @@ struct aubatch_jobQueue aubatch_scheduler_getCurrentJobQueue();
 int aubatch_scheduler_insert(struct aubatch_job job);
 
 /*
-	# Screenshot Job Queue
-
-	This function will provide a deep copy of the current job queue as a linked list of job nodes.
-	
-	## Parameters
-	- None
-	
-	## Returns
-	- struct aubatch_jobNode*: pointer to the first node in the screenshot linked list
-*/
-struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue();
-
-/*
 	# Pop Job Queue
 
 	This function will pop the first job from the job queue and return it.
@@ -203,5 +190,18 @@ struct aubatch_job aubatch_scheduler_popJobQueue();
 	- 0 on success, 1 on any failure
 */
 int aubatch_scheduler_recordFinishedJob(struct aubatch_job job);
+
+/*
+	# Print Job Queue
+
+	This function will print the current job queue to the specified log level output.
+
+	## Parameters
+	- enum aubatch_loggerLevel logLevel: the log level to print the job queue to
+
+	## Returns
+	- None
+*/
+void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel);
 
 #endif // AUBATCH_SCHEDULER_H

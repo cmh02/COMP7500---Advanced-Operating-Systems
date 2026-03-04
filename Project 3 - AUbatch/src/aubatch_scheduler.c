@@ -63,14 +63,6 @@ struct aubatch_currentJobMetrics {
 struct aubatch_currentJobMetrics aubatch_scheduler_currentJobMetrics = { .job = { .id = 0 }, .time_poppedFromQueue = 0 };
 
 /*
-	# Finished Job Queue
-
-	This variable will reference the queue of all finished jobs.
-	This is purely for metric tracking post-run.
-*/
-static struct aubatch_jobQueue aubatch_scheduler_finishedJobQueue;
-
-/*
 	# Job Queue Mutex
 
 	This mutex will be used to lock the job queue.
@@ -83,7 +75,7 @@ static pthread_mutex_t queueMutex = PTHREAD_MUTEX_INITIALIZER;
 	This function will lock the job queue mutex, with debug logging.
 */
 int aubatch_scheduler_lockQueueMutex() {
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Locking the scheduler job queue mutex!");
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Locking the scheduler waiting job queue mutex!");
 	return pthread_mutex_lock(&queueMutex);
 }
 
@@ -93,7 +85,7 @@ int aubatch_scheduler_lockQueueMutex() {
 	This function will unlock the job queue mutex, with debug logging.
 */
 int aubatch_scheduler_unlockQueueMutex() {
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Unlocking the scheduler job queue mutex!");
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Unlocking the scheduler waiting job queue mutex!");
 	return pthread_mutex_unlock(&queueMutex);
 }
 
@@ -103,6 +95,37 @@ int aubatch_scheduler_unlockQueueMutex() {
 	This CV will be used to signal when the job queue is no longer empty.
 */
 static pthread_cond_t queueNotEmptyCV = PTHREAD_COND_INITIALIZER;
+
+/*
+	# Finished Job Queue
+
+	This variable will reference the queue of all finished jobs.
+	This is purely for metric tracking post-run.
+*/
+static struct aubatch_jobQueue aubatch_scheduler_finishedJobQueue;
+
+/*
+	# Finished Job Queue Mutex
+
+	This mutex will be used to lock the finished job queue.
+*/
+static pthread_mutex_t finishedQueueMutex = PTHREAD_MUTEX_INITIALIZER;
+
+/*
+	# Finished Job Queue Mutex - Lock
+*/
+int aubatch_scheduler_lockFinishedQueueMutex() {
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Locking the scheduler finished job queue mutex!");
+	return pthread_mutex_lock(&finishedQueueMutex);
+}
+
+/*
+	# Finished Job Queue Mutex - Unlock
+*/
+int aubatch_scheduler_unlockFinishedQueueMutex() {
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Unlocking the scheduler finished job queue mutex!");
+	return pthread_mutex_unlock(&finishedQueueMutex);
+}
 
 int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) {
 
@@ -286,54 +309,6 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 }
 
-struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
-
-	// Lock the queue mutex
-	aubatch_scheduler_lockQueueMutex();
-
-	// Make initial pointer for start of screenshot list
-	struct aubatch_jobNode* startNode = NULL;
-
-	// Iterate over nodes in the current queue
-	size_t screenshotSize = 0;
-	struct aubatch_jobNode* lastAddedNode = NULL;
-	struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
-	while (currentNode != NULL) {
-
-		// Get job
-		struct aubatch_job job = currentNode->job;
-
-		// Make new node for screenshot
-		struct aubatch_jobNode* screenshotNode = malloc(sizeof(struct aubatch_jobNode));
-		if (screenshotNode == NULL) {
-			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to allocate memory (malloc) for job node screenshot!");
-			continue;
-		}
-		screenshotNode->job = job;
-
-		// If this is the first node in the screenshot just set startNode to it
-		if (screenshotSize == 0) {
-			startNode = screenshotNode;
-		}
-
-		// Otherwise, splice screenshot node into screenshot list
-		else {
-			aubatch_jobQueue_spliceJobNode(lastAddedNode, NULL, screenshotNode);
-		}
-
-		// Update lastAddedNode, inc screenshot size, move on
-		lastAddedNode = screenshotNode;
-		screenshotSize++;
-		currentNode = currentNode->next;
-	}
-
-	// Unlock the queue mutex
-	aubatch_scheduler_unlockQueueMutex();
-
-	// Return pointer to first node in screenshot
-	return startNode;
-}
-
 struct aubatch_job aubatch_scheduler_popJobQueue() {
 
 	// Lock the queue mutex
@@ -383,6 +358,15 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 
 int aubatch_scheduler_recordFinishedJob(struct aubatch_job job) {
 
+	// Lock the finished job queue mutex
+	aubatch_scheduler_lockFinishedQueueMutex();
+
+	// If the job is same as one currently being executed, then clear current job metrics since it is now finished
+	if (aubatch_scheduler_currentJobMetrics.job.id == job.id) {
+		aubatch_scheduler_currentJobMetrics.job = (struct aubatch_job){ .id = 0 };
+		aubatch_scheduler_currentJobMetrics.time_poppedFromQueue = 0;
+	}
+
 	// Make a new node for the finished job
 	struct aubatch_jobNode* node = malloc(sizeof(struct aubatch_jobNode));
 	if (node == NULL) {
@@ -408,7 +392,65 @@ int aubatch_scheduler_recordFinishedJob(struct aubatch_job job) {
 	aubatch_scheduler_finishedJobQueue.size++;
 	aubatch_scheduler_finishedJobQueue.totalSeenJobs++;
 
+	// Unlock the finished job queue mutex
+	aubatch_scheduler_unlockFinishedQueueMutex();
+
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Recorded finished job with ID %u into finished job queue! There are now %u jobs in the finished job queue!", job.id, aubatch_scheduler_finishedJobQueue.size);
 	return 0;
+}
+
+void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
+
+	// Lock queue mutex
+	aubatch_scheduler_lockQueueMutex();
+
+	// Lock finished queue mutex
+	aubatch_scheduler_lockFinishedQueueMutex();
+
+	// Print total number of jobs in queue
+	aubatch_log(logLevel, AUBATCH_MODULE_NAME, "Total number of jobs in the queue: %u\n", aubatch_scheduler_currentJobQueue.size);
+
+	// Print scheduling policy
+	aubatch_log(logLevel, AUBATCH_MODULE_NAME, "Scheduling Policy: %s\n", aubatch_scheduler_getSchedulingPolicyName());
+
+	// Print header for job list
+	aubatch_log(logLevel, AUBATCH_MODULE_NAME, "Name\tCPU_Time\tPri\tArrival_time\tProgress\n");
+
+	// Iterate over finished job queue and print info for each job
+	struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
+	while (currentNode != NULL) {
+		
+		// Get job and print info
+		struct aubatch_job job = currentNode->job;
+		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(job.status));
+		
+		// Move to next node
+		currentNode = currentNode->next;
+	}
+
+	// Print currently executing job if there is one
+	if (aubatch_scheduler_currentJobMetrics.job.id != 0) {
+		struct aubatch_job job = aubatch_scheduler_currentJobMetrics.job;
+		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(AUBATCH_JOBSTATUS_READY));
+	}
+
+	// Iterate over waiting job queue and print info for each job
+	currentNode = aubatch_scheduler_currentJobQueue.head;
+	while (currentNode != NULL) {
+		
+		// Get job and print info
+		struct aubatch_job job = currentNode->job;
+		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(job.status));
+		
+		// Move to next node
+		currentNode = currentNode->next;
+	}
+
+	// Free finished job mutex
+	aubatch_scheduler_unlockFinishedQueueMutex();
+
+	// Free mutex
+	aubatch_scheduler_unlockQueueMutex();
+
 }
