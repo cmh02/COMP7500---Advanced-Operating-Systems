@@ -1,0 +1,3 @@
+/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/build/CMakeFiles/pwordcount.dir
+/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/build/CMakeFiles/edit_cache.dir
+/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/build/CMakeFiles/rebuild_cache.dir

@@ -43,6 +43,10 @@ void aubatch_dispatcher_loop() {
 
 		// Wait for next job from scheduler
 		struct aubatch_job job = aubatch_scheduler_popJobQueue();
+		if (job.id == 0) {
+			aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Error occured when popping new job from queue - job received with ID 0!");
+			continue;
+		}
 
 		// Calculate wait time for job
 		job.time_wait = time(NULL) - job.time_arrival;
