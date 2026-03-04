@@ -156,7 +156,7 @@ uint8_t aubatch_scheduler_getCurrentWaitTime() {
 	aubatch_scheduler_lockQueueMutex();
 	uint8_t totalExpectedWaitTime = aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
 	aubatch_scheduler_unlockQueueMutex();
-	return totalExpectedWaitTime;
+	return (totalExpectedWaitTime + (aubatch_scheduler_currentJobMetrics.job.time_requestedExecution - (time(NULL) - aubatch_scheduler_currentJobMetrics.time_poppedFromQueue)));
 }
 
 uint8_t aubatch_scheduler_getCurrentQueueSize() {
