@@ -108,8 +108,8 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 	// If queue is empty, always insert at beginning
 	if (aubatch_scheduler_currentJobQueue.size == 0) {
-		aubatch_scheduler_currentJobQueue.head = &node;
-		aubatch_scheduler_currentJobQueue.tail = &node;
+		aubatch_scheduler_currentJobQueue.head = node;
+		aubatch_scheduler_currentJobQueue.tail = node;
 	}
 	
 	// Handle insertion based on policy
@@ -119,8 +119,8 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 		case AUBATCH_SCHEDULINGPOLICY_FCFS: {
 
 			// Simply insert job at end of queue
-			aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, &node);
-			aubatch_scheduler_currentJobQueue.tail = &node;
+			aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, node);
+			aubatch_scheduler_currentJobQueue.tail = node;
 
 		}
 
@@ -134,12 +134,12 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			}
 
 			// Insert before the found job with longer execution time, updating head/tail as needed
-			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, &node);
+			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
 			if (currentNode == aubatch_scheduler_currentJobQueue.head) {
-				aubatch_scheduler_currentJobQueue.head = &node;
+				aubatch_scheduler_currentJobQueue.head = node;
 			}
 			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
-				aubatch_scheduler_currentJobQueue.tail = &node;
+				aubatch_scheduler_currentJobQueue.tail = node;
 			}
 
 		}
@@ -154,12 +154,12 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			}
 
 			// Insert before the found job with lower priority value, updating head/tail as needed
-			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, &node);
+			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
 			if (currentNode == aubatch_scheduler_currentJobQueue.head) {
-				aubatch_scheduler_currentJobQueue.head = &node;
+				aubatch_scheduler_currentJobQueue.head = node;
 			}
 			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
-				aubatch_scheduler_currentJobQueue.tail = &node;
+				aubatch_scheduler_currentJobQueue.tail = node;
 			}
 
 		}
