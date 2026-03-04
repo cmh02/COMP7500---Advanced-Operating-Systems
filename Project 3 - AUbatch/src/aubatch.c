@@ -47,13 +47,32 @@ int main(int argc, char* argv[]) {
 	aubatch_populateDefaultConfiguration(config);
 
 	// Load configuration file from path (hard-coded for now)
-	aubatch_loadConfigurationFile("../config/aubatch.config", config);
+	int loadConfigurationStatus = aubatch_loadConfigurationFile("../config/aubatch.config", config);
+	if (loadConfigurationStatus != 0) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to load configuration file!");
+		return 1;
+	}
 
 	// Initialize logger with config path
-	aubatch_initLogFile(getpid());
+	int logFileInitStatus = aubatch_initLogFile(getpid());
+	if (logFileInitStatus != 0) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to initialize log file!");
+		return 1;
+	}
 
 	// Initialize scheduler with FCFS
-	aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_FCFS);
+	int schedulerSetPolicyStatus = aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_FCFS);
+	if (schedulerSetPolicyStatus != 0) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to set scheduler policy!");
+		return 1;
+	}
+
+	// Start up dispatcher
+	int dispatcherStartStatus = aubatch_dispatcher_start();
+	if (dispatcherStartStatus != 0) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to start dispatcher!");
+		return 1;
+	}
 
 	// Launch commmand loop
 	aubatch_cmdparser_enterCommandLoop();
