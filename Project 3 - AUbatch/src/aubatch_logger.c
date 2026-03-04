@@ -132,7 +132,7 @@ void aubatch_log(enum aubatch_loggerLevel level, const char* module, const char*
 		fclose(logFile);
 	}
 
-	// For info, warn, and error levels, also print to stdout using util functions (seperate prefix formatting)
+	// For each level, also print to stdout if configured
 	if (level == AUBATCH_LOGLEVEL_INFO) {
 		aubatch_printWithPrefix(message, argsCopyForPrinting);
 	} else if (level == AUBATCH_LOGLEVEL_WARNING) {

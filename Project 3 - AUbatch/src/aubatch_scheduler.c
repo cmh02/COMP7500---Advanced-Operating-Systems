@@ -79,7 +79,7 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 	}
 
 	// Log and return
-	aubatch_log(AUBATCH_LOGLEVEL_INFO, AUBATCH_MODULE_NAME, "Set scheduling policy to %d.", policy);
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Set scheduling policy to %s.", aubatch_scheduler_getSchedulingPolicyName());
 	return 0;
 }
 

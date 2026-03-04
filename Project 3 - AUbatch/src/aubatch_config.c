@@ -54,7 +54,7 @@ void aubatch_populateDefaultConfiguration(struct aubatch_configuration *config) 
 
 	// Set default configuration values
 	config->LOGGING_SEND_DEBUG_TO_LOG = true;
-	config->LOGGING_SEND_DEBUG_TO_STDOUT = true;
+	config->LOGGING_SEND_DEBUG_TO_STDOUT = false;
 	strncpy(config->CONFIG_FILE_PATH, "../config/aubatch.config", PATH_MAX - 1);
 	config->CONFIG_FILE_PATH[PATH_MAX - 1] = '\0';
 	strncpy(config->LOGGING_DIRECTORY, "../logs/", PATH_MAX - 1);
