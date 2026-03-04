@@ -1,6 +1,5 @@
 CMakeFiles/aubatch.dir/aubatch.c.o: \
   /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch.c \
-  /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libc.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_bounds.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
@@ -207,10 +206,9 @@ CMakeFiles/aubatch.dir/aubatch.c.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/kern_return.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/kern_return.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/kern_return.h \
+  /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch.h \
   /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_utils.h \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/include/stdbool.h \
   /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_logger.h \
   /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_config.h \
-  /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_cmdparser.h \
-  /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_jobs.h \
-  /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_scheduler.h
+  /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_cmdparser.h
