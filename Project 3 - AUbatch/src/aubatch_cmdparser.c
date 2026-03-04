@@ -133,6 +133,26 @@ int aubatch_cmdparser_enterCommandLoop() {
 			// Print submission message
 			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_JOBSUBMISSION, job.name, aubatch_scheduler_getCurrentQueueSize(), aubatch_scheduler_getCurrentWaitTime(), aubatch_scheduler_getSchedulingPolicyName());
 
+		// List jobs
+		} else if (strcmp(args[0], "list") == 0) {
+			
+			// Get screenshot from scheduler
+			struct aubatch_jobNode* screenshot = aubatch_scheduler_screenshotJobQueue();
+
+			// Iterate over screenshot
+			struct aubatch_jobNode* currentNode = screenshot;
+			while (currentNode != NULL) {
+
+				// Get job and print info
+				struct aubatch_job job = currentNode->job;
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.execution_time, job.priority, job.arrival_time, aubatch_jobs_getJobStatusName(job.status));
+				
+				// Free node and move to next
+				struct aubatch_jobNode* nextNode = currentNode->next;
+				free(currentNode);
+				currentNode = nextNode;
+			}
+
 		// Quit command
 		} else if (strcmp(args[0], "quit") == 0) {
 			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Exiting AUbatch. Goodbye!");

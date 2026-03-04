@@ -180,7 +180,10 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 }
 
-size_t aubatch_scheduler_screenshotJobQueue(struct aubatch_jobNode** startNode) {
+struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
+
+	// Make initial pointer for start of screenshot list
+	struct aubatch_jobNode** startNode;
 
 	// Iterate over nodes in the current queue
 	size_t screenshotSize = 0;
@@ -215,6 +218,6 @@ size_t aubatch_scheduler_screenshotJobQueue(struct aubatch_jobNode** startNode) 
 		currentNode = currentNode->next;
 	}
 
-	// Return size of screenshot in mem
-	return screenshotSize * sizeof(struct aubatch_jobNode);
+	// Return pointer to first node in screenshot
+	return *startNode;
 }
