@@ -136,18 +136,56 @@ uint8_t aubatch_scheduler_getCurrentQueueSize();
 uint8_t aubatch_scheduler_getCurrentTotalSeenJobs();
 
 /*
-	# Get Current Job Queue
+	# Get Current Average Turnaround Time
 
-	This function will provide a copy of the current job queue.
-	Changing it will NOT change the actual job queue.
+	This function will calculate the average turnaround time of all finished jobs so far.
 
 	## Parameters
 	- None
 
 	## Returns
-	- struct aubatch_jobQueue: a copy of the current job queue
+	- double: the average turnaround time of all finished jobs so far
 */
-struct aubatch_jobQueue aubatch_scheduler_getCurrentJobQueue();
+double aubatch_scheduler_getCurrentAverageTurnaroundTime();
+
+/*
+	# Get Current Average CPU Time
+
+	This function will calculate the average CPU time of all finished jobs so far.
+
+	## Parameters
+	- None
+
+	## Returns
+	- double: the average CPU time of all finished jobs so far
+*/
+double aubatch_scheduler_getCurrentAverageCPUTime();
+
+/*
+	# Get Current Average Wait Time
+
+	This function will calculate the average wait time of all finished jobs so far.
+
+	## Parameters
+	- None
+
+	## Returns
+	- double: the average wait time of all finished jobs so far
+*/
+double aubatch_scheduler_getCurrentAverageWaitTime();
+
+/*
+	# Get Current Throughput
+
+	This function will calculate the current throughput of the system.
+
+	## Parameters
+	- None
+
+	## Returns
+	- double: the current throughput of the system
+*/
+double aubatch_scheduler_getCurrentThroughput();
 
 /*
 	# Scheduling Insertion

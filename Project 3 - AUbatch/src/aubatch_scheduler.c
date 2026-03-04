@@ -150,7 +150,7 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 
 	// Make a new queue and sort all jobs according to new policy
 	struct aubatch_jobQueue oldQueue = aubatch_scheduler_currentJobQueue;
-	aubatch_scheduler_currentJobQueue = (struct aubatch_jobQueue){ .head = NULL, .tail = NULL, .size = 0, .totalSeenJobs = 0, .totalExpectedWaitTime = 0 };
+	aubatch_scheduler_currentJobQueue = (struct aubatch_jobQueue){ .head = NULL, .tail = NULL, .size = 0, .totalSeenJobs = 0, .totalExpectedWaitTime = 0, .queueBeginTime = 0, .queueEndTime = 0 };
 
 	// Re-insert all jobs with new policy
 	struct aubatch_jobNode* nextNode;
@@ -165,6 +165,9 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 		free(currentNode);
 		currentNode = nextNode;
 	}
+
+	// Set queue begin time
+	aubatch_scheduler_currentJobQueue.queueBeginTime = time(NULL);
 
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();
@@ -191,7 +194,6 @@ uint8_t aubatch_scheduler_getCurrentWaitTime() {
 	} else {
 		return totalExpectedWaitTime;
 	}
-
 }
 
 uint8_t aubatch_scheduler_getCurrentQueueSize() {
@@ -206,6 +208,95 @@ uint8_t aubatch_scheduler_getCurrentTotalSeenJobs() {
 	uint8_t totalSeenJobs = aubatch_scheduler_currentJobQueue.totalSeenJobs;
 	aubatch_scheduler_unlockQueueMutex();
 	return totalSeenJobs;
+}
+
+double aubatch_scheduler_getCurrentAverageTurnaroundTime() {
+
+	// Define vars before locking
+	uint32_t totalTurnaroundTime = 0;
+	double averageTurnaroundTime = 0.0;
+
+	// Lock mutex while we calculate
+	aubatch_scheduler_lockFinishedQueueMutex();
+	if (aubatch_scheduler_finishedJobQueue.size == 0) {
+		averageTurnaroundTime = 0.0;
+	} else {
+		struct aubatch_jobNode* currentNode = aubatch_scheduler_finishedJobQueue.head;
+		while (currentNode != NULL) {
+			totalTurnaroundTime += currentNode->job.time_turnaround;
+			currentNode = currentNode->next;
+		}
+		averageTurnaroundTime = (double)totalTurnaroundTime / (double)aubatch_scheduler_finishedJobQueue.size;
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Calculated average turnaround time of %f seconds based on total turnaround time of %u seconds and total seen job count of %u!", averageTurnaroundTime, totalTurnaroundTime, aubatch_scheduler_finishedJobQueue.size);
+	}
+
+	// Unlock and return
+	aubatch_scheduler_unlockFinishedQueueMutex();
+	return averageTurnaroundTime;
+}
+
+double aubatch_scheduler_getCurrentAverageCPUTime() {
+
+	// Define vars before locking
+	uint32_t totalCPUTime = 0;
+	double averageCPUTime = 0.0;
+
+	// Lock mutex while we calculate
+	aubatch_scheduler_lockFinishedQueueMutex();
+	if (aubatch_scheduler_finishedJobQueue.size == 0) {
+		averageCPUTime = 0.0;
+	} else {
+		struct aubatch_jobNode* currentNode = aubatch_scheduler_finishedJobQueue.head;
+		while (currentNode != NULL) {
+			totalCPUTime += currentNode->job.time_actualExecution;
+			currentNode = currentNode->next;
+		}
+		averageCPUTime = (double)totalCPUTime / (double)aubatch_scheduler_finishedJobQueue.size;
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Calculated average CPU time of %f seconds based on total CPU time of %u seconds and total seen job count of %u!", averageCPUTime, totalCPUTime, aubatch_scheduler_finishedJobQueue.size);
+	}
+
+	// Unlock and return
+	aubatch_scheduler_unlockFinishedQueueMutex();
+	return averageCPUTime;
+}
+
+double aubatch_scheduler_getCurrentAverageWaitTime() {
+
+	// Define vars before locking
+	uint32_t totalWaitTime = 0;
+	double averageWaitTime = 0.0;
+
+	// Lock mutex while we calculate
+	aubatch_scheduler_lockFinishedQueueMutex();
+	if (aubatch_scheduler_finishedJobQueue.size == 0) {
+		averageWaitTime = 0.0;
+	} else {
+		struct aubatch_jobNode* currentNode = aubatch_scheduler_finishedJobQueue.head;
+		while (currentNode != NULL) {
+			totalWaitTime += currentNode->job.time_wait;
+			currentNode = currentNode->next;
+		}
+		averageWaitTime = (double)totalWaitTime / (double)aubatch_scheduler_finishedJobQueue.size;
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Calculated average wait time of %f seconds based on total wait time of %u seconds and total seen job count of %u!", averageWaitTime, totalWaitTime, aubatch_scheduler_finishedJobQueue.size);
+	}
+
+	// Unlock and return
+	aubatch_scheduler_unlockFinishedQueueMutex();
+	return averageWaitTime;
+}
+
+double aubatch_scheduler_getCurrentThroughput() {
+
+	// Lock
+	aubatch_scheduler_lockQueueMutex();
+
+	// Calculate
+	double throughput = aubatch_scheduler_currentJobQueue.totalSeenJobs / difftime(time(NULL), aubatch_scheduler_currentJobQueue.queueBeginTime);
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Calculated throughput of %f no./second based on total seen job count of %u and queue duration of %f seconds!", throughput, aubatch_scheduler_currentJobQueue.totalSeenJobs, difftime(time(NULL), aubatch_scheduler_currentJobQueue.queueBeginTime));
+
+	// Unlock and return
+	aubatch_scheduler_unlockQueueMutex();
+	return throughput;
 }
 
 int aubatch_scheduler_insert(struct aubatch_job job) {
@@ -239,7 +330,6 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 			// Simply insert job at end of queue, updating head/tail as needed
 			aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, node);
-			aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "temp --- node id: %u, prev id: %u, next id: %u", node->job.id, (node->prev != NULL) ? node->prev->job.id : 0, (node->next != NULL) ? node->next->job.id : 0);
 			if (node->prev == NULL) {
 				aubatch_scheduler_currentJobQueue.head = node;
 				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);

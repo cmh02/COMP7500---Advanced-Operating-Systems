@@ -63,6 +63,13 @@ static const char *AUBATCH_MESSAGE_JOBSUBMISSION =
 	"Expected waiting time: %u seconds.\n"
 	"Scheduling Policy: %s.\n";
 
+static const char *AUBATCH_MESSAGE_EXIT = 
+	"Total number of jobs submitted: %u\n"
+	"Average turnaround time:\t%f seconds\n"
+	"Average CPU time:\t%f seconds\n"
+	"Average waiting time:\t%f seconds\n"
+	"Throughput:\t\t%f No./second\n";
+
 /*
 	# Maximum Command Length in Characters
 */
@@ -177,8 +184,8 @@ int aubatch_cmdparser_enterCommandLoop() {
 			// Flip running flag
 			aubatch_flag_programRunning = 0;
 
-			// Send log message and exit command loop
-			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Exiting AUbatch. Goodbye!");
+			// Send final stats
+			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_EXIT, aubatch_scheduler_getCurrentTotalSeenJobs(), aubatch_scheduler_getCurrentAverageTurnaroundTime(), aubatch_scheduler_getCurrentAverageWaitTime(), aubatch_scheduler_getCurrentAverageWaitTime(), aubatch_scheduler_getCurrentThroughput());
 			break;
 
 		// Handle unknown commands

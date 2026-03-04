@@ -139,6 +139,8 @@ struct aubatch_jobQueue {
 	uint32_t size;
 	uint32_t totalSeenJobs;
 	uint32_t totalExpectedWaitTime;
+	time_t queueBeginTime;
+	time_t queueEndTime;
 };
 
 /*
