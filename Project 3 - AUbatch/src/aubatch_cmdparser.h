@@ -39,8 +39,8 @@ static const char *AUBATCH_MESSAGE_HELP =
 	"fcfs: change the scheduling policy to FCFS.\n"
 	"sjf: change the scheduling policy to SJF.\n"
 	"priority: change the scheduling policy to priority.\n"
-	"test <benchmark> <policy> <num_of_jobs> <priority_levels>\n"
-	"	  <min_CPU_time> <max_CPU_time>\n"
+	"test <benchmark> <policy> <num_of_jobs> <arrival_rate>\n"
+	"	  <priority_levels> <min_CPU_time> <max_CPU_time>\n"
 	"quit: exit AUbatch.\n";
 
 static const char *AUBATCH_MESSAGE_JOBSUBMISSION = 
