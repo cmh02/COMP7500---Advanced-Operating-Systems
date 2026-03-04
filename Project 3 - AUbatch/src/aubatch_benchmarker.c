@@ -42,7 +42,7 @@
 int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration config) {
 
 	// Log benchmark start
-	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Starting benchmark '%s' with scheduling policy '%s', number of jobs %u, arrival rate %u, number of priority levels %u, minimum CPU time %u, and maximum CPU time %u!", config.name, aubatch_scheduler_getSchedulingPolicyName(), config.numberOfJobs, config.arrivalRate, config.numberOfPrioritylevels, config.minCPUTime, config.maxCPUTime);
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Starting benchmark '%s' with scheduling policy '%s', number of jobs %u, arrival rate %u, number of priority levels %u, minimum CPU time %u, and maximum CPU time %u!", config.name, aubatch_scheduler_getSchedulingPolicyName(), config.numberOfJobs, config.arrivalRate, config.numberOfPrioritylevels, config.minCPUTime, config.maxCPUTime);
 
 	// Set scheduling policy for benchmark
 	aubatch_scheduler_setSchedulingPolicy(config.policy);
@@ -67,7 +67,7 @@ int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration confi
 		// Sleep for arrival rate
 		sleep(config.arrivalRate);
 	}
-	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "All jobs for benchmark '%s' have been submitted!", config.name);
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "All jobs for benchmark '%s' have been submitted!", config.name);
 
 	// Wait for all jobs to finish
 	int benchmarkFinishes = aubatch_scheduler_waitForNJobsToFinish(config.numberOfJobs);
