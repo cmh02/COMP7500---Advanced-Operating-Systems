@@ -134,6 +134,11 @@ int aubatch_scheduler_unlockFinishedQueueMutex() {
 	return pthread_mutex_unlock(&finishedQueueMutex);
 }
 
+/*
+	# Finished Job Queue Condition Variable
+*/
+static pthread_cond_t finishedQueueUpdatedCV = PTHREAD_COND_INITIALIZER;
+
 int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) {
 
 	// Make sure the given policy is valid
@@ -583,5 +588,24 @@ void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
 
 	// Free mutex
 	aubatch_scheduler_unlockQueueMutex();
+
+}
+
+uint32_t aubatch_scheduler_waitForNJobsToFinish(uint32_t n) {
+
+	// Lock finished mutex
+	aubatch_scheduler_lockFinishedQueueMutex();
+
+	// Wait while less than n have finished
+	while (aubatch_scheduler_finishedJobQueue.size < n) {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Waiting on finished queueCV for %u jobs to finish! Currently %u have finished.", n, aubatch_scheduler_finishedJobQueue.size);
+		pthread_cond_wait(&finishedQueueUpdatedCV, &finishedQueueMutex);
+	}
+
+	// Unlock
+	aubatch_scheduler_unlockFinishedQueueMutex();
+
+	// Return to indicate success
+	return 0;
 
 }

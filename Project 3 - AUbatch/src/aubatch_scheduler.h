@@ -242,4 +242,17 @@ int aubatch_scheduler_recordFinishedJob(struct aubatch_job job);
 */
 void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel);
 
+/*
+	# Wait For N Jobs To Finish
+
+	This function will wait using CV until n jobs have finished executing.
+
+	## Parameters
+	- uint32_t n: the number of jobs to wait for
+
+	## Returns
+	- uint32_t: 0 on success, 1 on any failure
+*/
+uint32_t aubatch_scheduler_waitForNJobsToFinish(uint32_t n);
+
 #endif // AUBATCH_SCHEDULER_H
