@@ -77,6 +77,7 @@ int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration confi
 	}
 
 	// Log benchmark results
+	aubatch_scheduler_printJobQueue(AUBATCH_LOGLEVEL_INFO);
 	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_EXIT, aubatch_scheduler_getCurrentTotalSeenJobs(), aubatch_scheduler_getCurrentAverageTurnaroundTime(), aubatch_scheduler_getCurrentAverageWaitTime(), aubatch_scheduler_getCurrentAverageWaitTime(), aubatch_scheduler_getCurrentThroughput());
 	return 0;
 }
