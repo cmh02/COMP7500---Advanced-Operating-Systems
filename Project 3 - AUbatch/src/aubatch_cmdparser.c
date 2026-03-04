@@ -28,6 +28,7 @@
 #include "aubatch.h"
 #include "aubatch_jobs.h"
 #include "aubatch_utils.h"
+#include "aubatch_logger.h"
 #include "aubatch_scheduler.h"
 #include "aubatch_cmdparser.h"
 
