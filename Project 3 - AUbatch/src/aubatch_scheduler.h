@@ -177,7 +177,19 @@ int aubatch_scheduler_insert(struct aubatch_job job);
 */
 struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue();
 
+/*
+	# Pop Job Queue
 
+	This function will pop the first job from the job queue and return it.
+	The queue will already have been sorted prior to this occuring.
+
+	## Parameters
+	- None
+
+	## Returns
+	- struct aubatch_job: the job that was popped from the queue
+*/
+struct aubatch_job aubatch_scheduler_popJobQueue();
 
 
 #endif // AUBATCH_SCHEDULER_H

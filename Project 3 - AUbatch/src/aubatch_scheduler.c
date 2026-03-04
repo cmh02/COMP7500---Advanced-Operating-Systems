@@ -303,3 +303,40 @@ struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
 	// Return pointer to first node in screenshot
 	return startNode;
 }
+
+struct aubatch_job aubatch_scheduler_popJobQueue() {
+
+	// Lock the queue mutex
+	aubatch_scheduler_lockQueueMutex();
+
+	// Get node at front of queue
+	struct aubatch_jobNode* node = aubatch_scheduler_currentJobQueue.head;
+	if (node == NULL) {
+		aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Cannot pop job from queue because the queue is empty!");
+		aubatch_scheduler_unlockQueueMutex();
+		return (struct aubatch_job){ .id = 0 };
+	}
+
+	// Get job from node
+	struct aubatch_job job = node->job;
+
+	// Move queue head up
+	aubatch_scheduler_currentJobQueue.head = node->next;
+	if (aubatch_scheduler_currentJobQueue.head != NULL) {
+		aubatch_scheduler_currentJobQueue.head->prev = NULL;
+	}
+	
+	// Free memory for old head node
+	free(node);
+
+	// Update size and expected wait time for queue
+	aubatch_scheduler_currentJobQueue.size--;
+	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime -= job.execution_time;
+
+	// Unlock the queue mutex
+	aubatch_scheduler_unlockQueueMutex();
+
+	// Log and return
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Popped job with ID %u from the queue! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentJobQueue.size);
+	return job;
+}
