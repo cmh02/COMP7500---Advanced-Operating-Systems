@@ -185,7 +185,12 @@ uint8_t aubatch_scheduler_getCurrentWaitTime() {
 	aubatch_scheduler_lockQueueMutex();
 	uint8_t totalExpectedWaitTime = aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
 	aubatch_scheduler_unlockQueueMutex();
-	return (totalExpectedWaitTime + (aubatch_scheduler_currentJobMetrics.job.time_requestedExecution - (time(NULL) - aubatch_scheduler_currentJobMetrics.time_poppedFromQueue)));
+	if ((aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting) && (aubatch_scheduler_currentJobMetrics.job.id != 0)) {
+		return (totalExpectedWaitTime + (aubatch_scheduler_currentJobMetrics.job.time_requestedExecution - (time(NULL) - aubatch_scheduler_currentJobMetrics.time_poppedFromQueue)));
+	} else {
+		return totalExpectedWaitTime;
+	}
+
 }
 
 uint8_t aubatch_scheduler_getCurrentQueueSize() {
