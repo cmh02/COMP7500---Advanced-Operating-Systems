@@ -239,11 +239,14 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 			// Simply insert job at end of queue, updating head/tail as needed
 			aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, node);
+			aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "temp --- node id: %u, prev id: %u, next id: %u", node->job.id, (node->prev != NULL) ? node->prev->job.id : 0, (node->next != NULL) ? node->next->job.id : 0);
 			if (node->prev == NULL) {
 				aubatch_scheduler_currentJobQueue.head = node;
+				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
 			}
 			if (node->next == NULL) {
 				aubatch_scheduler_currentJobQueue.tail = node;
+				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
 			}
 			break;
 
@@ -262,9 +265,11 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
 			if (currentNode == aubatch_scheduler_currentJobQueue.head) {
 				aubatch_scheduler_currentJobQueue.head = node;
+				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
 			}
 			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
 				aubatch_scheduler_currentJobQueue.tail = node;
+				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
 			}
 			break;
 
@@ -283,9 +288,11 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
 			if (currentNode == aubatch_scheduler_currentJobQueue.head) {
 				aubatch_scheduler_currentJobQueue.head = node;
+				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
 			}
 			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
 				aubatch_scheduler_currentJobQueue.tail = node;
+				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
 			}
 			break;
 
@@ -354,11 +361,14 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting = true;
 
 	// Move queue head up
-	if (node->next != NULL) {
+	if (node->next == NULL) {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Popped last job from the queue, the queue is now empty! Updating head and tail to NULL.");
+		aubatch_scheduler_currentJobQueue.head = NULL;
+		aubatch_scheduler_currentJobQueue.tail = NULL;
+	} else {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Popped job with ID %u from the queue! Updating head to job with ID %u.", job.id, node->next->job.id);
 		aubatch_scheduler_currentJobQueue.head = node->next;
 		aubatch_scheduler_currentJobQueue.head->prev = NULL;
-	} else {
-		aubatch_scheduler_currentJobQueue.head = NULL;
 	}
 	
 	// Free memory for old head node
