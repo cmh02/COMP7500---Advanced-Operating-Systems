@@ -277,7 +277,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 
 			// Hand off to benchmarker
 			struct aubatch_benchmarkConfiguration benchmarkConfig = {
-				.name = NULL,
+				.name = "",
 				.policy = policy,
 				.numberOfJobs = numOfJobs,
 				.arrivalRate = arrivalRate,

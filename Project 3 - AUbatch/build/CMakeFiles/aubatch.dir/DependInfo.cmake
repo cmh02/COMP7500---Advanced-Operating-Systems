@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch.c" "CMakeFiles/aubatch.dir/aubatch.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch.c.o.d"
+  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_benchmarker.c" "CMakeFiles/aubatch.dir/aubatch_benchmarker.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_benchmarker.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_cmdparser.c" "CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_config.c" "CMakeFiles/aubatch.dir/aubatch_config.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_config.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_dispatcher.c" "CMakeFiles/aubatch.dir/aubatch_dispatcher.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_dispatcher.c.o.d"
