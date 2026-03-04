@@ -152,17 +152,16 @@ int aubatch_cmdparser_enterCommandLoop() {
 			struct aubatch_jobNode* screenshot = aubatch_scheduler_screenshotJobQueue();
 
 			// Iterate over screenshot
-			struct aubatch_jobNode* currentNode = screenshot;
-			while (currentNode != NULL) {
+			while (screenshot != NULL) {
 
 				// Get job and print info
-				struct aubatch_job job = currentNode->job;
+				struct aubatch_job job = screenshot->job;
 				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.execution_time, job.priority, job.arrival_time, aubatch_jobs_getJobStatusName(job.status));
 				
 				// Free node and move to next
-				struct aubatch_jobNode* nextNode = currentNode->next;
-				free(currentNode);
-				currentNode = nextNode;
+				struct aubatch_jobNode* nextNode = screenshot->next;
+				free(screenshot);
+				screenshot = nextNode;
 			}
 
 		// Quit command
