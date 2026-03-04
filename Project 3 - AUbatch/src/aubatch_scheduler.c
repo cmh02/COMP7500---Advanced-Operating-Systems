@@ -332,7 +332,7 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	aubatch_scheduler_lockQueueMutex();
 
 	// Wait on cv for queue to not be empty
-	while (aubatch_scheduler_currentJobQueue.size == 0) {
+	while ((aubatch_scheduler_currentJobQueue.size == 0) || (aubatch_scheduler_currentJobQueue.head == NULL)) {
 		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Waiting on CV for job queue to not be empty!");
 		pthread_cond_wait(&queueNotEmptyCV, &queueMutex);
 	}
