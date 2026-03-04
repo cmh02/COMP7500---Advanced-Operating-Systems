@@ -36,18 +36,6 @@
 // Module Name
 #define AUBATCH_MODULE_NAME "DISPATCHER"
 
-int aubatch_dispatcher_start() {
-
-	// Begin the dispatch loop in new pthread
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Starting the dispatcher loop in a new thread!");
-	pthread_t dispatcherThread;
-	int threadCreationResult = pthread_create(&dispatcherThread, NULL, (void*)aubatch_dispatcher_loop, NULL);
-	if (threadCreationResult != 0) {
-		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Error %d occured when trying to create dispatcher thread!", threadCreationResult);
-		return 1;
-	}
-}
-
 int aubatch_dispatcher_loop() {
 
 	while (aubatch_flag_programRunning) {
@@ -107,4 +95,16 @@ int aubatch_dispatcher_loop() {
 		aubatch_log(AUBATCH_LOGLEVEL_INFO, AUBATCH_MODULE_NAME, "Finished executing job with ID %d! Wait time was %ld seconds and turnaround time was %ld seconds.", job.id, job.time_wait, job.time_turnaround);
 	}
 
+}
+
+int aubatch_dispatcher_start() {
+
+	// Begin the dispatch loop in new pthread
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Starting the dispatcher loop in a new thread!");
+	pthread_t dispatcherThread;
+	int threadCreationResult = pthread_create(&dispatcherThread, NULL, (void*)aubatch_dispatcher_loop, NULL);
+	if (threadCreationResult != 0) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Error %d occured when trying to create dispatcher thread!", threadCreationResult);
+		return 1;
+	}
 }
