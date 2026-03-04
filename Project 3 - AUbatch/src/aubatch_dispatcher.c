@@ -37,7 +37,7 @@
 // Module Name
 #define AUBATCH_MODULE_NAME "DISPATCHER"
 
-int aubatch_dispatcher_loop() {
+void aubatch_dispatcher_loop() {
 
 	while (aubatch_flag_programRunning) {
 
@@ -56,7 +56,6 @@ int aubatch_dispatcher_loop() {
 		if (childPID < 0) {
 			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Error %d occurred when trying to fork process for job with ID %d!", errno, job.id);
 			job.status = AUBATCH_JOBSTATUS_FAILED;
-			return 1;
 
 		// Launch job (sleep with execv)
 		} else if (childPID == 0) {
