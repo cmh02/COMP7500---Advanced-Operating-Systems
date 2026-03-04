@@ -169,3 +169,9 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	return 0;
 
 }
+
+struct aubatch_jobQueue aubatch_scheduler_getCurrentJobQueue() {
+
+	// bruh
+	return aubatch_scheduler_currentJobQueue;
+}

@@ -141,6 +141,20 @@ uint8_t aubatch_scheduler_getCurrentQueueSize();
 uint8_t aubatch_scheduler_getCurrentTotalSeenJobs();
 
 /*
+	# Get Current Job Queue
+
+	This function will provide a copy of the current job queue.
+	Changing it will NOT change the actual job queue.
+
+	## Parameters
+	- None
+
+	## Returns
+	- struct aubatch_jobQueue: a copy of the current job queue
+*/
+struct aubatch_jobQueue aubatch_scheduler_getCurrentJobQueue();
+
+/*
 	# Scheduling Insertion
 
 	This function will insert a job into a job queue according to the given policy.
