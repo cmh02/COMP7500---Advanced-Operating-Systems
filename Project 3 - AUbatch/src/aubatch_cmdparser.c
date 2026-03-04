@@ -17,7 +17,8 @@
 
 	## References
 	
-	1. 
+	1. https://pubs.opengroup.org/onlinepubs/009695299/functions/access.html
+	-> I used this reference for syntax on checking execution permissions.
 
 	--------------------------------------------------
 */
@@ -130,6 +131,12 @@ int aubatch_cmdparser_enterCommandLoop() {
 			}
 			else if (strlen(jobName) >= AUBATCH_MAX_JOB_NAME_LENGTH) {
 				aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Job name cannot be longer than %d characters!", AUBATCH_MAX_JOB_NAME_LENGTH - 1);
+				continue;
+			}
+
+			// Make sure that the job is an actual executable
+			if (access(jobName, X_OK) != 0) {
+				aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Job '%s' is not an executable job!", jobName);
 				continue;
 			}
 
