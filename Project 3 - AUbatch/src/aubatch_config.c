@@ -55,6 +55,14 @@ void aubatch_populateDefaultConfiguration(struct aubatch_configuration *config) 
 	// Set default configuration values
 	config->LOGGING_SEND_DEBUG_TO_LOG = true;
 	config->LOGGING_SEND_DEBUG_TO_STDOUT = false;
+	config->LOGGING_SEND_ERROR_TO_LOG = true;
+	config->LOGGING_SEND_ERROR_TO_STDOUT = false;
+	config->LOGGING_SEND_WARNING_TO_LOG = true;
+	config->LOGGING_SEND_WARNING_TO_STDOUT = false;
+	config->LOGGING_SEND_INFO_TO_LOG = true;
+	config->LOGGING_SEND_INFO_TO_STDOUT = false;
+	config->LOGGING_SEND_INTERACTIVE_TO_LOG = false;
+	config->LOGGING_SEND_INTERACTIVE_TO_STDOUT = true;
 	strncpy(config->CONFIG_FILE_PATH, "../config/aubatch.config", PATH_MAX - 1);
 	config->CONFIG_FILE_PATH[PATH_MAX - 1] = '\0';
 	strncpy(config->LOGGING_DIRECTORY, "../logs/", PATH_MAX - 1);
@@ -67,6 +75,14 @@ void aubatch_populateNullConfiguration(struct aubatch_configuration *config) {
 	// Set all configuration values to null/zero
 	config->LOGGING_SEND_DEBUG_TO_LOG = false;
 	config->LOGGING_SEND_DEBUG_TO_STDOUT = false;
+	config->LOGGING_SEND_ERROR_TO_LOG = false;
+	config->LOGGING_SEND_ERROR_TO_STDOUT = false;
+	config->LOGGING_SEND_WARNING_TO_LOG = false;
+	config->LOGGING_SEND_WARNING_TO_STDOUT = false;
+	config->LOGGING_SEND_INFO_TO_LOG = false;
+	config->LOGGING_SEND_INFO_TO_STDOUT = false;
+	config->LOGGING_SEND_INTERACTIVE_TO_LOG = false;
+	config->LOGGING_SEND_INTERACTIVE_TO_STDOUT = false;
 	config->CONFIG_FILE_PATH[0] = '\0';
 	config->LOGGING_DIRECTORY[0] = '\0';
 
@@ -168,7 +184,7 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_DEBUG_TO_LOG: %s, using default value of '%s'!", value, config->LOGGING_SEND_DEBUG_TO_LOG ? "true" : "false");
 			}
 		}
-		if (!strcmp(key, "LOGGING_SEND_DEBUG_TO_STDOUT")) {
+		else if (!strcmp(key, "LOGGING_SEND_DEBUG_TO_STDOUT")) {
 			if (strcmp(value, "true") == 0) {
 				config->LOGGING_SEND_DEBUG_TO_STDOUT = true;
 			} 
@@ -179,6 +195,99 @@ int aubatch_loadConfigurationFile(const char* filePath, struct aubatch_configura
 				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_DEBUG_TO_STDOUT: %s, using default value of '%s'!", value, config->LOGGING_SEND_DEBUG_TO_STDOUT ? "true" : "false");
 			}
 		}
+		else if (!strcmp(key, "LOGGING_SEND_ERROR_TO_LOG")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_ERROR_TO_LOG = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_ERROR_TO_LOG = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_ERROR_TO_LOG: %s, using default value of '%s'!", value, config->LOGGING_SEND_ERROR_TO_LOG ? "true" : "false");
+			}
+		}
+		else if (!strcmp(key, "LOGGING_SEND_ERROR_TO_STDOUT")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_ERROR_TO_STDOUT = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_ERROR_TO_STDOUT = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_ERROR_TO_STDOUT: %s, using default value of '%s'!", value, config->LOGGING_SEND_ERROR_TO_STDOUT ? "true" : "false");
+			}
+		}
+
+		else if (!strcmp(key, "LOGGING_SEND_WARNING_TO_LOG")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_WARNING_TO_LOG = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_WARNING_TO_LOG = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_WARNING_TO_LOG: %s, using default value of '%s'!", value, config->LOGGING_SEND_WARNING_TO_LOG ? "true" : "false");
+			}
+		}
+		else if (!strcmp(key, "LOGGING_SEND_WARNING_TO_STDOUT")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_WARNING_TO_STDOUT = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_WARNING_TO_STDOUT = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_WARNING_TO_STDOUT: %s, using default value of '%s'!", value, config->LOGGING_SEND_WARNING_TO_STDOUT ? "true" : "false");
+			}
+		}
+		else if (!strcmp(key, "LOGGING_SEND_INFO_TO_LOG")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_INFO_TO_LOG = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_INFO_TO_LOG = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_INFO_TO_LOG: %s, using default value of '%s'!", value, config->LOGGING_SEND_INFO_TO_LOG ? "true" : "false");
+			}
+		}
+
+		else if (!strcmp(key, "LOGGING_SEND_INFO_TO_STDOUT")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_INFO_TO_STDOUT = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_INFO_TO_STDOUT = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_INFO_TO_STDOUT: %s, using default value of '%s'!", value, config->LOGGING_SEND_INFO_TO_STDOUT ? "true" : "false");
+			}
+		}
+
+		else if (!strcmp(key, "LOGGING_SEND_INTERACTIVE_TO_LOG")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_INTERACTIVE_TO_LOG = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_INTERACTIVE_TO_LOG = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_INTERACTIVE_TO_LOG: %s, using default value of '%s'!", value, config->LOGGING_SEND_INTERACTIVE_TO_LOG ? "true" : "false");
+			}
+		}
+
+		else if (!strcmp(key, "LOGGING_SEND_INTERACTIVE_TO_STDOUT")) {
+			if (strcmp(value, "true") == 0) {
+				config->LOGGING_SEND_INTERACTIVE_TO_STDOUT = true;
+			} 
+			else if (strcmp(value, "false") == 0) {
+				config->LOGGING_SEND_INTERACTIVE_TO_STDOUT = false;
+			}
+			else {
+				aubatch_log(AUBATCH_LOGLEVEL_WARNING, AUBATCH_MODULE_NAME, "Invalid boolean value for LOGGING_SEND_INTERACTIVE_TO_STDOUT: %s, using default value of '%s'!", value, config->LOGGING_SEND_INTERACTIVE_TO_STDOUT ? "true" : "false");
+			}
+		}
+
 		else if (!strcmp(key, "LOGGING_DIRECTORY")) {
 			strncpy(config->LOGGING_DIRECTORY, value, PATH_MAX - 1);
 			config->LOGGING_DIRECTORY[PATH_MAX - 1] = '\0';
