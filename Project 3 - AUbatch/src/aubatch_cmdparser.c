@@ -24,6 +24,7 @@
 
 // Libraries
 #include <stdio.h>
+#include <stdlib.h>
 
 // Project Libraries
 #include "aubatch.h"
