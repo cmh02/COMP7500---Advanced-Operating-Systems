@@ -201,6 +201,30 @@ aubatch_config.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_config.c.s
 .PHONY : aubatch_config.c.s
 
+aubatch_jobs.o: aubatch_jobs.c.o
+.PHONY : aubatch_jobs.o
+
+# target to build an object file
+aubatch_jobs.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_jobs.c.o
+.PHONY : aubatch_jobs.c.o
+
+aubatch_jobs.i: aubatch_jobs.c.i
+.PHONY : aubatch_jobs.i
+
+# target to preprocess a source file
+aubatch_jobs.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_jobs.c.i
+.PHONY : aubatch_jobs.c.i
+
+aubatch_jobs.s: aubatch_jobs.c.s
+.PHONY : aubatch_jobs.s
+
+# target to generate assembly for a file
+aubatch_jobs.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_jobs.c.s
+.PHONY : aubatch_jobs.c.s
+
 aubatch_logger.o: aubatch_logger.c.o
 .PHONY : aubatch_logger.o
 
@@ -224,6 +248,30 @@ aubatch_logger.s: aubatch_logger.c.s
 aubatch_logger.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_logger.c.s
 .PHONY : aubatch_logger.c.s
+
+aubatch_scheduler.o: aubatch_scheduler.c.o
+.PHONY : aubatch_scheduler.o
+
+# target to build an object file
+aubatch_scheduler.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_scheduler.c.o
+.PHONY : aubatch_scheduler.c.o
+
+aubatch_scheduler.i: aubatch_scheduler.c.i
+.PHONY : aubatch_scheduler.i
+
+# target to preprocess a source file
+aubatch_scheduler.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_scheduler.c.i
+.PHONY : aubatch_scheduler.c.i
+
+aubatch_scheduler.s: aubatch_scheduler.c.s
+.PHONY : aubatch_scheduler.s
+
+# target to generate assembly for a file
+aubatch_scheduler.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_scheduler.c.s
+.PHONY : aubatch_scheduler.c.s
 
 aubatch_utils.o: aubatch_utils.c.o
 .PHONY : aubatch_utils.o
@@ -267,9 +315,15 @@ help:
 	@echo "... aubatch_config.o"
 	@echo "... aubatch_config.i"
 	@echo "... aubatch_config.s"
+	@echo "... aubatch_jobs.o"
+	@echo "... aubatch_jobs.i"
+	@echo "... aubatch_jobs.s"
 	@echo "... aubatch_logger.o"
 	@echo "... aubatch_logger.i"
 	@echo "... aubatch_logger.s"
+	@echo "... aubatch_scheduler.o"
+	@echo "... aubatch_scheduler.i"
+	@echo "... aubatch_scheduler.s"
 	@echo "... aubatch_utils.o"
 	@echo "... aubatch_utils.i"
 	@echo "... aubatch_utils.s"

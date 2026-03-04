@@ -86,10 +86,24 @@ CMakeFiles/aubatch.dir/aubatch.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aubatch.dir/aubatch.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch.c" -o CMakeFiles/aubatch.dir/aubatch.c.s
 
+CMakeFiles/aubatch.dir/aubatch_jobs.c.o: CMakeFiles/aubatch.dir/flags.make
+CMakeFiles/aubatch.dir/aubatch_jobs.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_jobs.c
+CMakeFiles/aubatch.dir/aubatch_jobs.c.o: CMakeFiles/aubatch.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/aubatch.dir/aubatch_jobs.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aubatch.dir/aubatch_jobs.c.o -MF CMakeFiles/aubatch.dir/aubatch_jobs.c.o.d -o CMakeFiles/aubatch.dir/aubatch_jobs.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_jobs.c"
+
+CMakeFiles/aubatch.dir/aubatch_jobs.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/aubatch.dir/aubatch_jobs.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_jobs.c" > CMakeFiles/aubatch.dir/aubatch_jobs.c.i
+
+CMakeFiles/aubatch.dir/aubatch_jobs.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aubatch.dir/aubatch_jobs.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_jobs.c" -o CMakeFiles/aubatch.dir/aubatch_jobs.c.s
+
 CMakeFiles/aubatch.dir/aubatch_utils.c.o: CMakeFiles/aubatch.dir/flags.make
 CMakeFiles/aubatch.dir/aubatch_utils.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_utils.c
 CMakeFiles/aubatch.dir/aubatch_utils.c.o: CMakeFiles/aubatch.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/aubatch.dir/aubatch_utils.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/aubatch.dir/aubatch_utils.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aubatch.dir/aubatch_utils.c.o -MF CMakeFiles/aubatch.dir/aubatch_utils.c.o.d -o CMakeFiles/aubatch.dir/aubatch_utils.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_utils.c"
 
 CMakeFiles/aubatch.dir/aubatch_utils.c.i: cmake_force
@@ -103,7 +117,7 @@ CMakeFiles/aubatch.dir/aubatch_utils.c.s: cmake_force
 CMakeFiles/aubatch.dir/aubatch_logger.c.o: CMakeFiles/aubatch.dir/flags.make
 CMakeFiles/aubatch.dir/aubatch_logger.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_logger.c
 CMakeFiles/aubatch.dir/aubatch_logger.c.o: CMakeFiles/aubatch.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/aubatch.dir/aubatch_logger.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/aubatch.dir/aubatch_logger.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aubatch.dir/aubatch_logger.c.o -MF CMakeFiles/aubatch.dir/aubatch_logger.c.o.d -o CMakeFiles/aubatch.dir/aubatch_logger.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_logger.c"
 
 CMakeFiles/aubatch.dir/aubatch_logger.c.i: cmake_force
@@ -117,7 +131,7 @@ CMakeFiles/aubatch.dir/aubatch_logger.c.s: cmake_force
 CMakeFiles/aubatch.dir/aubatch_config.c.o: CMakeFiles/aubatch.dir/flags.make
 CMakeFiles/aubatch.dir/aubatch_config.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_config.c
 CMakeFiles/aubatch.dir/aubatch_config.c.o: CMakeFiles/aubatch.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/aubatch.dir/aubatch_config.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/aubatch.dir/aubatch_config.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aubatch.dir/aubatch_config.c.o -MF CMakeFiles/aubatch.dir/aubatch_config.c.o.d -o CMakeFiles/aubatch.dir/aubatch_config.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_config.c"
 
 CMakeFiles/aubatch.dir/aubatch_config.c.i: cmake_force
@@ -128,10 +142,24 @@ CMakeFiles/aubatch.dir/aubatch_config.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aubatch.dir/aubatch_config.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_config.c" -o CMakeFiles/aubatch.dir/aubatch_config.c.s
 
+CMakeFiles/aubatch.dir/aubatch_scheduler.c.o: CMakeFiles/aubatch.dir/flags.make
+CMakeFiles/aubatch.dir/aubatch_scheduler.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_scheduler.c
+CMakeFiles/aubatch.dir/aubatch_scheduler.c.o: CMakeFiles/aubatch.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/aubatch.dir/aubatch_scheduler.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aubatch.dir/aubatch_scheduler.c.o -MF CMakeFiles/aubatch.dir/aubatch_scheduler.c.o.d -o CMakeFiles/aubatch.dir/aubatch_scheduler.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_scheduler.c"
+
+CMakeFiles/aubatch.dir/aubatch_scheduler.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/aubatch.dir/aubatch_scheduler.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_scheduler.c" > CMakeFiles/aubatch.dir/aubatch_scheduler.c.i
+
+CMakeFiles/aubatch.dir/aubatch_scheduler.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/aubatch.dir/aubatch_scheduler.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_scheduler.c" -o CMakeFiles/aubatch.dir/aubatch_scheduler.c.s
+
 CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o: CMakeFiles/aubatch.dir/flags.make
 CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o: /Users/chrishinkson/Programming/COMP7500\ -\ Advanced\ Operating\ Systems/Project\ 3\ -\ AUbatch/src/aubatch_cmdparser.c
 CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o: CMakeFiles/aubatch.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o -MF CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o.d -o CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o -c "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_cmdparser.c"
 
 CMakeFiles/aubatch.dir/aubatch_cmdparser.c.i: cmake_force
@@ -145,22 +173,26 @@ CMakeFiles/aubatch.dir/aubatch_cmdparser.c.s: cmake_force
 # Object files for target aubatch
 aubatch_OBJECTS = \
 "CMakeFiles/aubatch.dir/aubatch.c.o" \
+"CMakeFiles/aubatch.dir/aubatch_jobs.c.o" \
 "CMakeFiles/aubatch.dir/aubatch_utils.c.o" \
 "CMakeFiles/aubatch.dir/aubatch_logger.c.o" \
 "CMakeFiles/aubatch.dir/aubatch_config.c.o" \
+"CMakeFiles/aubatch.dir/aubatch_scheduler.c.o" \
 "CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o"
 
 # External object files for target aubatch
 aubatch_EXTERNAL_OBJECTS =
 
 aubatch: CMakeFiles/aubatch.dir/aubatch.c.o
+aubatch: CMakeFiles/aubatch.dir/aubatch_jobs.c.o
 aubatch: CMakeFiles/aubatch.dir/aubatch_utils.c.o
 aubatch: CMakeFiles/aubatch.dir/aubatch_logger.c.o
 aubatch: CMakeFiles/aubatch.dir/aubatch_config.c.o
+aubatch: CMakeFiles/aubatch.dir/aubatch_scheduler.c.o
 aubatch: CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o
 aubatch: CMakeFiles/aubatch.dir/build.make
 aubatch: CMakeFiles/aubatch.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable aubatch"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Linking C executable aubatch"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/aubatch.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
