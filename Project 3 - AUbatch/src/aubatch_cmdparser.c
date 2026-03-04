@@ -107,17 +107,17 @@ int aubatch_cmdparser_enterCommandLoop() {
 		// Set policy: FCFS
 		} else if (strcmp(args[0], "fcfs") == 0) {
 			aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_FCFS);
-			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Scheduling policy is switched to %s. All the %u waiting jobs have been rescheduled.", aubatch_schedulingPolicyNames[aubatch_scheduler_getSchedulingPolicy()], 0);
+			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Scheduling policy is switched to %s. All the %u waiting jobs have been rescheduled.\n", aubatch_schedulingPolicyNames[aubatch_scheduler_getSchedulingPolicy()], 0);
 
 		// Set policy: SJF
 		} else if (strcmp(args[0], "sjf") == 0) {
 			aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_SJF);
-			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Scheduling policy is switched to %s. All the %u waiting jobs have been rescheduled.", aubatch_schedulingPolicyNames[aubatch_scheduler_getSchedulingPolicy()], 0);
+			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Scheduling policy is switched to %s. All the %u waiting jobs have been rescheduled.\n", aubatch_schedulingPolicyNames[aubatch_scheduler_getSchedulingPolicy()], 0);
 
 		// Set policy: Priority
 		} else if (strcmp(args[0], "priority") == 0) {
 			aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_PRIORITY);
-			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Scheduling policy is switched to %s. All the %u waiting jobs have been rescheduled.", aubatch_schedulingPolicyNames[aubatch_scheduler_getSchedulingPolicy()], 0);
+			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Scheduling policy is switched to %s. All the %u waiting jobs have been rescheduled.\n", aubatch_schedulingPolicyNames[aubatch_scheduler_getSchedulingPolicy()], 0);
 
 		// Insert job
 		} else if (strcmp(args[0], "run") == 0) {
