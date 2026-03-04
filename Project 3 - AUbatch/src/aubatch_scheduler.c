@@ -164,6 +164,15 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 
 		}
 
+		// If its somehow not set
+		case AUBATCH_SCHEDULINGPOLICY_NOTSET: {
+
+			// Log and return error
+			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Cannot insert job with ID %u into queue because the scheduling policy is not set!", job.id);
+			free(node);
+			return 1;
+		}
+
 	}
 
 	// Set arrival time of job to now
