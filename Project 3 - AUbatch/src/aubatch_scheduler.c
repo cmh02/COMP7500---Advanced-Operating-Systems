@@ -114,25 +114,28 @@ const char* aubatch_scheduler_getSchedulingPolicyName() {
 uint8_t aubatch_scheduler_getCurrentWaitTime() {
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
 	pthread_mutex_lock(&queueMutex);
-	return aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
+	uint8_t totalExpectedWaitTime = aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
 	pthread_mutex_unlock(&queueMutex);
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	return totalExpectedWaitTime;
 }
 
 uint8_t aubatch_scheduler_getCurrentQueueSize() {
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
 	pthread_mutex_lock(&queueMutex);
-	return aubatch_scheduler_currentJobQueue.size;
+	uint8_t size = aubatch_scheduler_currentJobQueue.size;
 	pthread_mutex_unlock(&queueMutex);
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	return size;
 }
 
 uint8_t aubatch_scheduler_getCurrentTotalSeenJobs() {
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
 	pthread_mutex_lock(&queueMutex);
-	return aubatch_scheduler_currentJobQueue.totalSeenJobs;
+	uint8_t totalSeenJobs = aubatch_scheduler_currentJobQueue.totalSeenJobs;
 	pthread_mutex_unlock(&queueMutex);
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	return totalSeenJobs;
 }
 
 int aubatch_scheduler_insert(struct aubatch_job job) {
