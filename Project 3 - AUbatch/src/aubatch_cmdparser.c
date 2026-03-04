@@ -147,7 +147,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 			aubatch_scheduler_insert(job);
 
 			// Print submission message
-			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_JOBSUBMISSION, job.name, aubatch_scheduler_getCurrentQueueSize(), aubatch_scheduler_getCurrentWaitTime() - job.execution_time, aubatch_scheduler_getSchedulingPolicyName());
+			aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_JOBSUBMISSION, job.name, aubatch_scheduler_getCurrentQueueSize(), aubatch_scheduler_getCurrentWaitTime() - job.time_requestedExecution, aubatch_scheduler_getSchedulingPolicyName());
 
 		// List jobs
 		} else if (strcmp(args[0], "list") == 0) {
@@ -160,7 +160,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 
 				// Get job and print info
 				struct aubatch_job job = screenshot->job;
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.execution_time, job.priority, job.arrival_time, aubatch_jobs_getJobStatusName(job.status));
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(job.status));
 				
 				// Free node and move to next
 				struct aubatch_jobNode* nextNode = screenshot->next;
