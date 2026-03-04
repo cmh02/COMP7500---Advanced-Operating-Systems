@@ -104,4 +104,5 @@ int aubatch_dispatcher_start() {
 		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Error %d occured when trying to create dispatcher thread!", threadCreationResult);
 		return 1;
 	}
+	return 0;
 }
