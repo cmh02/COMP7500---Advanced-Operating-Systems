@@ -128,6 +128,10 @@ int aubatch_cmdparser_enterCommandLoop() {
 				aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Please provide a name when submitting a new job!");
 				continue;
 			}
+			else if (strlen(jobName) >= AUBATCH_MAX_JOB_NAME_LENGTH) {
+				aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Job name cannot be longer than %d characters!", AUBATCH_MAX_JOB_NAME_LENGTH - 1);
+				continue;
+			}
 
 			// Take execution time as third argument
 			char* executionTimeRaw = args[2];
@@ -139,7 +143,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 			aubatch_parseUnsignedInt32(executionTimeRaw, &executionTime);
 
 			// Make job and insert
-			struct aubatch_job job = aubatch_jobs_createNewJob(jobName[0], executionTime, 1);
+			struct aubatch_job job = aubatch_jobs_createNewJob(jobName, executionTime, 1);
 			aubatch_scheduler_insert(job);
 
 			// Print submission message

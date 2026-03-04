@@ -24,6 +24,7 @@
 
 // Libraries
 #include <time.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdint.h>
 
@@ -38,7 +39,7 @@ const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status) {
 	return aubatch_jobStatusNames[status];
 }
 
-struct aubatch_job aubatch_jobs_createNewJob(char name, int executionTime, int priority) {
+struct aubatch_job aubatch_jobs_createNewJob(char* name, int executionTime, int priority) {
 
 	// Initialize a new job
 	struct aubatch_job newJob;
@@ -51,7 +52,8 @@ struct aubatch_job aubatch_jobs_createNewJob(char name, int executionTime, int p
 	}
 
 	// Copy over name, execution time, and priority
-	newJob.name = name;
+	strncpy(newJob.name, name, AUBATCH_MAX_JOB_NAME_LENGTH - 1);
+	newJob.name[AUBATCH_MAX_JOB_NAME_LENGTH - 1] = '\0';
 	newJob.execution_time = executionTime;
 	newJob.priority = priority;
 
