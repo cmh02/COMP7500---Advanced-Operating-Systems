@@ -201,6 +201,9 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	// Log insertion attempt
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Request was made to insert job with ID %u into queue according to %s policy!", job.id, aubatch_scheduler_getSchedulingPolicyName());
 
+	// Set job to waiting
+	job.status = AUBATCH_JOBSTATUS_WAITING;
+
 	// Make a new node for the job
 	struct aubatch_jobNode* node = malloc(sizeof(struct aubatch_jobNode));
 	if (node == NULL) {
@@ -418,7 +421,7 @@ void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
 	aubatch_log(logLevel, AUBATCH_MODULE_NAME, "Name\tCPU_Time\tPri\tArrival_time\tProgress\n");
 
 	// Iterate over finished job queue and print info for each job
-	struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
+	struct aubatch_jobNode* currentNode = aubatch_scheduler_finishedJobQueue.head;
 	while (currentNode != NULL) {
 		
 		// Get job and print info
@@ -432,7 +435,7 @@ void aubatch_scheduler_printJobQueue(enum aubatch_loggerLevel logLevel) {
 	// Print currently executing job if there is one
 	if (aubatch_scheduler_currentJobMetrics.job.id != 0) {
 		struct aubatch_job job = aubatch_scheduler_currentJobMetrics.job;
-		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(AUBATCH_JOBSTATUS_READY));
+		aubatch_log(logLevel, AUBATCH_MODULE_NAME, "%s\t%u\t%u\t%u\t%s\n", job.name, job.time_requestedExecution, job.priority, job.time_arrival, aubatch_jobs_getJobStatusName(AUBATCH_JOBSTATUS_RUNNING));
 	}
 
 	// Iterate over waiting job queue and print info for each job

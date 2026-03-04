@@ -38,7 +38,7 @@
 */
 enum aubatch_jobStatus {
 	AUBATCH_JOBSTATUS_NEW = 0,
-	AUBATCH_JOBSTATUS_READY = 1,
+	AUBATCH_JOBSTATUS_WAITING = 1,
 	AUBATCH_JOBSTATUS_RUNNING = 2,
 	AUBATCH_JOBSTATUS_COMPLETED = 3,
 	AUBATCH_JOBSTATUS_FAILED = 4
@@ -52,7 +52,7 @@ enum aubatch_jobStatus {
 */
 static const char* aubatch_jobStatusNames[] = {
 	"NEW",
-	"READY",
+	"WAITING",
 	"RUNNING",
 	"COMPLETED",
 	"FAILED"

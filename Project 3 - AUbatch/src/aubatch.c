@@ -69,11 +69,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Start up dispatcher
-	int dispatcherStartStatus = aubatch_dispatcher_start();
-	if (dispatcherStartStatus != 0) {
-		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to start dispatcher!");
-		return 1;
-	}
+	// int dispatcherStartStatus = aubatch_dispatcher_start();
+	// if (dispatcherStartStatus != 0) {
+	// 	aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to start dispatcher!");
+	// 	return 1;
+	// }
 
 	// Launch commmand loop
 	aubatch_cmdparser_enterCommandLoop();
