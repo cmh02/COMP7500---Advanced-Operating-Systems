@@ -209,7 +209,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			// Log and return error
 			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Cannot insert job with ID %u into queue because the scheduling policy is not set!", job.id);
 			free(node);
-			pthread_unlock_mutex(&queueMutex);
+			pthread_mutex_unlock(&queueMutex);
 			return 1;
 
 		}
