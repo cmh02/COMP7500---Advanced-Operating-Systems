@@ -201,11 +201,11 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
 
 	// Make initial pointer for start of screenshot list
-	struct aubatch_jobNode** startNode;
+	struct aubatch_jobNode* startNode = NULL;
 
 	// Iterate over nodes in the current queue
 	size_t screenshotSize = 0;
-	struct aubatch_jobNode* lastAddedNode;
+	struct aubatch_jobNode* lastAddedNode = NULL;
 	struct aubatch_jobNode* currentNode = aubatch_scheduler_currentJobQueue.head;
 	while (currentNode != NULL) {
 
@@ -222,7 +222,7 @@ struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
 
 		// If this is the first node in the screenshot just set startNode to it
 		if (screenshotSize == 0) {
-			*startNode = screenshotNode;
+			startNode = screenshotNode;
 		}
 
 		// Otherwise, splice screenshot node into screenshot list
@@ -237,5 +237,5 @@ struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
 	}
 
 	// Return pointer to first node in screenshot
-	return *startNode;
+	return startNode;
 }
