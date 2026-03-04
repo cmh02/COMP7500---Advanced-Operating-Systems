@@ -333,16 +333,8 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 		// First Come First Serve
 		case AUBATCH_SCHEDULINGPOLICY_FCFS: {
 
-			// Simply insert job at end of queue, updating head/tail as needed
+			// Simply insert job at end of queue
 			aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, node);
-			if (node->prev == NULL) {
-				aubatch_scheduler_currentJobQueue.head = node;
-				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
-			}
-			if (node->next == NULL) {
-				aubatch_scheduler_currentJobQueue.tail = node;
-				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
-			}
 			break;
 
 		}
@@ -356,18 +348,13 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 				currentNode = currentNode->next;
 			}
 
-			// Insert before the found job with longer execution time, updating head/tail as needed
-			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
-			if (currentNode == aubatch_scheduler_currentJobQueue.head) {
-				aubatch_scheduler_currentJobQueue.head = node;
-				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
-			}
-			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
-				aubatch_scheduler_currentJobQueue.tail = node;
-				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
+			// Insert before the found job with longer execution time
+			if (currentNode == NULL) {
+				aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, node);
+			} else {
+				aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
 			}
 			break;
-
 		}
 
 		// Priority Scheduling (Lower Value == Higher Priority)
@@ -379,18 +366,13 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 				currentNode = currentNode->next;
 			}
 
-			// Insert before the found job with lower priority value, updating head/tail as needed
-			aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
-			if (currentNode == aubatch_scheduler_currentJobQueue.head) {
-				aubatch_scheduler_currentJobQueue.head = node;
-				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
-			}
-			else if (currentNode == aubatch_scheduler_currentJobQueue.tail) {
-				aubatch_scheduler_currentJobQueue.tail = node;
-				aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
+			// Insert before the found job with lower priority value
+			if (currentNode == NULL) {
+				aubatch_jobQueue_spliceJobNode(aubatch_scheduler_currentJobQueue.tail, NULL, node);
+			} else {
+				aubatch_jobQueue_spliceJobNode(currentNode->prev, currentNode, node);
 			}
 			break;
-
 		}
 
 		// If its somehow not set
@@ -401,9 +383,18 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			free(node);
 			aubatch_scheduler_unlockQueueMutex();
 			return 1;
-
 		}
 
+	}
+
+	// Update head/tail of queue as needed
+	if (node->prev == NULL) {
+		aubatch_scheduler_currentJobQueue.head = node;
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
+	}
+	if (node->next == NULL) {
+		aubatch_scheduler_currentJobQueue.tail = node;
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
 	}
 
 	// Set arrival time of job to now
