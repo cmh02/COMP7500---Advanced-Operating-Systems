@@ -35,10 +35,6 @@
 // Module Name
 #define AUBATCH_MODULE_NAME "SCHEDULER"
 
-// Pre-Defined Messages
-static const char *AUBATCH_MESSAGE_LOCKMUTEX = "Locking the scheduler job queue mutex!";
-static const char *AUBATCH_MESSAGE_UNLOCKMUTEX = "Unlocking the scheduler job queue mutex!";
-
 /*
 	# Current Scheduling Policy
 
@@ -61,6 +57,26 @@ static struct aubatch_jobQueue aubatch_scheduler_currentJobQueue;
 */
 static pthread_mutex_t queueMutex = PTHREAD_MUTEX_INITIALIZER;
 
+/* 
+	# Job Queue Mutex - Lock
+
+	This function will lock the job queue mutex, with debug logging.
+*/
+int aubatch_scheduler_lockQueueMutex() {
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Locking the scheduler job queue mutex!");
+	return pthread_mutex_lock(&queueMutex);
+}
+
+/*
+	# Job Queue Mutex - Unlock
+
+	This function will unlock the job queue mutex, with debug logging.
+*/
+int aubatch_scheduler_unlockQueueMutex() {
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Unlocking the scheduler job queue mutex!");
+	return pthread_mutex_unlock(&queueMutex);
+}
+
 int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) {
 
 	// Make sure the given policy is valid
@@ -70,8 +86,7 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 	}
 
 	// Lock the queue mutex
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
-	pthread_mutex_lock(&queueMutex);
+	aubatch_scheduler_lockQueueMutex();
 
 	// Set the current scheduling policy
 	aubatch_scheduler_currentSchedulingPolicy = policy;
@@ -95,8 +110,7 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 	}
 
 	// Unlock the queue mutex
-	pthread_mutex_unlock(&queueMutex);
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	aubatch_scheduler_unlockQueueMutex();
 
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Set scheduling policy to %s.", aubatch_scheduler_getSchedulingPolicyName());
@@ -112,29 +126,23 @@ const char* aubatch_scheduler_getSchedulingPolicyName() {
 }
 
 uint8_t aubatch_scheduler_getCurrentWaitTime() {
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
-	pthread_mutex_lock(&queueMutex);
+	aubatch_scheduler_lockQueueMutex();
 	uint8_t totalExpectedWaitTime = aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
-	pthread_mutex_unlock(&queueMutex);
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	aubatch_scheduler_unlockQueueMutex();
 	return totalExpectedWaitTime;
 }
 
 uint8_t aubatch_scheduler_getCurrentQueueSize() {
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
-	pthread_mutex_lock(&queueMutex);
+	aubatch_scheduler_lockQueueMutex();
 	uint8_t size = aubatch_scheduler_currentJobQueue.size;
-	pthread_mutex_unlock(&queueMutex);
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	aubatch_scheduler_unlockQueueMutex();
 	return size;
 }
 
 uint8_t aubatch_scheduler_getCurrentTotalSeenJobs() {
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
-	pthread_mutex_lock(&queueMutex);
+	aubatch_scheduler_lockQueueMutex();
 	uint8_t totalSeenJobs = aubatch_scheduler_currentJobQueue.totalSeenJobs;
-	pthread_mutex_unlock(&queueMutex);
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	aubatch_scheduler_unlockQueueMutex();
 	return totalSeenJobs;
 }
 
@@ -156,8 +164,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	node->prev = NULL;
 
 	// Lock the queue mutex
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
-	pthread_mutex_lock(&queueMutex);
+	aubatch_scheduler_lockQueueMutex();
 	
 	// Handle insertion based on policy
 	switch (aubatch_scheduler_currentSchedulingPolicy) {
@@ -225,8 +232,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			// Log, free memory, unlock mutex, return error
 			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Cannot insert job with ID %u into queue because the scheduling policy is not set!", job.id);
 			free(node);
-			pthread_mutex_unlock(&queueMutex);
-			aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+			aubatch_scheduler_unlockQueueMutex();
 			return 1;
 
 		}
@@ -242,8 +248,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime += job.execution_time;
 
 	// Unlock the queue mutex
-	pthread_mutex_unlock(&queueMutex);
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	aubatch_scheduler_unlockQueueMutex();
 
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u according to %d policy! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentSchedulingPolicy, aubatch_scheduler_currentJobQueue.size);
@@ -254,8 +259,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
 
 	// Lock the queue mutex
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_LOCKMUTEX);
-	pthread_mutex_lock(&queueMutex);
+	aubatch_scheduler_lockQueueMutex();
 
 	// Make initial pointer for start of screenshot list
 	struct aubatch_jobNode* startNode = NULL;
@@ -294,8 +298,7 @@ struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
 	}
 
 	// Unlock the queue mutex
-	pthread_mutex_unlock(&queueMutex);
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", AUBATCH_MESSAGE_UNLOCKMUTEX);
+	aubatch_scheduler_unlockQueueMutex();
 
 	// Return pointer to first node in screenshot
 	return startNode;
