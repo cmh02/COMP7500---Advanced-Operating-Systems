@@ -44,13 +44,11 @@ int aubatch_dispatcher_loop() {
 		struct aubatch_job job = aubatch_scheduler_popJobQueue();
 
 		// Calculate wait time for job
-		time_t currentTime = time(NULL);
-		job.time_wait = currentTime - job.time_arrival;
+		job.time_wait = time(NULL) - job.time_arrival;
 
 		// Move job to running status and set start time
 		job.status = AUBATCH_JOBSTATUS_RUNNING;
-		time_t currentTime = time(NULL);
-		job.time_start = currentTime;
+		time(&job.time_start);
 
 		// Try to fork to get a child process for job
 		pid_t childPID = fork();
@@ -80,8 +78,7 @@ int aubatch_dispatcher_loop() {
 		}
 
 		// Set completion time, real execution time, turnaround time for job
-		time_t currentTime = time(NULL);
-		job.time_completion = currentTime;
+		job.time_completion = time(NULL);
 		job.time_actualExecution = job.time_completion - job.time_start;
 		job.time_turnaround = job.time_completion - job.time_arrival;
 		
