@@ -23,6 +23,7 @@
 */
 
 // Libraries
+#include <time.h>
 #include <stdlib.h>
 
 // Project Libraries
