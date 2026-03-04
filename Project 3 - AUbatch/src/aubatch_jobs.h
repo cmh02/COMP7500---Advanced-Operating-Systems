@@ -26,6 +26,11 @@
 #ifndef AUBATCH_JOBS_H
 #define AUBATCH_JOBS_H
 
+// Libraries
+#include <time.h>
+#include <unistd.h>
+#include <stdint.h>
+
 /*
 	# Job Status
 
