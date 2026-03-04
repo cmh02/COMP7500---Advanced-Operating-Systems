@@ -318,7 +318,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to allocate memory (malloc) for job node to contain job with ID %u!", job.id);
 		return 1;
 	} else {
-		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Successfully allocated memory (malloc) for job node to contain job with ID %u!", job.id);
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Successfully allocated memory (malloc) for job node to contain job with ID %u!", job.id);
 	}
 	node->job = job;
 	node->next = NULL;
@@ -390,11 +390,23 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	// Update head/tail of queue as needed
 	if (node->prev == NULL) {
 		aubatch_scheduler_currentJobQueue.head = node;
-		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Updating queue head to job with ID %u since it is the first job in the queue!", node->job.id);
 	}
 	if (node->next == NULL) {
 		aubatch_scheduler_currentJobQueue.tail = node;
-		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Updating queue tail to job with ID %u since it is the last job in the queue!", node->job.id);
+	}
+
+	// Log scheduling insertion info
+	if (node->prev != NULL) {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Inserted job with ID %u (priority %u, exec time %u) after job with ID %u (priority %u, exec time %u)!", node->job.id, node->job.priority, node->job.time_requestedExecution, node->prev->job.id, node->prev->job.priority, node->prev->job.time_requestedExecution);
+	} else {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Inserted job with ID %u (priority %u, exec time %u) with no nodes ahead of it!", node->job.id, node->job.priority, node->job.time_requestedExecution);
+	}
+	if (node->next != NULL) {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Inserted job with ID %u (priority %u, exec time %u) before job with ID %u (priority %u, exec time %u)!", node->job.id, node->job.priority, node->job.time_requestedExecution, node->next->job.id, node->next->job.priority, node->next->job.time_requestedExecution);
+	} else {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Inserted job with ID %u (priority %u, exec time %u) with no nodes behind it!", node->job.id, node->job.priority, node->job.time_requestedExecution);
 	}
 
 	// Set arrival time of job to now
