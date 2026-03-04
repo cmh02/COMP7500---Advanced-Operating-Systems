@@ -28,6 +28,9 @@
 #ifndef AUBATCH_SCHEDULER_H
 #define AUBATCH_SCHEDULER_H
 
+// Project Libraries
+#include "aubatch_jobs.h"
+
 /* 
 	# Available Scheduling Policies
 

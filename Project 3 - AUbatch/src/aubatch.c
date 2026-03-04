@@ -30,6 +30,7 @@
 #include "aubatch_utils.h"
 #include "aubatch_logger.h"
 #include "aubatch_config.h"
+#include "aubatch_scheduler.h"
 #include "aubatch_cmdparser.h"
 
 // Module Name
@@ -47,6 +48,9 @@ int main(int argc, char* argv[]) {
 
 	// Initialize logger with config path
 	aubatch_initLogFile(getpid());
+
+	// Initialize scheduler with FCFS
+	aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_FCFS);
 
 	// Launch commmand loop
 	aubatch_cmdparser_enterCommandLoop();
