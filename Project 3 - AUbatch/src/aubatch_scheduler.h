@@ -191,5 +191,17 @@ struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue();
 */
 struct aubatch_job aubatch_scheduler_popJobQueue();
 
+/*
+	# Record Finished Job
+
+	This function will record a finished job by adding it to the finished job queue.
+
+	## Parameters
+	- struct aubatch_job job: the job to record as finished
+
+	## Returns
+	- 0 on success, 1 on any failure
+*/
+int aubatch_scheduler_recordFinishedJob(struct aubatch_job job);
 
 #endif // AUBATCH_SCHEDULER_H

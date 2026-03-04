@@ -21,3 +21,18 @@
 
 	--------------------------------------------------
 */
+
+// Prevent multiple inclusions
+#ifndef AUBATCH_DISPATCHER_H
+#define AUBATCH_DISPATCHER_H
+
+/*
+	# Initialize Dispatcher
+
+	This function will initialize the dispatcher module.
+*/
+int aubatch_dispatcher_start();
+
+
+
+#endif // AUBATCH_DISPATCHER_H

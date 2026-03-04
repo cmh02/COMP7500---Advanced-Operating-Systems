@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 	aubatch_initLogFile(getpid());
 
 	// Set program state to running
-	aubatch_programRunning = 1;
+	aubatch_flag_programRunning = 1;
 
 	// Initialize scheduler with FCFS
 	aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_FCFS);

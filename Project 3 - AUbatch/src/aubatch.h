@@ -32,7 +32,7 @@
 #define AUBATCH_PROGRAM_VERSION "1.0"
 
 // Program-Wide Running Flag
-extern int aubatch_programRunning;
+extern int aubatch_flag_programRunning;
 
 
 

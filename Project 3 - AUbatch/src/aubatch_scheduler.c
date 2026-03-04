@@ -51,6 +51,26 @@ static enum aubatch_schedulingPolicy aubatch_scheduler_currentSchedulingPolicy;
 static struct aubatch_jobQueue aubatch_scheduler_currentJobQueue;
 
 /*
+	# Currently Executing Job
+
+	This variable will track the currently execution job. This allows for estimations
+	based on last-known information about job timing and such.
+*/
+struct aubatch_currentJobMetrics {
+	struct aubatch_job job;
+	time_t time_poppedFromQueue;
+} aubatch_scheduler_currentJobMetrics;
+static struct aubatch_currentJobMetrics aubatch_scheduler_currentJobMetrics;
+
+/*
+	# Finished Job Queue
+
+	This variable will reference the queue of all finished jobs.
+	This is purely for metric tracking post-run.
+*/
+static struct aubatch_jobQueue aubatch_scheduler_finishedJobQueue;
+
+/*
 	# Job Queue Mutex
 
 	This mutex will be used to lock the job queue.
@@ -76,6 +96,13 @@ int aubatch_scheduler_unlockQueueMutex() {
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Unlocking the scheduler job queue mutex!");
 	return pthread_mutex_unlock(&queueMutex);
 }
+
+/*
+	# Job Queue Condition Variable
+
+	This CV will be used to signal when the job queue is no longer empty.
+*/
+static pthread_cond_t queueNotEmptyCV = PTHREAD_COND_INITIALIZER;
 
 int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) {
 
@@ -247,6 +274,9 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	aubatch_scheduler_currentJobQueue.totalSeenJobs++;
 	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime += job.time_requestedExecution;
 
+	// Send signal on CV that queue is no longer empty
+	pthread_cond_signal(&queueNotEmptyCV);
+
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();
 
@@ -309,6 +339,12 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	// Lock the queue mutex
 	aubatch_scheduler_lockQueueMutex();
 
+	// Wait on cv for queue to not be empty
+	while (aubatch_scheduler_currentJobQueue.size == 0) {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "%s", "Waiting on CV for job queue to not be empty!");
+		pthread_cond_wait(&queueNotEmptyCV, &queueMutex);
+	}
+
 	// Get node at front of queue
 	struct aubatch_jobNode* node = aubatch_scheduler_currentJobQueue.head;
 	if (node == NULL) {
@@ -336,7 +372,43 @@ struct aubatch_job aubatch_scheduler_popJobQueue() {
 	// Unlock the queue mutex
 	aubatch_scheduler_unlockQueueMutex();
 
+	// Record pop time for current job metrics
+	aubatch_scheduler_currentJobMetrics.job = job;
+	time(&aubatch_scheduler_currentJobMetrics.time_poppedFromQueue);
+
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Popped job with ID %u from the queue! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentJobQueue.size);
 	return job;
+}
+
+int aubatch_scheduler_recordFinishedJob(struct aubatch_job job) {
+
+	// Make a new node for the finished job
+	struct aubatch_jobNode* node = malloc(sizeof(struct aubatch_jobNode));
+	if (node == NULL) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to allocate memory (malloc) for finished job node to contain job with ID %u!", job.id);
+		return 1;
+	} else {
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Successfully allocated memory (malloc) for finished job node to contain job with ID %u!", job.id);
+	}
+	node->job = job;
+	node->next = NULL;
+	node->prev = NULL;
+
+	// Insert finished job into finished job queue (just insert at end since order doesn't matter)
+	aubatch_jobQueue_spliceJobNode(aubatch_scheduler_finishedJobQueue.tail, NULL, node);
+	if (node->prev == NULL) {
+		aubatch_scheduler_finishedJobQueue.head = node;
+	}
+	if (node->next == NULL) {
+		aubatch_scheduler_finishedJobQueue.tail = node;
+	}
+
+	// Increment size and total seen jobs for finished job queue
+	aubatch_scheduler_finishedJobQueue.size++;
+	aubatch_scheduler_finishedJobQueue.totalSeenJobs++;
+
+	// Log and return
+	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Recorded finished job with ID %u into finished job queue! There are now %u jobs in the finished job queue!", job.id, aubatch_scheduler_finishedJobQueue.size);
+	return 0;
 }
