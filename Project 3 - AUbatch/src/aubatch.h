@@ -31,7 +31,8 @@
 #define AUBATCH_PROGRAM_AUTHOR "Chris Hinkson"
 #define AUBATCH_PROGRAM_VERSION "1.0"
 
-
+// Program-Wide Running Flag
+extern int aubatch_programRunning;
 
 
 

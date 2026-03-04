@@ -49,6 +49,9 @@ int main(int argc, char* argv[]) {
 	// Initialize logger with config path
 	aubatch_initLogFile(getpid());
 
+	// Set program state to running
+	aubatch_programRunning = 1;
+
 	// Initialize scheduler with FCFS
 	aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_FCFS);
 
