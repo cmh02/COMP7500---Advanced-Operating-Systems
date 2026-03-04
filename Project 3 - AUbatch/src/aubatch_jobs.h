@@ -176,20 +176,6 @@ uint32_t aubatch_jobs_generateNextJobID();
 */
 struct aubatch_job aubatch_jobs_createNewJob(char* name, int executionTime, int priority);
 
-/*
-	# Run Job
-
-	This function will run a job by sleeping for the execution time of the job.
-
-	## Parameters
-	- struct aubatch_job job: the job to run
-
-	## Returns
-	- 0 on success, 1 on any failure
-
-*/
-struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job);
-
 #endif // AUBATCH_JOBS_H
 
 /*

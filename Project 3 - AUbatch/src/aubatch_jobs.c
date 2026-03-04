@@ -87,22 +87,6 @@ uint32_t aubatch_jobs_generateNextJobID() {
 	return aubatch_jobs_nextJobID++;
 }
 
-struct aubatch_job aubatch_jobs_runJob(struct aubatch_job job) {
-
-	// Log job run and update status
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Running job with ID %u, execution time %u, and priority %u.", job.id, job.time_requestedExecution, job.priority);
-	job.status = AUBATCH_JOBSTATUS_RUNNING;
-
-	// Mock the job's execution for the specified time
-	sleep(job.time_requestedExecution);
-
-	// Log job completion and return
-	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Completed job with ID %u.", job.id);
-	job.status = AUBATCH_JOBSTATUS_COMPLETED;
-	return job;
-
-}
-
 struct aubatch_jobNode* aubatch_jobQueue_getNodeAtIndex(struct aubatch_jobQueue* queue, uint32_t index) {
 
 	// If the queue is empty or index is out of bounds, return NULL
