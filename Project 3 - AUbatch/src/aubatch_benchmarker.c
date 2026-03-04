@@ -61,11 +61,13 @@ int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration confi
 
 		// Make job and insert
 		struct aubatch_job job = aubatch_jobs_createNewJob(config.name, jobCPUTime, jobPriority);
+		aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "-> Sending off job %u with ID %u!", i, job.id);
 		aubatch_scheduler_insert(job);
 
 		// Sleep for arrival rate
 		sleep(config.arrivalRate);
 	}
+	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "All jobs for benchmark '%s' have been submitted!", config.name);
 
 	// Wait for all jobs to finish
 	int benchmarkFinishes = aubatch_scheduler_waitForNJobsToFinish(config.numberOfJobs);

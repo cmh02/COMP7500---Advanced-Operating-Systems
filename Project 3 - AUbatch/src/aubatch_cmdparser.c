@@ -50,7 +50,7 @@
 /*
 	# Maximum Command Length in Arguments
 */
-#define AUBATCH_MAX_COMMAND_LENGTH_ARGS 5
+#define AUBATCH_MAX_COMMAND_LENGTH_ARGS 10
 
 int aubatch_cmdparser_enterCommandLoop() {
 

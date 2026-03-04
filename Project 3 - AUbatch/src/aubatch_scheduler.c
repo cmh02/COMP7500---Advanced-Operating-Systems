@@ -523,6 +523,9 @@ int aubatch_scheduler_recordFinishedJob(struct aubatch_job job) {
 	// Log within mutex
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Recorded finished job with ID %u into finished job queue! There are now %u jobs in the finished job queue!", job.id, aubatch_scheduler_finishedJobQueue.size);
 
+	// Send signal on CV that finished job queue was updated
+	pthread_cond_signal(&finishedQueueUpdatedCV);
+
 	// Unlock the finished job queue mutex
 	aubatch_scheduler_unlockFinishedQueueMutex();
 
