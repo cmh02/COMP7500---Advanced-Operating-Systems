@@ -26,17 +26,6 @@
 #ifndef AUBATCH_JOBS_H
 #define AUBATCH_JOBS_H
 
-// Libraries
-#include <time.h>
-#include <unistd.h>
-#include <stdint.h>
-
-// Project Libraries
-#include "aubatch_logger.h"
-
-// Module Name
-#define AUBATCH_MODULE_NAME "JOBS"
-
 /*
 	# Job Status
 

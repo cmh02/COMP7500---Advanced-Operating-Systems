@@ -28,15 +28,6 @@
 #ifndef AUBATCH_SCHEDULER_H
 #define AUBATCH_SCHEDULER_H
 
-// Libraries
-#include <stdlib.h>
-
-// Project Libraries
-#include "aubatch_jobs.h"
-
-// Module Name
-#define AUBATCH_MODULE_NAME "SCHEDULER"
-
 /* 
 	# Available Scheduling Policies
 

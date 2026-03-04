@@ -22,8 +22,17 @@
 	--------------------------------------------------
 */
 
+// Libraries
+#include <time.h>
+#include <unistd.h>
+#include <stdint.h>
+
 // Project Libraries
 #include "aubatch_jobs.h"
+#include "aubatch_logger.h"
+
+// Module Name
+#define AUBATCH_MODULE_NAME "JOBS"
 
 const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status) {
 	return aubatch_jobStatusNames[status];

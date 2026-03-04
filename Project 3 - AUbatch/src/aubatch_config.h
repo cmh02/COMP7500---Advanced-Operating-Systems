@@ -29,11 +29,6 @@
 #ifndef AUBATCH_CONFIG_H
 #define AUBATCH_CONFIG_H
 
-// Libraries
-#include <limits.h>
-#include <stdbool.h>
-
-
 /*
 	# Configuration Options Structure
 

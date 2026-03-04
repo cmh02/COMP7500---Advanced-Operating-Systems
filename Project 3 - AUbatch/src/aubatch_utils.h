@@ -34,8 +34,6 @@
 */
 
 // Libraries
-#include <time.h>
-#include <stdarg.h>
 #include <stdbool.h>
 
 // Prevent multiple inclusions

@@ -25,7 +25,14 @@
 // Libraries
 
 // Project Libraries
+#include "aubatch.h"
+#include "aubatch_jobs.h"
+#include "aubatch_utils.h"
+#include "aubatch_scheduler.h"
 #include "aubatch_cmdparser.h"
+
+// Module Name
+#define AUBATCH_MODULE_NAME "COMMANDPARSER"
 
 // Pre-Defined Messages
 static const char *AUBATCH_MESSAGE_INTRO = 

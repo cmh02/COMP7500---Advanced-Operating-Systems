@@ -26,18 +26,6 @@
 #ifndef AUBATCH_H
 #define AUBATCH_H
 
-// Libraries
-#include <libc.h>
-
-// Project Libraries
-#include "aubatch_utils.h"
-#include "aubatch_logger.h"
-#include "aubatch_config.h"
-#include "aubatch_cmdparser.h"
-
-// Module Name
-#define AUBATCH_MODULE_NAME "MAIN"
-
 // Program Information
 #define AUBATCH_PROGRAM_NAME "AUbatch"
 #define AUBATCH_PROGRAM_AUTHOR "Chris Hinkson"

@@ -22,8 +22,16 @@
 	--------------------------------------------------
 */
 
+// Libraries
+#include <stdlib.h>
+
 // Project Libraries
+#include "aubatch_jobs.h"
+#include "aubatch_logger.h"
 #include "aubatch_scheduler.h"
+
+// Module Name
+#define AUBATCH_MODULE_NAME "SCHEDULER"
 
 /*
 	# Current Scheduling Policy

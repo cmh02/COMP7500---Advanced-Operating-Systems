@@ -46,9 +46,6 @@
 #ifndef AUBATCH_LOGGER_H
 #define AUBATCH_LOGGER_H
 
-// Libraries
-#include <sys/types.h>
-
 // Log File Path
 #define AUBATCH_LOGDIR_PATH "../logs/"
 

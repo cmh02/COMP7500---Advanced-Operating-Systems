@@ -26,17 +26,6 @@
 #ifndef AUBATCH_CMDPARSER_H
 #define AUBATCH_CMDPARSER_H
 
-// Libraries
-
-// Project Libraries
-#include "aubatch.h"
-#include "aubatch_jobs.h"
-#include "aubatch_utils.h"
-#include "aubatch_scheduler.h"
-
-// Module Name
-#define AUBATCH_MODULE_NAME "COMMANDPARSER"
-
 /*
 	# Command Parser Command Loop
 
