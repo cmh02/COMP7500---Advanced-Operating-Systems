@@ -23,6 +23,7 @@
 */
 
 // Libraries
+#include <stdio.h>
 
 // Project Libraries
 #include "aubatch.h"
