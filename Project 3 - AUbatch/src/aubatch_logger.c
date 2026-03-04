@@ -124,8 +124,13 @@ void aubatch_log(enum aubatch_loggerLevel level, const char* module, const char*
 		return;
 	}
 
-	// If not debug level, always write to log, or if debug, then check config before write
-	if ((level != AUBATCH_LOGLEVEL_DEBUG) || ((level == AUBATCH_LOGLEVEL_DEBUG) && (config->LOGGING_SEND_DEBUG_TO_LOG))) {
+	// For each level, print to log file if configured
+	if (((level == AUBATCH_LOGLEVEL_INFO) && (config->LOGGING_SEND_INFO_TO_LOG))
+		|| ((level == AUBATCH_LOGLEVEL_WARNING) && (config->LOGGING_SEND_WARNING_TO_LOG))
+		|| ((level == AUBATCH_LOGLEVEL_ERROR) && (config->LOGGING_SEND_ERROR_TO_LOG))
+		|| ((level == AUBATCH_LOGLEVEL_DEBUG) && (config->LOGGING_SEND_DEBUG_TO_LOG))
+		|| ((level == AUBATCH_LOGLEVEL_INTERACTIVE) && (config->LOGGING_SEND_INTERACTIVE_TO_LOG))
+	){
 		fprintf(logFile, "[%s] [%s] [%s]: ", dateTimeString, logLevelString, module);
 		vfprintf(logFile, message, args);
 		fputc('\n', logFile);
@@ -133,15 +138,15 @@ void aubatch_log(enum aubatch_loggerLevel level, const char* module, const char*
 	}
 
 	// For each level, also print to stdout if configured
-	if (level == AUBATCH_LOGLEVEL_INFO) {
+	if ((level == AUBATCH_LOGLEVEL_INFO) && (config->LOGGING_SEND_INFO_TO_STDOUT)) {
 		aubatch_printWithPrefix(message, argsCopyForPrinting);
-	} else if (level == AUBATCH_LOGLEVEL_WARNING) {
+	} else if ((level == AUBATCH_LOGLEVEL_WARNING) && (config->LOGGING_SEND_WARNING_TO_STDOUT)) {
 		aubatch_warnWithPrefix(message, argsCopyForPrinting);
-	} else if (level == AUBATCH_LOGLEVEL_ERROR) {
+	} else if ((level == AUBATCH_LOGLEVEL_ERROR) && (config->LOGGING_SEND_ERROR_TO_STDOUT)) {
 		aubatch_errorWithPrefix(message, argsCopyForPrinting);
 	} else if ((level == AUBATCH_LOGLEVEL_DEBUG) && (config->LOGGING_SEND_DEBUG_TO_STDOUT)) {
 		aubatch_debugWithPrefix(message, argsCopyForPrinting);
-	} else if (level == AUBATCH_LOGLEVEL_INTERACTIVE) {
+	} else if ((level == AUBATCH_LOGLEVEL_INTERACTIVE) && (config->LOGGING_SEND_INTERACTIVE_TO_STDOUT)) {
 		aubatch_printWithoutPrefix(message, argsCopyForPrinting);
 	}
 
