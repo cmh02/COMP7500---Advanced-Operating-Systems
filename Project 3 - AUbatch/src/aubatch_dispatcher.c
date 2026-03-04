@@ -25,6 +25,7 @@
 // Libraries
 #include <errno.h>
 #include <pthread.h>
+#include <sys/wait.h>
 
 // Project Libraries
 #include "aubatch.h"
