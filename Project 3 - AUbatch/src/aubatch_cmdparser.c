@@ -126,24 +126,24 @@ int aubatch_cmdparser_enterCommandLoop() {
 			// Take name as second argument
 			char* jobName = args[1];
 			if (jobName == NULL) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide a name when submitting a new job!");
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide a name when submitting a new job!\n");
 				continue;
 			}
 			else if (strlen(jobName) >= AUBATCH_MAX_JOB_NAME_LENGTH) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Job name cannot be longer than %d characters!", AUBATCH_MAX_JOB_NAME_LENGTH - 1);
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Job name cannot be longer than %d characters!\n", AUBATCH_MAX_JOB_NAME_LENGTH - 1);
 				continue;
 			}
 
 			// Make sure that the job is an actual executable
 			if (access(jobName, X_OK) != 0) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Job '%s' is not an executable job!", jobName);
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Job '%s' is not an executable job!\n", jobName);
 				continue;
 			}
 
 			// Take execution time as third argument
 			char* executionTimeRaw = args[2];
 			if (executionTimeRaw == NULL) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide an execution time when submitting a new job!");
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide an execution time when submitting a new job!\n");
 				continue;
 			}
 			uint32_t executionTime;
@@ -152,7 +152,7 @@ int aubatch_cmdparser_enterCommandLoop() {
 			// Take priority as fourth argument
 			char* priorityRaw = args[3];
 			if (priorityRaw == NULL) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide a priority when submitting a new job!");
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide a priority when submitting a new job!\n");
 				continue;
 			}
 			uint32_t priority;
