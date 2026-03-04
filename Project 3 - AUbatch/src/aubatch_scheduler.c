@@ -25,6 +25,7 @@
 // Libraries
 #include <time.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 // Project Libraries
 #include "aubatch_jobs.h"
@@ -49,6 +50,13 @@ static enum aubatch_schedulingPolicy aubatch_scheduler_currentSchedulingPolicy;
 */
 static struct aubatch_jobQueue aubatch_scheduler_currentJobQueue;
 
+/*
+	# Job Queue Mutex
+
+	This mutex will be used to lock the job queue.
+*/
+static pthread_mutex_t queueMutex = PTHREAD_MUTEX_INITIALIZER;
+
 int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) {
 
 	// Make sure the given policy is valid
@@ -56,6 +64,9 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Cannot set scheduling policy to NOTSET!");
 		return 1;
 	}
+
+	// Lock the queue mutex
+	pthread_mutex_lock(&queueMutex);
 
 	// Set the current scheduling policy
 	aubatch_scheduler_currentSchedulingPolicy = policy;
@@ -78,6 +89,9 @@ int aubatch_scheduler_setSchedulingPolicy(enum aubatch_schedulingPolicy policy) 
 		currentNode = nextNode;
 	}
 
+	// Unlock the queue mutex
+	pthread_mutex_unlock(&queueMutex);
+
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Set scheduling policy to %s.", aubatch_scheduler_getSchedulingPolicyName());
 	return 0;
@@ -92,15 +106,21 @@ const char* aubatch_scheduler_getSchedulingPolicyName() {
 }
 
 uint8_t aubatch_scheduler_getCurrentWaitTime() {
+	pthread_mutex_lock(&queueMutex);
 	return aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
+	pthread_mutex_unlock(&queueMutex);
 }
 
 uint8_t aubatch_scheduler_getCurrentQueueSize() {
+	pthread_mutex_lock(&queueMutex);
 	return aubatch_scheduler_currentJobQueue.size;
+	pthread_mutex_unlock(&queueMutex);
 }
 
 uint8_t aubatch_scheduler_getCurrentTotalSeenJobs() {
+	pthread_mutex_lock(&queueMutex);
 	return aubatch_scheduler_currentJobQueue.totalSeenJobs;
+	pthread_mutex_unlock(&queueMutex);
 }
 
 int aubatch_scheduler_insert(struct aubatch_job job) {
@@ -119,6 +139,9 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	node->job = job;
 	node->next = NULL;
 	node->prev = NULL;
+
+	// Lock the queue mutex
+	pthread_mutex_lock(&queueMutex);
 	
 	// Handle insertion based on policy
 	switch (aubatch_scheduler_currentSchedulingPolicy) {
@@ -186,6 +209,7 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 			// Log and return error
 			aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Cannot insert job with ID %u into queue because the scheduling policy is not set!", job.id);
 			free(node);
+			pthread_unlock_mutex(&queueMutex);
 			return 1;
 
 		}
@@ -200,6 +224,9 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 	aubatch_scheduler_currentJobQueue.totalSeenJobs++;
 	aubatch_scheduler_currentJobQueue.totalExpectedWaitTime += job.execution_time;
 
+	// Unlock the queue mutex
+	pthread_mutex_unlock(&queueMutex);
+
 	// Log and return
 	aubatch_log(AUBATCH_LOGLEVEL_DEBUG, AUBATCH_MODULE_NAME, "Inserted job with ID %u according to %d policy! There are now %u jobs in the queue.", job.id, aubatch_scheduler_currentSchedulingPolicy, aubatch_scheduler_currentJobQueue.size);
 	return 0;
@@ -207,6 +234,9 @@ int aubatch_scheduler_insert(struct aubatch_job job) {
 }
 
 struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
+
+	// Lock the queue mutex
+	pthread_mutex_lock(&queueMutex);
 
 	// Make initial pointer for start of screenshot list
 	struct aubatch_jobNode* startNode = NULL;
@@ -243,6 +273,9 @@ struct aubatch_jobNode* aubatch_scheduler_screenshotJobQueue() {
 		screenshotSize++;
 		currentNode = currentNode->next;
 	}
+
+	// Unlock the queue mutex
+	pthread_mutex_unlock(&queueMutex);
 
 	// Return pointer to first node in screenshot
 	return startNode;
