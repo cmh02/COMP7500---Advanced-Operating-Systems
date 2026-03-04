@@ -36,6 +36,9 @@
 // Module Name
 #define AUBATCH_MODULE_NAME "MAIN"
 
+// Program State
+int aubatch_flag_programRunning = 1;
+
 // Main Execution
 int main(int argc, char* argv[]) {
 
@@ -48,9 +51,6 @@ int main(int argc, char* argv[]) {
 
 	// Initialize logger with config path
 	aubatch_initLogFile(getpid());
-
-	// Set program state to running
-	int aubatch_flag_programRunning = 1;
 
 	// Initialize scheduler with FCFS
 	aubatch_scheduler_setSchedulingPolicy(AUBATCH_SCHEDULINGPOLICY_FCFS);
