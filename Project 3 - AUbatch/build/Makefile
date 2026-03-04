@@ -201,6 +201,30 @@ aubatch_config.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_config.c.s
 .PHONY : aubatch_config.c.s
 
+aubatch_dispatcher.o: aubatch_dispatcher.c.o
+.PHONY : aubatch_dispatcher.o
+
+# target to build an object file
+aubatch_dispatcher.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_dispatcher.c.o
+.PHONY : aubatch_dispatcher.c.o
+
+aubatch_dispatcher.i: aubatch_dispatcher.c.i
+.PHONY : aubatch_dispatcher.i
+
+# target to preprocess a source file
+aubatch_dispatcher.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_dispatcher.c.i
+.PHONY : aubatch_dispatcher.c.i
+
+aubatch_dispatcher.s: aubatch_dispatcher.c.s
+.PHONY : aubatch_dispatcher.s
+
+# target to generate assembly for a file
+aubatch_dispatcher.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aubatch.dir/build.make CMakeFiles/aubatch.dir/aubatch_dispatcher.c.s
+.PHONY : aubatch_dispatcher.c.s
+
 aubatch_jobs.o: aubatch_jobs.c.o
 .PHONY : aubatch_jobs.o
 
@@ -315,6 +339,9 @@ help:
 	@echo "... aubatch_config.o"
 	@echo "... aubatch_config.i"
 	@echo "... aubatch_config.s"
+	@echo "... aubatch_dispatcher.o"
+	@echo "... aubatch_dispatcher.i"
+	@echo "... aubatch_dispatcher.s"
 	@echo "... aubatch_jobs.o"
 	@echo "... aubatch_jobs.i"
 	@echo "... aubatch_jobs.s"

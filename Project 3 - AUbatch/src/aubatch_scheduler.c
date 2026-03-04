@@ -60,7 +60,7 @@ struct aubatch_currentJobMetrics {
 	struct aubatch_job job;
 	time_t time_poppedFromQueue;
 } aubatch_scheduler_currentJobMetrics;
-static struct aubatch_currentJobMetrics aubatch_scheduler_currentJobMetrics;
+static struct aubatch_currentJobMetrics aubatch_scheduler_currentJobMetrics = { .job = { .id = 0 }, .time_poppedFromQueue = 0 };
 
 /*
 	# Finished Job Queue

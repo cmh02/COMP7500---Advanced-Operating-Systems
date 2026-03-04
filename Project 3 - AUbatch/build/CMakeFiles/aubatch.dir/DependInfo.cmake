@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch.c" "CMakeFiles/aubatch.dir/aubatch.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_cmdparser.c" "CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_cmdparser.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_config.c" "CMakeFiles/aubatch.dir/aubatch_config.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_config.c.o.d"
+  "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_dispatcher.c" "CMakeFiles/aubatch.dir/aubatch_dispatcher.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_dispatcher.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_jobs.c" "CMakeFiles/aubatch.dir/aubatch_jobs.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_jobs.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_logger.c" "CMakeFiles/aubatch.dir/aubatch_logger.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_logger.c.o.d"
   "/Users/chrishinkson/Programming/COMP7500 - Advanced Operating Systems/Project 3 - AUbatch/src/aubatch_scheduler.c" "CMakeFiles/aubatch.dir/aubatch_scheduler.c.o" "gcc" "CMakeFiles/aubatch.dir/aubatch_scheduler.c.o.d"
