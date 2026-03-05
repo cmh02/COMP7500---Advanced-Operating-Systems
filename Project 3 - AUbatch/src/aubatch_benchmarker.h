@@ -37,10 +37,10 @@ struct aubatch_benchmarkConfiguration {
 	char name[AUBATCH_MAX_JOB_NAME_LENGTH];
 	enum aubatch_schedulingPolicy policy;
 	uint32_t numberOfJobs;
-	uint32_t arrivalRate;
 	uint32_t numberOfPrioritylevels;
-	uint32_t minCPUTime;
-	uint32_t maxCPUTime;
+	double arrivalRate;
+	double minCPUTime;
+	double maxCPUTime;
 };
 
 /*
@@ -76,6 +76,6 @@ int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration confi
 	## Returns
 	- void
 */
-void aubatch_benchmark_writeBenchmarkToCSV(struct aubatch_benchmarkConfiguration config, uint32_t totalSeenJobs, double averageTurnaroundTime, double averageCPUTime, double averageWaitTime, double throughput);
+void aubatch_benchmarker_writeBenchmarkToCSV(struct aubatch_benchmarkConfiguration config, uint32_t totalSeenJobs, double averageTurnaroundTime, double averageCPUTime, double averageWaitTime, double throughput);
 
 #endif // AUBATCH_BENCHMARKER_H

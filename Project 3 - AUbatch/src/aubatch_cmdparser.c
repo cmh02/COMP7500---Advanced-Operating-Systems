@@ -125,12 +125,12 @@ int aubatch_cmdparser_enterCommandLoop() {
 				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide an execution time when submitting a new job!\n");
 				continue;
 			}
-			uint32_t executionTime;
-			aubatch_parseUnsignedInt32(executionTimeRaw, &executionTime);
+			double executionTime;
+			aubatch_parseDouble(executionTimeRaw, &executionTime);
 
 			// Verify execution time is positive
 			if (executionTime <= 0) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Execution time must be a positive integer!\n");
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Execution time must be a positive number!\n");
 				continue;
 			}
 
@@ -215,12 +215,12 @@ int aubatch_cmdparser_enterCommandLoop() {
 				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide an arrival rate when submitting a new benchmark!\n");
 				continue;
 			}
-			uint32_t arrivalRate;
-			aubatch_parseUnsignedInt32(arrivalRateRaw, &arrivalRate);
+			double arrivalRate;
+			aubatch_parseDouble(arrivalRateRaw, &arrivalRate);
 
 			// Verify arrival rate is positive
 			if (arrivalRate <= 0) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Arrival rate must be a positive integer!\n");
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Arrival rate must be a positive number!\n");
 				continue;
 			}
 
@@ -245,12 +245,12 @@ int aubatch_cmdparser_enterCommandLoop() {
 				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide a minimum CPU time when submitting a new benchmark!\n");
 				continue;
 			}
-			uint32_t minCPUTime;
-			aubatch_parseUnsignedInt32(minCPUTimeRaw, &minCPUTime);
+			double minCPUTime;
+			aubatch_parseDouble(minCPUTimeRaw, &minCPUTime);
 
 			// Verify minimum CPU time is positive or 0
 			if (minCPUTime < 0) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Minimum CPU time must be a non-negative integer!\n");
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Minimum CPU time must be a non-negative number!\n");
 				continue;
 			}
 
@@ -260,12 +260,12 @@ int aubatch_cmdparser_enterCommandLoop() {
 				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Please provide a maximum CPU time when submitting a new benchmark!\n");
 				continue;
 			}
-			uint32_t maxCPUTime;
-			aubatch_parseUnsignedInt32(maxCPUTimeRaw, &maxCPUTime);
+			double maxCPUTime;
+			aubatch_parseDouble(maxCPUTimeRaw, &maxCPUTime);
 
 			// Verify maximum CPU time is positive or 0
 			if (maxCPUTime < 0) {
-				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Maximum CPU time must be a non-negative integer!\n");
+				aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, "Maximum CPU time must be a non-negative number!\n");
 				continue;
 			}
 

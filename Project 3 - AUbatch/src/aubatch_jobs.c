@@ -39,7 +39,7 @@ const char* aubatch_jobs_getJobStatusName(enum aubatch_jobStatus status) {
 	return aubatch_jobStatusNames[status];
 }
 
-struct aubatch_job aubatch_jobs_createNewJob(char* name, int executionTime, int priority) {
+struct aubatch_job aubatch_jobs_createNewJob(char* name, double executionTime, int priority) {
 
 	// Initialize a new job
 	struct aubatch_job newJob;

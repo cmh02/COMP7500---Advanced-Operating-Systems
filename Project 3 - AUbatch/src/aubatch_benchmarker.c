@@ -20,10 +20,14 @@
 	1.https://stackoverflow.com/questions/13566082/how-to-check-if-a-file-has-content-or-not-using-c
 	-> I used this post to remember how to check for empty file.
 
+	2. https://stackoverflow.com/questions/55766058/how-can-i-generate-random-doubles-in-c
+	-> I used this post to look into ways of getting random doubles.
+
 	--------------------------------------------------
 */
 
 // Libraries
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -59,7 +63,8 @@ int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration confi
 		uint32_t jobPriority = (rand() % config.numberOfPrioritylevels) + 1;
 
 		// Generate CPU time (between min and max CPU time, inclusive)
-		uint32_t jobCPUTime = (rand() % (config.maxCPUTime - config.minCPUTime + 1)) + config.minCPUTime;
+		double base = (double)rand() / RAND_MAX;
+		double jobCPUTime = (base * (config.maxCPUTime - config.minCPUTime)) + config.minCPUTime;
 
 		// Make job and insert
 		struct aubatch_job job = aubatch_jobs_createNewJob(config.name, jobCPUTime, jobPriority);
@@ -86,7 +91,7 @@ int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration confi
 	double averageWaitTime = aubatch_scheduler_getCurrentAverageWaitTime();
 	double throughput = aubatch_scheduler_getCurrentThroughput();
 	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_EXIT, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
-	aubatch_benchmark_writeBenchmarkToCSV(config, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
+	aubatch_benchmarker_writeBenchmarkToCSV(config, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
 	return 0;
 }
 

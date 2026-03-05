@@ -163,6 +163,31 @@ bool aubatch_parseUnsignedInt32(const char *str, uint32_t *out) {
 
 }
 
+bool aubatch_parseDouble(const char *str, double *out) {
+
+	// Set errno to 0 to detect errors from parsing
+	errno = 0;
+
+	// Check that string starts with a number or a decimal
+	if (!isdigit(str[0]) && str[0] != '.') {
+		return false;
+	}
+
+	// Try to parse
+	char *endCharacter;
+	double parsedValue = strtod(str, &endCharacter);
+
+	// Check for any errors
+	if ((errno != 0) || (*endCharacter != '\0') || (endCharacter == str)) { 
+		return false; 
+	}
+
+	// Set output value and return success
+	*out = parsedValue;
+	return true;
+
+}
+
 bool aubatch_parseBool(const char *str, bool *out) {
 
 	// Check for true

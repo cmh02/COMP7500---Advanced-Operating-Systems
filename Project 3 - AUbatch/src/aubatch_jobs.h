@@ -95,7 +95,7 @@ struct aubatch_job {
 	char name[AUBATCH_MAX_JOB_NAME_LENGTH];
 	uint32_t id;
 	uint32_t priority;
-	uint32_t time_requestedExecution;
+	double time_requestedExecution;
 	time_t time_creation;
 	time_t time_arrival;
 	time_t time_start;
@@ -138,7 +138,7 @@ struct aubatch_jobQueue {
 	struct aubatch_jobNode* tail;
 	uint32_t size;
 	uint32_t totalSeenJobs;
-	uint32_t totalExpectedWaitTime;
+	double totalExpectedWaitTime;
 	time_t queueBeginTime;
 	time_t queueEndTime;
 };
@@ -176,7 +176,7 @@ uint32_t aubatch_jobs_generateNextJobID();
 	## Returns
 	- struct aubatch_job: the new job struct with the given information and a generated ID
 */
-struct aubatch_job aubatch_jobs_createNewJob(char* name, int executionTime, int priority);
+struct aubatch_job aubatch_jobs_createNewJob(char* name, double executionTime, int priority);
 
 #endif // AUBATCH_JOBS_H
 

@@ -190,9 +190,9 @@ const char* aubatch_scheduler_getSchedulingPolicyName() {
 	return aubatch_schedulingPolicyNames[aubatch_scheduler_currentSchedulingPolicy];
 }
 
-uint8_t aubatch_scheduler_getCurrentWaitTime() {
+double aubatch_scheduler_getCurrentWaitTime() {
 	aubatch_scheduler_lockQueueMutex();
-	uint8_t totalExpectedWaitTime = aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
+	double totalExpectedWaitTime = aubatch_scheduler_currentJobQueue.totalExpectedWaitTime;
 	aubatch_scheduler_unlockQueueMutex();
 	if ((aubatch_scheduler_currentJobMetrics.isCurrentlyExecuting) && (aubatch_scheduler_currentJobMetrics.job.id != 0)) {
 		return (totalExpectedWaitTime + (aubatch_scheduler_currentJobMetrics.job.time_requestedExecution - (time(NULL) - aubatch_scheduler_currentJobMetrics.time_poppedFromQueue)));
@@ -218,7 +218,7 @@ uint8_t aubatch_scheduler_getCurrentTotalSeenJobs() {
 double aubatch_scheduler_getCurrentAverageTurnaroundTime() {
 
 	// Define vars before locking
-	uint32_t totalTurnaroundTime = 0;
+	double totalTurnaroundTime = 0;
 	double averageTurnaroundTime = 0.0;
 
 	// Lock mutex while we calculate
@@ -243,7 +243,7 @@ double aubatch_scheduler_getCurrentAverageTurnaroundTime() {
 double aubatch_scheduler_getCurrentAverageCPUTime() {
 
 	// Define vars before locking
-	uint32_t totalCPUTime = 0;
+	double totalCPUTime = 0.0;
 	double averageCPUTime = 0.0;
 
 	// Lock mutex while we calculate
@@ -268,7 +268,7 @@ double aubatch_scheduler_getCurrentAverageCPUTime() {
 double aubatch_scheduler_getCurrentAverageWaitTime() {
 
 	// Define vars before locking
-	uint32_t totalWaitTime = 0;
+	double totalWaitTime = 0;
 	double averageWaitTime = 0.0;
 
 	// Lock mutex while we calculate

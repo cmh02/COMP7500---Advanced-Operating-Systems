@@ -107,7 +107,7 @@ const char* aubatch_scheduler_getSchedulingPolicyName();
 	## Returns
 	- uint8_t: the current (estimated) wait time for queue
 */
-uint8_t aubatch_scheduler_getCurrentWaitTime();
+double aubatch_scheduler_getCurrentWaitTime();
 
 /*
 	# Get Current Queue Size
