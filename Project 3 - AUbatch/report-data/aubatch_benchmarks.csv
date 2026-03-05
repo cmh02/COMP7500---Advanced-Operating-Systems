@@ -1,0 +1,2 @@
+Name,Scheduling Policy,Number of Jobs,Arrival Rate,Number of Priority Levels,Min CPU Time,Max CPU Time,Total Seen Jobs,Average Turnaround Time,Average CPU Time,Average Wait Time,Throughput
+../jobs/job_sleep5,FCFS,10,1,5,3,7,10,23.000000,5.000000,18.000000,0.200000

@@ -112,7 +112,7 @@ void aubatch_benchmarker_writeBenchmarkToCSV(struct aubatch_benchmarkConfigurati
 	}
 
 	// Write benchmark data and close
-	fprintf(csv, "%s,%s,%u,%u,%u,%u,%u,%u,%f,%f,%f,%f\n", config.name, aubatch_scheduler_getSchedulingPolicyName(), config.numberOfJobs, config.arrivalRate, config.numberOfPrioritylevels, config.minCPUTime, config.maxCPUTime, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
+	fprintf(csv, "%s,%s,%u,%f,%u,%f,%f,%u,%f,%f,%f,%f\n", config.name, aubatch_scheduler_getSchedulingPolicyName(), config.numberOfJobs, config.arrivalRate, config.numberOfPrioritylevels, config.minCPUTime, config.maxCPUTime, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
 	fclose(csv);
 }
 
