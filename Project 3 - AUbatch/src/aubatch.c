@@ -14,12 +14,6 @@
 	This file provides the main execution for AUbatch.
 
 	--------------------------------------------------
-
-	# References
-
-
-
-	--------------------------------------------------
 */
 
 // Libraries

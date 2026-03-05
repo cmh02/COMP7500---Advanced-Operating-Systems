@@ -14,12 +14,6 @@
 	This file provides the dispatcher module for AUbatch.
 
 	--------------------------------------------------
-
-	## References
-	
-	1. 
-
-	--------------------------------------------------
 */
 
 // Prevent multiple inclusions

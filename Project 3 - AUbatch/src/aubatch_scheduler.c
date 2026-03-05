@@ -17,7 +17,13 @@
 
 	## References
 	
-	1. 
+	1. https://www.tutorialspoint.com/cprogramming/c_lookup_tables.htm
+	2. https://www.reddit.com/r/C_Programming/comments/1b5ejqg/what_is_the_correct_way_to_define_a_lookup_table/
+	-> I used these resources to build a lookup table for policy names.
+
+	3. 	(I didn't really use other outside resources, but I want to say that Dr. Qin's lectures
+	and materials were very helpful when learning/refamiliarizing myself with concepts
+	such as mutex and conditional variables!)
 
 	--------------------------------------------------
 */

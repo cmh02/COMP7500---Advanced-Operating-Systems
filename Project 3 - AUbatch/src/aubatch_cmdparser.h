@@ -17,7 +17,8 @@
 
 	## References
 	
-	1. 
+	1. https://pubs.opengroup.org/onlinepubs/009695299/functions/access.html
+	-> I used this reference for syntax on checking execution permissions.
 
 	--------------------------------------------------
 */

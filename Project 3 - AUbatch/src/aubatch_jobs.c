@@ -14,12 +14,6 @@
 	This file provides the jobs module for AUbatch.
 
 	--------------------------------------------------
-
-	## References
-	
-	1. 
-
-	--------------------------------------------------
 */
 
 // Libraries

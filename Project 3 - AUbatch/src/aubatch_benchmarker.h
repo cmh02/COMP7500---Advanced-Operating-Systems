@@ -17,7 +17,11 @@
 
 	## References
 	
-	1.
+	1.https://stackoverflow.com/questions/13566082/how-to-check-if-a-file-has-content-or-not-using-c
+	-> I used this post to remember how to check for empty file.
+
+	2. https://stackoverflow.com/questions/55766058/how-can-i-generate-random-doubles-in-c
+	-> I used this post to look into ways of getting random doubles.
 
 	--------------------------------------------------
 */

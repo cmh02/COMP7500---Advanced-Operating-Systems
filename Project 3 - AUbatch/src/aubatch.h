@@ -14,12 +14,6 @@
 	This file provides the main execution for AUbatch.
 
 	--------------------------------------------------
-
-	# References
-
-
-
-	--------------------------------------------------
 */
 
 // Prevent multiple inclusions
@@ -33,7 +27,5 @@
 
 // Program-Wide Running Flag
 extern int aubatch_flag_programRunning;
-
-
 
 #endif // AUBATCH_H
