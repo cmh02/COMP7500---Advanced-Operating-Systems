@@ -17,12 +17,14 @@
 
 	## References
 	
-	1.
+	1.https://stackoverflow.com/questions/13566082/how-to-check-if-a-file-has-content-or-not-using-c
+	-> I used this post to remember how to check for empty file.
 
 	--------------------------------------------------
 */
 
 // Libraries
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <pthread.h>
@@ -78,8 +80,35 @@ int aubatch_benchmarker_runBenchmark(struct aubatch_benchmarkConfiguration confi
 
 	// Log benchmark results
 	aubatch_scheduler_printJobQueue(AUBATCH_LOGLEVEL_INFO);
-	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_EXIT, aubatch_scheduler_getCurrentTotalSeenJobs(), aubatch_scheduler_getCurrentAverageTurnaroundTime(), aubatch_scheduler_getCurrentAverageWaitTime(), aubatch_scheduler_getCurrentAverageWaitTime(), aubatch_scheduler_getCurrentThroughput());
+	uint32_t totalSeenJobs = aubatch_scheduler_getCurrentTotalSeenJobs();
+	double averageTurnaroundTime = aubatch_scheduler_getCurrentAverageTurnaroundTime();
+	double averageCPUTime = aubatch_scheduler_getCurrentAverageCPUTime();
+	double averageWaitTime = aubatch_scheduler_getCurrentAverageWaitTime();
+	double throughput = aubatch_scheduler_getCurrentThroughput();
+	aubatch_log(AUBATCH_LOGLEVEL_INTERACTIVE, AUBATCH_MODULE_NAME, AUBATCH_MESSAGE_EXIT, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
+	aubatch_benchmark_writeBenchmarkToCSV(config, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
 	return 0;
+}
+
+void aubatch_benchmarker_writeBenchmarkToCSV(struct aubatch_benchmarkConfiguration config, uint32_t totalSeenJobs, double averageTurnaroundTime, double averageCPUTime, double averageWaitTime, double throughput) {
+
+	// Open file for appending (fopen creates if it doesnt exist)
+	FILE *csv = fopen("../report-data/aubatch_benchmarks.csv", "a");
+	if (!csv) {
+		aubatch_log(AUBATCH_LOGLEVEL_ERROR, AUBATCH_MODULE_NAME, "Failed to open benchmark CSV file for writing!");
+		return;
+	}
+
+	// Write header if file is new
+	fseek(csv, 0, SEEK_END);
+	long csvSize = ftell(csv);
+	if (csvSize == 0) {
+		fprintf(csv, "Name,Scheduling Policy,Number of Jobs,Arrival Rate,Number of Priority Levels,Min CPU Time,Max CPU Time,Total Seen Jobs,Average Turnaround Time,Average CPU Time,Average Wait Time,Throughput\n");
+	}
+
+	// Write benchmark data and close
+	fprintf(csv, "%s,%s,%u,%u,%u,%u,%u,%u,%f,%f,%f,%f\n", config.name, aubatch_scheduler_getSchedulingPolicyName(), config.numberOfJobs, config.arrivalRate, config.numberOfPrioritylevels, config.minCPUTime, config.maxCPUTime, totalSeenJobs, averageTurnaroundTime, averageCPUTime, averageWaitTime, throughput);
+	fclose(csv);
 }
 
 // Module Name
