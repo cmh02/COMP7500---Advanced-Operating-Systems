@@ -43,13 +43,16 @@ int main(int argc, char * argv[]) {
   // Print off directory
   cpmDir();
 
+  // Rename
+  int status_3 = cpmRename("mytestf1.txt","mytest2.tx");
+  fprintf(stdout, "cpmRename return code = %d\n", status_3);
+
+  // Print off directory
+  cpmDir();
+
   // Print off free list
   printFreeList();
 
-
-
-//   cpmDir();
-//   cpmRename("mytestf1.txt","mytest2.tx");
 //   fprintf(stdout,"cpmRename return code = %d,\n",cpmRename("mytestf","mytestv2.x")); 
 //   cpmDir(); 
 //   printFreeList(); 
