@@ -30,15 +30,24 @@ int main(int argc, char * argv[]) {
   // Makes a free list -- we need this to lookup which blocks are fre
   makeFreeList(); 
 
-  // Prints off that free list
+  // Prints off the directory
+  cpmDir(); 
+
+  // Prints off free list
+  printFreeList(); 
+
+  // Delete a file 
+  int status_2 = cpmDelete("shortf.ps");
+  fprintf(stdout, "cpmDelete return code = %d\n", status_2);
+
+  // Print off directory
+  cpmDir();
+
+  // Print off free list
   printFreeList();
 
 
 
-  
-//   cpmDir(); 
-//   printFreeList(); 
-//   cpmDelete("shortf.ps");
 //   cpmDir();
 //   cpmRename("mytestf1.txt","mytest2.tx");
 //   fprintf(stdout,"cpmRename return code = %d,\n",cpmRename("mytestf","mytestv2.x")); 
