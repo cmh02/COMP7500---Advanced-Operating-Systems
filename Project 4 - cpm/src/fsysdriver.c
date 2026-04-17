@@ -23,15 +23,26 @@ void printBuffer(uint8_t buffer[],int size) {
 int main(int argc, char * argv[]) { 
   uint8_t buffer1[BLOCK_SIZE],buffer2[BLOCK_SIZE]; 
   int i; 
-  readImage("image1.img"); 
+
+  // Reads image in using diskSimulator -> goes into a matrix `disk`
+  readImage("../image1.img"); 
+
+  // Makes a free list -- we need this to lookup which blocks are fre
   makeFreeList(); 
-  cpmDir(); 
-  printFreeList(); 
-  cpmDelete("shortf.ps");
-  cpmDir();
-  cpmRename("mytestf1.txt","mytest2.tx");
-  fprintf(stdout,"cpmRename return code = %d,\n",cpmRename("mytestf","mytestv2.x")); 
-  cpmDir(); 
-  printFreeList(); 
+
+  // Prints off that free list
+  printFreeList();
+
+
+
+  
+//   cpmDir(); 
+//   printFreeList(); 
+//   cpmDelete("shortf.ps");
+//   cpmDir();
+//   cpmRename("mytestf1.txt","mytest2.tx");
+//   fprintf(stdout,"cpmRename return code = %d,\n",cpmRename("mytestf","mytestv2.x")); 
+//   cpmDir(); 
+//   printFreeList(); 
 }
 
