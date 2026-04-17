@@ -294,7 +294,7 @@ bool checkLegalName(char *name) {
 		}
 
 		// Extension segment discovery
-		if (flag_nameSegmentFound && flag_separatorFound && !flag_extensionSegmentFound) {
+		if (flag_nameSegmentFound && flag_separatorFound && !flag_extensionSegmentFound && !flag_terminatorFound) {
 
 			// Check for terminator, indicating we have found the end of the extension segment
 			if (name[i] == '\0') {
