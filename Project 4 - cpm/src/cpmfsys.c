@@ -724,3 +724,71 @@ int cpmDelete(char *name) {
 	return 0;
 
 }
+
+/*
+	# CPM Rename
+
+	This function will modify an extent to rename a given file.
+
+	## Parameters
+
+	- char *oldName: the current name of the file to find and rename
+	- char *newName: the new name for the file
+
+	## Returns
+
+	- (0) if the file was found and renamed successfully
+	- (-1) if either name are illegal or the old file name could not be found
+*/
+int cpmRename(char *oldName, char *newName) {
+
+	// Check for illegal names
+	if (!checkLegalName(oldName) || !checkLegalName(newName)) {
+		return -1;
+	}
+
+	// Load first block from disk as directory into buffer
+	uint8_t dirBuffer[BLOCK_SIZE];
+	blockRead(dirBuffer, 0);
+
+	// Find extent with the name (or return for not found)
+	int extentIndex = findExtentWithName(oldName, dirBuffer);
+	if (extentIndex == -1) {
+		return -1;
+	}
+
+	// Get segment information for new name
+	nameInformationStructType newNameInfo = getNameSegmentIndices(newName);
+
+	// Calculate sizes of name and extension
+	int new_nameSegmentSize = newNameInfo.index_name_end - newNameInfo.index_name_start + 1;
+	int new_extensionSegmentSize = newNameInfo.index_extension_end - newNameInfo.index_extension_start + 1;
+
+	// Get struct for the found extent
+	DirStructType *ptr_dirStruct = mkDirStruct(extentIndex, dirBuffer);
+	
+	// Clear name + extension in extent
+	memset(ptr_dirStruct->name, ' ', EXTENT_FORMAT_BYTELENGTH_NAME);
+	memset(ptr_dirStruct->extension, ' ', EXTENT_FORMAT_BYTELENGTH_EXTENSION);
+
+	// Copy over name + extension to extent
+	if (newNameInfo.flag_nameSegmentFound) {
+		memcpy(&ptr_dirStruct->name, &newName[newNameInfo.index_name_start], new_nameSegmentSize);
+	}
+	if (newNameInfo.flag_extensionSegmentFound) {
+		memcpy(&ptr_dirStruct->extension, &newName[newNameInfo.index_extension_start], new_extensionSegmentSize);
+	}
+
+	// Write updated struct back to directory buffer
+	writeDirStruct(ptr_dirStruct, extentIndex, dirBuffer);
+
+	// Free memory for dir struct
+	free(ptr_dirStruct);
+
+	// Update directory (block 0)
+	blockWrite(dirBuffer, 0);
+
+	// Return success
+	return 0;
+
+}
